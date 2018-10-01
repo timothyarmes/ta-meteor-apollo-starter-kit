@@ -7,6 +7,7 @@ import Loading from '../loading';
 //------------------------------------------------------------------------------
 const LoadableLoading = ({ error, pastDelay }) => {
   if (error) {
+    console.log(error);
     return <div>Error loading component!</div>;
   } else if (pastDelay) {
     return <Loading />;

@@ -1,4 +1,3 @@
-import { makeExecutableSchema } from 'graphql-tools';
 import { mergeTypes } from 'merge-graphql-schemas';
 import merge from 'lodash/merge';
 import * as APIs from '../../../api';
@@ -24,9 +23,6 @@ for (let i = 0; i < length; i += 1) {
 }
 
 // Merge all types and resolvers from APIs to create our executable schema
-const typeDefs = mergeTypes(allTypes);
-const resolvers = merge(...allResolvers);
+export const typeDefs = mergeTypes(allTypes);
+export const resolvers = merge(...allResolvers);
 const logger = { log: e => console.error(e.stack) };
-const schema = makeExecutableSchema({ typeDefs, resolvers, logger });
-
-export default schema;
