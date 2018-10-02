@@ -1,4 +1,4 @@
-import { GraphQLError } from 'graphql';
+import { ForbiddenError, AuthenticationError } from 'apollo-server-express';
 
 // Users utilities
 const utilities = {};
@@ -7,7 +7,7 @@ const utilities = {};
 utilities.checkLoggedInAndVerified = (user) => {
   // User should be logged in at this stage
   if (!user) {
-    throw new GraphQLError('User is not logged in!');
+    throw new AuthenticationError('User is not logged in!');
   }
 
   // Make sure email is verified (in case of password service)
@@ -15,7 +15,7 @@ utilities.checkLoggedInAndVerified = (user) => {
   const isPasswordService = Object.keys(user.services).indexOf('password') !== -1;
   const isEmailVerified = isPasswordService && user.emails[0].verified === true;
   if (isPasswordService && !isEmailVerified) {
-    throw new GraphQLError('Email is not verified!');
+    throw new ForbiddenError('Email is not verified!');
   }
 };
 
@@ -24,11 +24,11 @@ utilities.checkLoggedInAndVerified = (user) => {
 utilities.checkLoggedInAndNotVerified = (user) => {
   // User should be logged in at this stage
   if (!user) {
-    throw new GraphQLError('User is not logged in!');
+    throw new AuthenticationError('User is not logged in!');
   }
 
   if (user.emails[0].verified === true) {
-    throw new GraphQLError('Email already verified!');
+    throw new ForbiddenError('Email already verified!');
   }
 };
 //------------------------------------------------------------------------------

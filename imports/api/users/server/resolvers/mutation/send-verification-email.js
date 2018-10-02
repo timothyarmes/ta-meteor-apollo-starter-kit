@@ -1,4 +1,4 @@
-import { GraphQLError } from 'graphql';
+import { ApolloError } from 'apollo-server-express';
 import { Accounts } from 'meteor/accounts-base';
 import utils from '../../utils';
 
@@ -16,7 +16,7 @@ const sendVerificationEmail = (root, args, context) => {
     console.log('Verification email sent!');
     return { _id: user._id };
   } catch (exc) {
-    throw new GraphQLError(`Verification email couldn't be delivered. Reason: ${exc.response}`);
+    throw new ApolloError(`Verification email couldn't be delivered. Reason: ${exc.response}`);
   }
 };
 
