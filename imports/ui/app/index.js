@@ -2,15 +2,15 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloLink } from 'apollo-link'
-import { HttpLink } from 'apollo-link-http'
-import { MeteorAccountsLink } from 'meteor/apollo'
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloLink } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
+import { MeteorAccountsLink } from 'meteor/apollo';
 import { ThemeProvider } from 'styled-components';
 import theme from '../theme';
 import GlobalDataProvider from '../global-data-provider';
-import 'unfetch/polyfill'
+import 'unfetch/polyfill';
 
 // To get started, create an ApolloClient instance and point it at your GraphQL
 // server (handled in our case by meteor-apollo). By default, this client will
@@ -20,14 +20,14 @@ const client = new ApolloClient({
   link: ApolloLink.from([
     new MeteorAccountsLink(),
     new HttpLink({
-      uri: '/graphql'
-    })
+      uri: '/graphql',
+    }),
   ]),
-  cache: new InMemoryCache()
-})
+  cache: new InMemoryCache(),
+});
 
 // Given that we are implementing App Shell Architecture and, therefore,
-// injecting (via reactDOM.render) the Header, Menu and Main components into
+// injecting (via reactD,M.render) the Header, Menu and Main components into
 // different HTML elements, we need a way to share the router 'history' among
 // all three mentioned components.
 // As a default, for every invocation of 'BrowserRouter', there will be new

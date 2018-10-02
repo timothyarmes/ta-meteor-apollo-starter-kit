@@ -24,6 +24,7 @@ class MessageProps extends React.PureComponent {
 
   render() {
     const { errorMsg, successMsg } = this.state;
+    const { children } = this.props;
 
     const api = {
       errorMsg,
@@ -33,7 +34,7 @@ class MessageProps extends React.PureComponent {
       clearMessages: this.clearMessages,
     };
 
-    return this.props.children(api);
+    return children(api);
   }
 }
 

@@ -6,11 +6,9 @@ import styled from 'styled-components';
 // STYLES:
 //------------------------------------------------------------------------------
 const Div = styled.div`
-  color: ${props =>
-    (props.type === 'error' && props.theme.color.danger) ||
-    (props.type === 'success' && props.theme.color.sucess) ||
-    'black'
-  };
+  color: ${props => (props.type === 'error' && props.theme.color.danger)
+    || (props.type === 'success' && props.theme.color.sucess)
+    || 'black'};
   font-size: ${props => props.theme.fontSize.small};
   padding: 5px 0;
 `;

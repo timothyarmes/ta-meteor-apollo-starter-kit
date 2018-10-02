@@ -10,7 +10,7 @@ const Users = { collection, utils };
 */
 const deleteSubscription = (root, args, context) => {
   const { endpoint } = args;
-  const { user} = context;
+  const { user } = context;
 
   Users.utils.checkLoggedInAndVerified(user);
 

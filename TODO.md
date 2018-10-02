@@ -1,4 +1,4 @@
-Lint
+
 Semantic UI
 
 App Layout
@@ -19,4 +19,5 @@ I8n support
 SSR
 
 Service worker
+  - Understand them!
   - const CACHE_NAME = 'meteor_apollo_starter_v1';

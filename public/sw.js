@@ -3,6 +3,9 @@
 
 // Source: https://github.com/VeliovGroup/Meteor-Files-Demos/blob/master/demo/public/sw.js
 // self refers to the service worker implicitly
+
+/* eslint-disable */
+
 const CACHE_NAME = 'meteor_apollo_starter_v1';
 const pages = [
   '/',

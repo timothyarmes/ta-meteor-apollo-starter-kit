@@ -44,8 +44,8 @@ class PasswordAuthViews extends React.Component {
 
   handleChange = (evt) => {
     const field = evt.target.id;
-    const value = evt.target.value;
-    const errors = this.state.errors;
+    const { value } = evt.target;
+    const { errors } = this.state;
 
     // Update value and clear errors for the given field
     this.setState({

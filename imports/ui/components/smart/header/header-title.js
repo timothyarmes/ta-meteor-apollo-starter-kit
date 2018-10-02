@@ -11,7 +11,9 @@ import getRouteLabel from './get-route-label';
 const getHeaderTitle = ({ curUser, routeLabel }) => {
   if (!routeLabel) {
     return 'Not Found';
-  } else if (!curUser) {
+  }
+
+  if (!curUser) {
     return 'Login';
   }
   return routeLabel;
@@ -31,7 +33,7 @@ const HeaderTitle = ({ curUser, location }) => {
 HeaderTitle.propTypes = {
   curUser: propType(userFragment),
   location: PropTypes.shape({
-    pathname: PropTypes.String,
+    pathname: PropTypes.string,
   }).isRequired,
 };
 

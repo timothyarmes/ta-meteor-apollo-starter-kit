@@ -92,6 +92,7 @@ class PWABtnProps extends React.PureComponent {
 
   render() {
     const { supported, subscribed } = this.state;
+    const { children } = this.props;
 
     const api = {
       supported,
@@ -99,7 +100,7 @@ class PWABtnProps extends React.PureComponent {
       handleSubscriptionChange: this.handleSubscriptionChange,
     };
 
-    return this.props.children(api);
+    return children(api);
   }
 }
 

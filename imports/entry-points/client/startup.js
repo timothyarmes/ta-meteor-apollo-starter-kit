@@ -41,4 +41,3 @@ Meteor.startup(() => {
     console.log(`Total time: ${startupTime + renderTime}ms`);
   });
 });
-

@@ -9,4 +9,3 @@ const sendVerificationEmail = gql`
 `;
 
 export default sendVerificationEmail;
-

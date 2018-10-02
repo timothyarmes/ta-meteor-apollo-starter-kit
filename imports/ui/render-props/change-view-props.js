@@ -11,7 +11,8 @@ class ChangeViewProps extends React.PureComponent {
       evt.preventDefault();
       // Allow other components to extend changeViewTo default functionality
       if (cb) { cb(); }
-      this.props.history.push(to);
+      const { history } = this.props;
+      history.push(to);
     }
   )
 
@@ -20,7 +21,8 @@ class ChangeViewProps extends React.PureComponent {
       changeViewTo: this.changeViewTo,
     };
 
-    return this.props.children(api);
+    const { children } = this.props;
+    return children(api);
   }
 }
 

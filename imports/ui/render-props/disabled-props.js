@@ -19,6 +19,7 @@ class DisabledProps extends React.PureComponent {
 
   render() {
     const { disabled } = this.state;
+    const { children } = this.props;
 
     const api = {
       disabled,
@@ -26,7 +27,7 @@ class DisabledProps extends React.PureComponent {
       enableBtn: this.enableBtn,
     };
 
-    return this.props.children(api);
+    return children(api);
   }
 }
 

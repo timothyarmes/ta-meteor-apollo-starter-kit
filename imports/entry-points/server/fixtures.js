@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Accounts } from 'meteor/accounts-base';
-import Users from '../../api/users/';
+import Users from '../../api/users';
 
 const { admins } = Meteor.settings;
 

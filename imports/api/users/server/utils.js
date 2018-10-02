@@ -1,8 +1,4 @@
 import { GraphQLError } from 'graphql';
-import collection from './collection';
-
-// Wrap collection around namespace for clarity
-const Users = { collection };
 
 // Users utilities
 const utilities = {};

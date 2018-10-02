@@ -7,26 +7,28 @@ import { disabledPropTypes, messagePropTypes } from './index';
 //------------------------------------------------------------------------------
 class HookProps extends React.PureComponent {
   handleBefore = (cb) => {
-    this.props.disabledProps.disableBtn();
-    this.props.messageProps.clearMessages();
+    const { disabledProps, messageProps } = this.props;
+    disabledProps.disableBtn();
+    messageProps.clearMessages();
     // Allow other components to extend handleBefore default functionality
     if (cb) { cb(); }
   }
 
   handleClientError = (err) => { // eslint-disable-line no-unused-vars
-    // console.log(err);
-    this.props.disabledProps.enableBtn();
+    const { disabledProps } = this.props;
+    disabledProps.enableBtn();
   }
 
   handleServerError = (err) => {
-    // console.log(err);
-    this.props.messageProps.setErrorMessage(err.reason || err.message || 'Unexpected error');
-    this.props.disabledProps.enableBtn();
+    const { disabledProps, messageProps } = this.props;
+    messageProps.setErrorMessage(err.reason || err.message || 'Unexpected error');
+    disabledProps.enableBtn();
   }
 
   handleSuccess = (cb) => {
-    this.props.disabledProps.enableBtn();
-    this.props.messageProps.clearMessages();
+    const { disabledProps, messageProps } = this.props;
+    disabledProps.enableBtn();
+    messageProps.clearMessages();
     // Allow other components to extend handleSuccess default functionality
     if (cb) { cb(); }
   }
@@ -39,7 +41,9 @@ class HookProps extends React.PureComponent {
       handleSuccess: this.handleSuccess,
     };
 
-    return this.props.children(api);
+    const { children } = this.props;
+
+    return children(api);
   }
 }
 

@@ -19,12 +19,13 @@ class GlobalDataProvider extends React.Component {
     // Refetch user data every time Meteor.loginTokens are set. This is required
     // when using FB loginStyle equals to 'redirect' at serviceConfiguration,
     Accounts.onLogin(() => {
-      this.props.userData.refetch();
+      const { userData } = this.props;
+      userData.refetch();
     });
   }
 
   render() {
-    const { userData } = this.props;
+    const { userData, children } = this.props;
     const { error, loading, user } = userData;
 
     if (error) {
@@ -40,7 +41,7 @@ class GlobalDataProvider extends React.Component {
       curUser: user,
     };
 
-    return this.props.children(api);
+    return children(api);
   }
 }
 

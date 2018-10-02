@@ -1,4 +1,5 @@
 import { GraphQLError } from 'graphql';
+import { Accounts } from 'meteor/accounts-base';
 import utils from '../../utils';
 
 // Wrap collection and utils around namespace for clarity
@@ -6,7 +7,6 @@ const Users = { utils };
 
 const sendVerificationEmail = (root, args, context) => {
   console.log('About to send verification email...');
-  console.log('%j', context)
   const { user } = context;
 
   Users.utils.checkLoggedInAndNotVerified(user);

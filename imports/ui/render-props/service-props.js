@@ -19,6 +19,7 @@ class ServiceProps extends React.PureComponent {
 
   render() {
     const { service } = this.state;
+    const { children } = this.props;
 
     const api = {
       service,
@@ -26,7 +27,7 @@ class ServiceProps extends React.PureComponent {
       clearService: this.clearService,
     };
 
-    return this.props.children(api);
+    return children(api);
   }
 }
 

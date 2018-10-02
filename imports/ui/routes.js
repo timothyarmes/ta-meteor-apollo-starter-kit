@@ -23,7 +23,7 @@ const Routes = props => (
         emailNotVerifiedOverlay={LoadableWrapper({ loader: () => import('./pages/auth/welcome-page') })}
         {...props}
       />
-      
+
       {/* SIGN-IN/UP */}
       <LoggedOutRoute
         name="login"
@@ -32,7 +32,7 @@ const Routes = props => (
         redirectTo="/"
         {...props}
       />
-      
+
       <LoggedOutRoute
         name="signup"
         path="/signup"
@@ -40,21 +40,21 @@ const Routes = props => (
         redirectTo="/"
         {...props}
       />
-      
+
       <RouteWithProps
         name="verifyEmail"
         path="/verify-email/:token"
         component={LoadableWrapper({ loader: () => import('./pages/auth/verify-email-page') })}
         {...props}
       />
-      
+
       <RouteWithProps
         name="linkExpired"
         path="/link-expired"
         component={LoadableWrapper({ loader: () => import('./pages/auth/link-expired-page') })}
         {...props}
       />
-      
+
       <LoggedOutRoute
         name="forgotPassword"
         path="/forgot-password"
@@ -62,7 +62,7 @@ const Routes = props => (
         redirectTo="/"
         {...props}
       />
-      
+
       <LoggedOutRoute
         name="resetPassword"
         path="/reset-password/:token"
@@ -70,7 +70,7 @@ const Routes = props => (
         redirectTo="/"
         {...props}
       />
-      
+
       {/* ADMIN */}
       <AdminRoute
         exact
@@ -79,7 +79,7 @@ const Routes = props => (
         redirectTo="/login"
         {...props}
       />
-      
+
       {/* NOT FOUND */}
       <Route
         component={LoadableWrapper({ loader: () => import('./pages/not-found-page') })}

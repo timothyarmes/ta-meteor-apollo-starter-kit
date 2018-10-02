@@ -21,10 +21,10 @@ Accounts.emailTemplates.verifyEmail = {
   text(user, url) {
     const emailAddress = (user && user.emails && user.emails[0] && user.emails[0].address) || '';
     const urlWithoutHash = url.replace('#/', '');
-    const emailBody = `To verify your email address (${emailAddress}), please` +
-    ` visit the following link:\n\n${urlWithoutHash}\n\n If you did not` +
-    ' request this verification, please ignore this email. If you feel' +
-    ` something is wrong, please contact our support team: ${SUPPORT_EMAIL}.`;
+    const emailBody = `To verify your email address (${emailAddress}), please`
+    + ` visit the following link:\n\n${urlWithoutHash}\n\n If you did not`
+    + ' request this verification, please ignore this email. If you feel'
+    + ` something is wrong, please contact our support team: ${SUPPORT_EMAIL}.`;
     return emailBody;
   },
 };
@@ -35,10 +35,10 @@ Accounts.emailTemplates.resetPassword = {
   },
   text(user, url) {
     const urlWithoutHash = url.replace('#/', '');
-    const emailBody = 'To reset your password, please visit the' +
-    ` following link:\n\n${urlWithoutHash}\n\n If you did not request for a` +
-    ' new password, please ignore this email. If you feel something is wrong,' +
-    ` please contact our support team: ${SUPPORT_EMAIL}.`;
+    const emailBody = 'To reset your password, please visit the'
+    + ` following link:\n\n${urlWithoutHash}\n\n If you did not request for a`
+    + ' new password, please ignore this email. If you feel something is wrong,'
+    + ` please contact our support team: ${SUPPORT_EMAIL}.`;
     return emailBody;
   },
 };

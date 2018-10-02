@@ -20,16 +20,21 @@
     "import/resolver": "meteor"
   },
   "globals": {
-    "Package": true,
+    "Package": true
   },
   "extends": [
     "airbnb",
     "plugin:meteor/recommended"
   ],
   "rules": {
+    "object-curly-newline": ["error", {
+      "ObjectExpression": { "consistent": true },
+      "ObjectPattern": { "multiline": true }
+    }],
     "react/prop-types": 0,
     "react/no-direct-mutation-state": 0,
     "react/no-find-dom-node": 0,
+    "react/jsx-one-expression-per-line": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": true, "varsIgnorePattern": "^_" }],
     "max-len": 0,
@@ -49,9 +54,6 @@
           "_verifyEmailToken",
           "_resetPasswordToken",
           "_name",
-          "__parseValue",
-          "__serialize",
-          "__parseLiteral",
           "_storedLoginToken",
           "_hashLoginToken",
           "_tokenExpiration"
