@@ -8,6 +8,7 @@ import * as APIs from '../../../api';
 // const allResolvers = [Base.resolvers, Users.resolvers, ...];
 const allTypes = [];
 const allResolvers = [];
+export let mocks = null;
 
 const keys = Object.keys(APIs);
 const length = keys.length;
@@ -22,7 +23,13 @@ for (let i = 0; i < length; i += 1) {
   }
 }
 
+if (process.env.NODE_ENV === 'test') {
+  mocks = {
+    Date: () => (new Date()),
+  };
+}
+
 // Merge all types and resolvers from APIs to create our executable schema
 export const typeDefs = mergeTypes(allTypes);
 export const resolvers = merge(...allResolvers);
-const logger = { log: e => console.error(e.stack) };
+

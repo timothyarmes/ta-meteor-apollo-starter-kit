@@ -12,6 +12,7 @@ import { ThemeProvider } from 'styled-components';
 import store from './redux/store.js';
 import theme from './theme';
 import GlobalDataProvider from './global-data-provider';
+import 'unfetch/polyfill'
 
 // To get started, create an ApolloClient instance and point it at your GraphQL
 // server (handled in our case by meteor-apollo). By default, this client will

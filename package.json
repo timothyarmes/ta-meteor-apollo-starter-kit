@@ -1,5 +1,5 @@
 {
-  "name": "meteor-starter-kit",
+  "name": "inscriptions",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -26,6 +26,7 @@
     "express": "^4.16.2",
     "graphql": "14.0.2",
     "graphql-anywhere": "^4.1.19",
+    "graphql-tag": "^2.10.0",
     "graphql-tools": "^4.0.0",
     "indexof": "0.0.1",
     "install": "^0.12.1",
@@ -47,6 +48,7 @@
     "simpl-schema": "^1.5.3",
     "storybook-host": "^5.0.1",
     "styled-components": "^3.4.9",
+    "unfetch": "^4.0.1",
     "web-push": "^3.3.3"
   },
   "devDependencies": {
