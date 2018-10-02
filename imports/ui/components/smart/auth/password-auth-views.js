@@ -10,7 +10,7 @@ import Input from '../../dumb/input';
 import Message from '../../dumb/message';
 import Button from '../../dumb/button';
 import ErrorHandling from '../../../../api/error-handling';
-import sendVerificationEmailMutation from './mutations.graphql';
+import sendVerificationEmailMutation from '../../../apollo-client/user/mutation/send-verification-email';
 
 //------------------------------------------------------------------------------
 // CONSTANTS:

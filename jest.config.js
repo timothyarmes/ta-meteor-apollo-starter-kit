@@ -1,7 +1,6 @@
 module.exports = {
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.graphql$': 'babel-jest',
   },
   setupFiles: [
     '<rootDir>/tests/setup.js',
@@ -26,7 +25,6 @@ module.exports = {
   },
   unmockedModulePathPatterns: [
     '/^imports\\/.*\\.jsx?$/',
-    '/^imports\\/.*\\.graphql$/',
     '/^client\\/.*\\.jsx?$/',
     '/^server\\/.*\\.jsx?$/',
     '/^node_modules/',

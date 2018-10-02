@@ -17,6 +17,7 @@ const Constants = {
     { path: '/link-expired', label: 'Link Expired' },
     { path: '/forgot-password', label: 'Forgot Password' },
     { path: '/reset-password', label: 'Reset Password' },
+    { path: '/admin', label: 'Admin', admin: true },
   ],
 };
 

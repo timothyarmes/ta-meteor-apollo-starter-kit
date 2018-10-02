@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import { userQuery } from '../../../../apollo-client/user';
-import saveSubscriptionMutation from './mutations.graphql';
-import Button from '../../../dumb/button';
+import userQuery from '../../../apollo-client/user/query/user';
+import saveSubscriptionMutation from '../../../apollo-client/user/mutation/save-subscription';
+import Button from '../../dumb/button';
 
 const { publicKey: vapidPublicKey } = Meteor.settings.public.vapid;
 

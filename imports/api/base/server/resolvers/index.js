@@ -1,8 +1,8 @@
-import Date from './date';
+import DateTime from './datetime';
 
 // Base namespace resolvers
 const resolvers = {
-  Date,
+  DateTime,
 };
 
 export default resolvers;

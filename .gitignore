@@ -7,8 +7,4 @@ storybook-static
 public/sw-nitro.js
 public/sw-dirty.js
 public/sw-playground.js
-imports/ui/service-worker.js
-imports/ui/service-worker-2.js
-imports/ui/components/smart/pwa/subscribe-btns/
-imports/ui/layouts/default/
-TODO.txt
+coverage/

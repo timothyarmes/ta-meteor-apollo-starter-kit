@@ -25,7 +25,7 @@ for (let i = 0; i < length; i += 1) {
 
 if (process.env.NODE_ENV === 'test') {
   mocks = {
-    Date: () => (new Date()),
+    DateTime: () => (new Date()),
   };
 }
 
