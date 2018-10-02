@@ -5,22 +5,13 @@ import { Roles } from 'meteor/alanning:roles';
 import { propType } from 'graphql-anywhere';
 import userFragment from '../../../apollo-client/user/fragment/user';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 /**
  * @summary Makes sure that the user that is trying to access the wrapped route
  * is an admin. If not, the AdminRoute component provides 2 ways to handle this
  * situation: redirect (redirectTo) the user to the given route; or render on
  * top of the current route the overlay component.
  */
-const AdminRoute = ({
-  curUser,
-  component,
-  redirectTo,
-  overlay,
-  ...rest
-}) => (
+const AdminRoute = ({ curUser, component, redirectTo, overlay, ...rest }) => (
   <Route
     {...rest}
     render={(ownProps) => {

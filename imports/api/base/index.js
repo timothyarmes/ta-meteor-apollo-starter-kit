@@ -3,7 +3,7 @@ import extend from 'lodash/extend';
 
 /**
  * @namespace Base
- * @summary defines common types and scalars used accross the app.
+ * @summary defines common types and scalars used across the app.
  */
 const Base = {};
 

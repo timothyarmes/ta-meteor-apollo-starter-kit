@@ -7,9 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloLink } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import { MeteorAccountsLink } from 'meteor/apollo'
-import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import store from '../redux/store.js';
 import theme from '../theme';
 import GlobalDataProvider from '../global-data-provider';
 import 'unfetch/polyfill'
@@ -35,24 +33,23 @@ const client = new ApolloClient({
 // As a default, for every invocation of 'BrowserRouter', there will be new
 // 'history' instance created. Then, changes in the 'history' object in one
 // component won't be available in the other components. To prevent this, we are
-// relying on 'Router' component instead of 'BrowserRouter' and defining our
+// relying on the 'Router' component instead of 'BrowserRouter' and defining our
 // custom 'history' object by means of 'createBrowserHistory' function. Said
 // 'history' object is then passed to every invocation of 'Router' and therefore
 // the same 'history' object will be shared among all three mentioned components.
+
 const history = createBrowserHistory();
 
 const App = ({ component }) => (
   <ThemeProvider theme={theme}>
     <Router history={history}>
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          <GlobalDataProvider>
-            {globalDataProps => (
-              React.createElement(component, { ...globalDataProps })
-            )}
-          </GlobalDataProvider>
-        </ApolloProvider>
-      </Provider>
+      <ApolloProvider client={client}>
+        <GlobalDataProvider>
+          {globalDataProps => (
+            React.createElement(component, { ...globalDataProps })
+          )}
+        </GlobalDataProvider>
+      </ApolloProvider>
     </Router>
   </ThemeProvider>
 );

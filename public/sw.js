@@ -15,6 +15,7 @@ const pages = [
   '/js/offline.js',
   '/js/menu.js',
 ];
+
 const origin = self.location.origin;
 const RE = {
   method: /GET/i,
@@ -119,6 +120,7 @@ const showNotification = (evt) => {
 // windows. The best practice is to relay the message to each of those windows.
 // Source: https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
 // Source: https://developers.google.com/web/fundamentals/codelabs/push-notifications/
+
 self.addEventListener('push', (evt) => {
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${evt && evt.data}"`);
@@ -146,6 +148,7 @@ self.addEventListener('push', (evt) => {
 // opens a new window.
 // Source: https://developers.google.com/web/fundamentals/codelabs/push-notifications/
 // Source: https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
+
 self.addEventListener('notificationclick', (evt) => {
   console.log('[Service Worker] Notification click Received.');
 

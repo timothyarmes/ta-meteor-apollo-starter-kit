@@ -22,6 +22,7 @@ utilities.checkLoggedInAndVerified = (user) => {
     throw new GraphQLError('Email is not verified!');
   }
 };
+
 //------------------------------------------------------------------------------
 // TODO: pass email to verify as an argument
 utilities.checkLoggedInAndNotVerified = (user) => {

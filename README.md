@@ -15,7 +15,6 @@ Lighthouse audit:
 - GraphQL server running with Express bound to the Meteor (1.6.1) app
 - Apollo 2
 - React 16
-- Redux
 - Authentication: password & facebook (via meteor accounts)
 - ES6 syntax
 - styled components

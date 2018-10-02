@@ -28,6 +28,7 @@ Accounts.emailTemplates.verifyEmail = {
     return emailBody;
   },
 };
+
 Accounts.emailTemplates.resetPassword = {
   subject() {
     return `[${SITE_BRAND}] Reset Your Password`;

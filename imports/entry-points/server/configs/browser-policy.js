@@ -19,4 +19,4 @@ console.log(`ROOT_URL: ${rootUrl}`);
 
 BrowserPolicy.content.allowConnectOrigin(rootUrl);
 BrowserPolicy.content.allowConnectOrigin(rootUrl.replace(/http(s?)/, 'ws$1'));
-BrowserPolicy.content.allowConnectOrigin('http://192.168.2.9');
+

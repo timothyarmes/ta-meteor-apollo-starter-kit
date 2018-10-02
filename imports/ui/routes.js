@@ -11,9 +11,6 @@ import {
 } from './components/smart/route-wrappers';
 import LoadableWrapper from './components/dumb/loadable-wrapper';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const Routes = props => (
   <ScrollToTop>
     <Switch>
@@ -27,6 +24,7 @@ const Routes = props => (
         {...props}
       />
       
+      {/* SIGN-IN/UP */}
       <LoggedOutRoute
         name="login"
         path="/login"

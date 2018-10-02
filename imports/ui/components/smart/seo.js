@@ -8,11 +8,8 @@ import Constants from '../../../api/constants';
 
 const { appId } = Meteor.settings.public.facebook;
 
-//------------------------------------------------------------------------------
-// AUX FUNCTIONS:
-//------------------------------------------------------------------------------
 const seoURL = path => Meteor.absoluteUrl(path);
-//------------------------------------------------------------------------------
+
 const getMetaTags = ({
   title,
   description,
@@ -42,14 +39,7 @@ const getMetaTags = ({
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const SEO = ({
-  location,
-  schema,
-  title,
-  description,
-  contentType,
-  twitter,
-}) => (
+const SEO = ({ location, schema, title, description, contentType, twitter }) => (
   <Helmet
     htmlAttributes={{
       lang: 'en',

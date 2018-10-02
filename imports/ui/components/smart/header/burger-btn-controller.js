@@ -2,9 +2,6 @@ import React from 'react';
 import { propType } from 'graphql-anywhere';
 import userFragment from '../../../apollo-client/user/fragment/user';
 
-//------------------------------------------------------------------------------
-// AUX FUNCTIONS:
-//------------------------------------------------------------------------------
 const showHideBurgerBtn = (curUser) => {
   // Get the reference to the app's shell burger button
   const menuIconElement = document.querySelector('.header__burger');
@@ -12,9 +9,6 @@ const showHideBurgerBtn = (curUser) => {
   menuIconElement.classList[curUser ? 'add' : 'remove']('header__burger--show');
 };
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 class BurgerBtnController extends React.Component {
   componentWillMount() {
     const { curUser } = this.props;

@@ -4,22 +4,13 @@ import { Route, Redirect } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '../../../apollo-client/user/fragment/user';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 /**
- * @summary Makes sure that the user that is trying to access the wraped route
+ * @summary Makes sure that the user that is trying to access the wrapped route
  * is not authenticated. If not, the LoggedOutRoute component provides 2 ways
  * to handle this situation: redirect (redirectTo) the user to the given route;
  * or render on top of the current route the overlay component.
  */
-const LoggedOutRoute = ({
-  curUser,
-  component,
-  redirectTo,
-  overlay,
-  ...rest
-}) => (
+const LoggedOutRoute = ({ curUser, component, redirectTo, overlay, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
