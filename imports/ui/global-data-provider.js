@@ -15,7 +15,7 @@ import Loading from './components/dumb/loading';
  */
 class GlobalDataProvider extends React.Component {
   componentWillMount() {
-    // Refecth user data every time Meteor.loginTokens are set. This is required
+    // Refetch user data every time Meteor.loginTokens are set. This is required
     // when using FB loginStyle equals to 'redirect' at serviceConfiguration,
     Accounts.onLogin(() => {
       this.props.userData.refetch();

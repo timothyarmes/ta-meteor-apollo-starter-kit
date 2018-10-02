@@ -1,9 +1,14 @@
 {
-  "presets": [
-    "react"
-  ],
   "plugins": [
     "styled-components",
-    "babel-root-slash-import"
-  ]
+    "module:babel-root-slash-import"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ]
+    }
+  }
 }
