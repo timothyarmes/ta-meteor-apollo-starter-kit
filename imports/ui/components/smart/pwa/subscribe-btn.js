@@ -70,6 +70,7 @@ class SubscribeBtn extends React.PureComponent {
         // an issue or lack of the gcm_sender_id and / or gcm_user_visible_only
         const err = { reason: `Unable to subscribe to push, ${exc}` };
         onClientErrorHook(err);
+        return;
       }
     }
 

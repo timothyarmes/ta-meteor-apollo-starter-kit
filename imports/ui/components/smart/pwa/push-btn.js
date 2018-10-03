@@ -36,7 +36,6 @@ class PushBtn extends React.PureComponent {
 
     return (
       <Button
-        variant="raised"
         color="primary"
         disabled={disabled}
         onClick={this.handleClick}

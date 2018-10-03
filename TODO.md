@@ -6,11 +6,7 @@ App Layout
   - Remove offline.js (also used in /sw.js)
   - Remove menu.ks (also used in /sw.js)
 
-Add Recompose
-  - Flatten render-props hierarchy
-
 Apollo
-  - Use Apollo 2 new errors instead of GraphQLError
 
 I8n support
   - React

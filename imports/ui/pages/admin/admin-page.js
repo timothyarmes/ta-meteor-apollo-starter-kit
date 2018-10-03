@@ -15,6 +15,7 @@ const AdminPage = ({ curUser }) => [
     description="A starting point for Meteor applications."
     contentType="product"
   />,
+
   <AuthPageLayout
     key="view"
     title="Admin Page :)"
