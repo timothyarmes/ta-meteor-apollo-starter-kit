@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SEO from '../components/smart/seo';
-import AuthPageLayout from '../layouts/auth-page';
+import SEO from '/imports/ui/components/smart/seo';
+import AuthPageLayout from '/imports/ui/layouts/auth-page';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

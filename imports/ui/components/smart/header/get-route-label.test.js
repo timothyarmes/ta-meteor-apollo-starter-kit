@@ -1,4 +1,4 @@
-import Constants from '../../../../api/constants';
+import Constants from '/imports/api/constants';
 import getRouteLabel from './get-route-label';
 
 describe('getRouteLabel', () => {

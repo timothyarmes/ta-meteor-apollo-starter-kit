@@ -1,6 +1,6 @@
 import React from 'react';
 import { propType } from 'graphql-anywhere';
-import userFragment from '../../../apollo-client/user/fragment/user';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
 
 const showHideBurgerBtn = (curUser) => {
   // Get the reference to the app's shell burger button

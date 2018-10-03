@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Loading from '../loading';
+import Loading from '/imports/ui/components/dumb/loading';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

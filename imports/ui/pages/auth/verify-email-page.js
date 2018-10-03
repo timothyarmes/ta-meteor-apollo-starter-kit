@@ -2,9 +2,9 @@ import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import AuxFunctions from '../../../api/aux-functions';
-import SEO from '../../components/smart/seo';
-import Loading from '../../components/dumb/loading';
+import AuxFunctions from '/imports/api/aux-functions';
+import SEO from '/imports/ui/components/smart/seo';
+import Loading from '/imports/ui/components/dumb/loading';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

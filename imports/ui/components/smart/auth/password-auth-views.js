@@ -3,14 +3,14 @@ import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import Form from '../../dumb/form';
-import Fieldset from '../../dumb/fieldset';
-import Label from '../../dumb/label';
-import Input from '../../dumb/input';
-import Message from '../../dumb/message';
-import Button from '../../dumb/button';
-import ErrorHandling from '../../../../api/error-handling';
-import sendVerificationEmailMutation from '../../../apollo-client/user/mutation/send-verification-email';
+import Form from '/imports/ui/components/dumb/form';
+import Fieldset from '/imports/ui/components/dumb/fieldset';
+import Label from '/imports/ui/components/dumb/label';
+import Input from '/imports/ui/components/dumb/input';
+import Message from '/imports/ui/components/dumb/message';
+import Button from '/imports/ui/components/dumb/button';
+import ErrorHandling from '/imports/api/error-handling';
+import sendVerificationEmailMutation from '/imports/ui/apollo-client/user/mutation/send-verification-email';
 
 //------------------------------------------------------------------------------
 // CONSTANTS:

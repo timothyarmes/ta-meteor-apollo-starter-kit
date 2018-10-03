@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Title from '../../components/dumb/title';
-import Subtitle from '../../components/dumb/subtitle';
+import Title from '/imports/ui/components/dumb/title';
+import Subtitle from '/imports/ui/components/dumb/subtitle';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { shallow, mount } from 'enzyme';
-import Constants from '../../../../api/constants';
+import Constants from '/imports/api/constants';
 import HeaderTitle from './header-title';
 
 const mockUser = {

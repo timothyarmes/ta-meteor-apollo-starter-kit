@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import userQuery from '../../../apollo-client/user/query/user';
-import deleteSubscriptionMutation from '../../../apollo-client/user/mutation/delete-subscription';
-import Button from '../../dumb/button';
+import userQuery from '/imports/ui/apollo-client/user/query/user';
+import deleteSubscriptionMutation from '/imports/ui/apollo-client/user/mutation/delete-subscription';
+import Button from '/imports/ui/components/dumb/button';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 // Source: https://github.com/GoogleChrome/samples/blob/gh-pages/push-messaging-and-notifications/main.js
 class UnsubscribeBtn extends React.PureComponent {
   handleClick = async () => {

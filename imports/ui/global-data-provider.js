@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import { propType } from 'graphql-anywhere';
-import userFragment from './apollo-client/user/fragment/user';
-import userQuery from './apollo-client/user/query/user';
-import Loading from './components/dumb/loading';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
+import userQuery from '/imports/ui/apollo-client/user/query/user';
+import Loading from '/imports/ui/components/dumb/loading';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

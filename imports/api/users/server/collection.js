@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import Constants from '../../constants';
+import Constants from '/imports/api/constants';
 
 const collection = Meteor.users;
 

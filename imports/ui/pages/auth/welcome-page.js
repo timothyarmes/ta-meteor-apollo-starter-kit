@@ -1,9 +1,9 @@
 import React from 'react';
-import SEO from '../../components/smart/seo';
-import withFormProps from '../../render-props/withFormProps';
-import AuthPageLayout from '../../layouts/auth-page';
-import { ResendVerificationLink } from '../../components/smart/auth';
-import Feedback from '../../components/dumb/feedback';
+import SEO from '/imports/ui/components/smart/seo';
+import withFormProps from '/imports/ui/render-props/withFormProps';
+import AuthPageLayout from '/imports/ui/layouts/auth-page';
+import { ResendVerificationLink } from '/imports/ui/components/smart/auth';
+import Feedback from '/imports/ui/components/dumb/feedback';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

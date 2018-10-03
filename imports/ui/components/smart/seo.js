@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { withRouter } from 'react-router-dom';
-import Constants from '../../../api/constants';
+import Constants from '/imports/api/constants';
 
 const { appId } = Meteor.settings.public.facebook;
 

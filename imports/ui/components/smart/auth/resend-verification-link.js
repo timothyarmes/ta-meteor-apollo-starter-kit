@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import sendVerificationEmailMutation from '../../../apollo-client/user/mutation/send-verification-email';
+import sendVerificationEmailMutation from '/imports/ui/apollo-client/user/mutation/send-verification-email';
+import Button from '/imports/ui/components/dumb/button';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 class ResendVerificationLink extends React.PureComponent {
   handleClick = async (evt) => {
     evt.preventDefault();
@@ -38,9 +36,10 @@ class ResendVerificationLink extends React.PureComponent {
     const text = <span>{label}</span>;
 
     const link = (
-      <a href="" onClick={this.handleClick}>
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      <Button type="link" onClick={this.handleClick}>
         {label}
-      </a>
+      </Button>
     );
 
     return disabled ? text : link;

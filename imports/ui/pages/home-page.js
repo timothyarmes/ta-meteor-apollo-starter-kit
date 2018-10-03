@@ -1,15 +1,15 @@
 import React from 'react';
 import { propType } from 'graphql-anywhere';
 import { compose } from 'recompose';
-import userFragment from '../apollo-client/user/fragment/user';
-import { withPWABtnProps, withFormProps } from '../render-props';
-import SEO from '../components/smart/seo';
-import SubscribeBtn from '../components/smart/pwa/subscribe-btn';
-import UnsubscribeBtn from '../components/smart/pwa/unsubscribe-btn';
-import PushBtn from '../components/smart/pwa/push-btn';
-import Feedback from '../components/dumb/feedback';
-import Alert from '../components/dumb/alert';
-import Loading from '../components/dumb/loading';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
+import { withPWABtnProps, withFormProps } from '/imports/ui/render-props';
+import SEO from '/imports/ui/components/smart/seo';
+import SubscribeBtn from '/imports/ui/components/smart/pwa/subscribe-btn';
+import UnsubscribeBtn from '/imports/ui/components/smart/pwa/unsubscribe-btn';
+import PushBtn from '/imports/ui/components/smart/pwa/push-btn';
+import Feedback from '/imports/ui/components/dumb/feedback';
+import Alert from '/imports/ui/components/dumb/alert';
+import Loading from '/imports/ui/components/dumb/loading';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

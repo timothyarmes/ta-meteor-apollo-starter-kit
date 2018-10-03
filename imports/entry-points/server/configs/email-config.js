@@ -1,5 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
-import Constants from '../../../api/constants';
+import Constants from '/imports/api/constants';
 
 const { SITE_BRAND, DOMAIN_NAME, SUPPORT_EMAIL } = Constants;
 

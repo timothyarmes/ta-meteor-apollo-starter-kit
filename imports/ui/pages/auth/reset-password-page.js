@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import AuxFunctions from '../../../api/aux-functions';
-import SEO from '../../components/smart/seo';
-import withFormProps from '../../render-props/withFormProps';
-import AuthPageLayout from '../../layouts/auth-page';
-import { PasswordAuthViews } from '../../components/smart/auth';
-import Feedback from '../../components/dumb/feedback';
+import AuxFunctions from '/imports/api/aux-functions';
+import SEO from '/imports/ui/components/smart/seo';
+import withFormProps from '/imports/ui/render-props/withFormProps';
+import AuthPageLayout from '/imports/ui/layouts/auth-page';
+import { PasswordAuthViews } from '/imports/ui/components/smart/auth';
+import Feedback from '/imports/ui/components/dumb/feedback';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

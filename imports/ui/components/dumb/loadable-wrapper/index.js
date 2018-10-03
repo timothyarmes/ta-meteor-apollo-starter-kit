@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Loadable from 'react-loadable';
-import LoadableLoading from '../loadable-loading';
+import LoadableLoading from '/imports/ui/components/dumb/loadable-loading';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

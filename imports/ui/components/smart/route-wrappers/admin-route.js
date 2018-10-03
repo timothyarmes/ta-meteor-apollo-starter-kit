@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { propType } from 'graphql-anywhere';
-import userFragment from '../../../apollo-client/user/fragment/user';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
 
 /**
  * @summary Makes sure that the user that is trying to access the wrapped route

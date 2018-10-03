@@ -1,15 +1,15 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
-import userFragment from './apollo-client/user/fragment/user';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
 import {
   ScrollToTop,
   LoggedInRoute,
   LoggedOutRoute,
   RouteWithProps,
   AdminRoute,
-} from './components/smart/route-wrappers';
-import LoadableWrapper from './components/dumb/loadable-wrapper';
+} from '/imports/ui/components/smart/route-wrappers';
+import LoadableWrapper from '/imports/ui/components/dumb/loadable-wrapper';
 
 const Routes = props => (
   <ScrollToTop>

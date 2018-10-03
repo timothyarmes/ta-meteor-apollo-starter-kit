@@ -13,11 +13,11 @@ async function renderAsync() {
   ] = await Promise.all([
     import('react'),
     import('react-dom'),
-    import('../../ui/app'),
-    import('../../ui/components/smart/header/burger-btn-controller'),
-    import('../../ui/components/smart/header/header-title'),
-    import('../../ui/routes'),
-    import('../../ui/components/smart/menu'),
+    import('/imports/ui/app'),
+    import('/imports/ui/components/smart/header/burger-btn-controller'),
+    import('/imports/ui/components/smart/header/header-title'),
+    import('/imports/ui/routes'),
+    import('/imports/ui/components/smart/menu'),
   ]);
 
   // Inject react app components into App's Shell
@@ -33,7 +33,7 @@ Meteor.startup(() => {
   console.log(`Meteor.startup took: ${startupTime}ms`);
 
   // Register service worker
-  import('../../ui/register-sw').then(() => {});
+  import('/imports/ui/register-sw').then(() => {});
 
   renderAsync().then(() => {
     const renderTime = Date.now() - renderStart;

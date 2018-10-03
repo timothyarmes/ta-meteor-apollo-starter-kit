@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Loading from '../loading';
-import Alert from '../alert';
+import Loading from '/imports/ui/components/dumb/loading';
+import Alert from '/imports/ui/components/dumb/alert';
 
 const Feedback = ({ loading, errorMsg, successMsg }) => (
   <div>

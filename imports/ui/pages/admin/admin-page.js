@@ -1,8 +1,8 @@
 import React from 'react';
 import { propType } from 'graphql-anywhere';
-import userFragment from '../../apollo-client/user/fragment/user';
-import SEO from '../../components/smart/seo';
-import AuthPageLayout from '../../layouts/auth-page';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
+import SEO from '/imports/ui/components/smart/seo';
+import AuthPageLayout from '/imports/ui/layouts/auth-page';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import SEO from '../../components/smart/seo';
-import { withFormProps, withServiceProps } from '../../render-props';
-import AuthPageLayout from '../../layouts/auth-page';
-import { PasswordAuthViews, FBAuthBtn } from '../../components/smart/auth';
-import Feedback from '../../components/dumb/feedback';
+import SEO from '/imports/ui/components/smart/seo';
+import { withFormProps, withServiceProps } from '/imports/ui/render-props';
+import AuthPageLayout from '/imports/ui/layouts/auth-page';
+import { PasswordAuthViews, FBAuthBtn } from '/imports/ui/components/smart/auth';
+import Feedback from '/imports/ui/components/dumb/feedback';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

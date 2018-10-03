@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SEO from '../../components/smart/seo';
-import withFormProps from '../../render-props/withFormProps';
-import AuthPageLayout from '../../layouts/auth-page';
-import { PasswordAuthViews } from '../../components/smart/auth';
-import Feedback from '../../components/dumb/feedback';
+import SEO from '/imports/ui/components/smart/seo';
+import withFormProps from '/imports/ui/render-props/withFormProps';
+import AuthPageLayout from '/imports/ui/layouts/auth-page';
+import { PasswordAuthViews } from '/imports/ui/components/smart/auth';
+import Feedback from '/imports/ui/components/dumb/feedback';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

@@ -1,6 +1,6 @@
 import { mergeTypes } from 'merge-graphql-schemas';
 import merge from 'lodash/merge';
-import * as APIs from '../../../api';
+import * as APIs from '/imports/api';
 
 // Filter out those APIs for which 'types' and 'resolvers' are defined. In the
 // end we'll get something like the following:

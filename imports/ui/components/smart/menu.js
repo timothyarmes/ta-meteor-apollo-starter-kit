@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { propType } from 'graphql-anywhere';
-import userFragment from '../../apollo-client/user/fragment/user';
-import Constants from '../../../api/constants';
+import userFragment from '/imports/ui/apollo-client/user/fragment/user';
+import Constants from '/imports/api/constants';
 import { LogoutBtn } from './auth';
 
 //------------------------------------------------------------------------------

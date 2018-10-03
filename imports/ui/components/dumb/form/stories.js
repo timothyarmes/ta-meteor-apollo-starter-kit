@@ -1,10 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { host } from 'storybook-host';
+import Fieldset from '/imports/ui/components/dumb/fieldset';
+import Label from '/imports/ui/components/dumb/label';
+import Input from '/imports/ui/components/dumb/input';
 import Form from './index';
-import Fieldset from '../fieldset';
-import Label from '../label';
-import Input from '../input';
 
 storiesOf('Form', module)
   .addDecorator(host({

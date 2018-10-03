@@ -1,5 +1,5 @@
 import { matchPath } from 'react-router-dom';
-import Constants from '../../../../api/constants';
+import Constants from '/imports/api/constants';
 
 /**
   * @summary mapping function between route pathname ('/admin') and route

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import Button from '../../dumb/button';
-import sendPushNotificationMutation from '../../../apollo-client/user/mutation/send-push-notification';
+import Button from '/imports/ui/components/dumb/button';
+import sendPushNotificationMutation from '/imports/ui/apollo-client/user/mutation/send-push-notification';
 
 //------------------------------------------------------------------------------
 // COMPONENT:

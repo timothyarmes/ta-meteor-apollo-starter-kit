@@ -6,9 +6,6 @@
     "node": true,
     "jest": true
   },
-  "ecmaFeatures": {
-    "modules": true
-  },
   "parserOptions": {
     "allowImportExportEverywhere": true
   },
@@ -38,6 +35,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": true, "varsIgnorePattern": "^_" }],
     "max-len": 0,
+    "import/no-absolute-path": 0,
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0,
     "import/extensions": [
