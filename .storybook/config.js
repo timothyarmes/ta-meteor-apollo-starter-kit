@@ -1,9 +1,9 @@
 import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { ThemeProvider } from 'styled-components';
-import theme from '../imports/ui/theme';
+import theme from '../app/ui/theme';
 
-const req = require.context('../imports', true, /stories\.(js)$/);
+const req = require.context('../app', true, /stories\.(js)$/);
 
 function loadStories() {
   req.keys().forEach(req);

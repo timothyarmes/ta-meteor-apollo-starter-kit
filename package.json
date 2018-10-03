@@ -10,6 +10,12 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "meteor": {
+    "mainModule": {
+      "client": "/app/entry-points/client/startup.js",
+      "server": "/app/entry-points/server/index.js"
+    }
+  },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
     "@storybook/addon-actions": "^3.4.11",

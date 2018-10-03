@@ -16,11 +16,11 @@ module.exports = {
     '<rootDir>/node_modules/jest-meteor-stubs/lib/',
   ],
   roots: [
-    '<rootDir>/imports/',
+    '<rootDir>/app/',
     '<rootDir>/tests/',
   ],
   moduleNameMapper: {
-    '^imports/(.*)': '<rootDir>/imports/',
+    '^imports/(.*)': '<rootDir>/app/',
     '^(.*):(.*)$': '$1_$2',
   },
   unmockedModulePathPatterns: [
