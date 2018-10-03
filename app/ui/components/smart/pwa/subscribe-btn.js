@@ -128,7 +128,7 @@ SubscribeBtn.propTypes = {
 };
 
 SubscribeBtn.defaultProps = {
-  btnLabel: 'Enable Push Messages',
+  btnLabel: 'Enable Pushed Messages',
   disabled: false,
   onBeforeHook: () => {},
   onClientErrorHook: () => {},

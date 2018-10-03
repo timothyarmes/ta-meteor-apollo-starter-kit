@@ -7,40 +7,7 @@ const HASHED_CACHE = 'hashedCache';
 
 // Precache all the files needed by the App Shell, as defined in workbox-config.js
 // If any of these files are updated, run `npm run update-sw` to update this file automatically.
-workbox.precaching.precacheAndRoute([
-  {
-    "url": "css/basscss.min.css",
-    "revision": "cc1614fb7c8dc4be202aac2a18aba498"
-  },
-  {
-    "url": "css/sanitize.css",
-    "revision": "26b8dd15226b04f7bf36b7ca50544a65"
-  },
-  {
-    "url": "css/style.css",
-    "revision": "2de85e98244b583b7e5914807b098bea"
-  },
-  {
-    "url": "js/menu.js",
-    "revision": "1ed98a762f8fbeade035334535d26eb6"
-  },
-  {
-    "url": "js/offline.js",
-    "revision": "535055375e5b52ee981c676551f8cbed"
-  },
-  {
-    "url": "js/toast.js",
-    "revision": "94469b5b7308a99c96c3d3d1c2b03790"
-  },
-  {
-    "url": "manifest-pwa.json",
-    "revision": "e8572ecaf2fbeb809883837ac60842da"
-  },
-  {
-    "url": "manifest-pwa.sample.json",
-    "revision": "b52ea6c7cf3b75679941f30f97f44519"
-  }
-]);
+workbox.precaching.precacheAndRoute([]);
 
 // Cache the App Shell route. We try to get from the network, fall back to cache for offline.
 workbox.precaching.precacheAndRoute([APP_SHELL], workbox.strategies.networkFirst());

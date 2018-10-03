@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------
-// AUX FUNCTIONS:
-//------------------------------------------------------------------------------
 const updateReady = () => {
   // At this point, registration has taken place. The service worker will not
   // handle requests until this page and any other instances of this page
@@ -10,7 +7,7 @@ const updateReady = () => {
     window.location.reload(true);
   }
 };
-//------------------------------------------------------------------------------
+
 const trackInstalling = (worker) => {
   worker.addEventListener('statechange', () => {
     if (worker.state === 'installed') {
@@ -19,9 +16,6 @@ const trackInstalling = (worker) => {
   });
 };
 
-//------------------------------------------------------------------------------
-// MAIN FUNCTION:
-//------------------------------------------------------------------------------
 // Register service worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
@@ -34,8 +28,7 @@ if ('serviceWorker' in navigator) {
         return;
       }
 
-      // If there is an updated service worker already waiting, call
-      // updateReady().
+      // If there is an updated service worker already waiting, call updateReady().
       if (reg.waiting) {
         console.log('waiting');
         updateReady();
