@@ -54,7 +54,8 @@
           "_name",
           "_storedLoginToken",
           "_hashLoginToken",
-          "_tokenExpiration"
+          "_tokenExpiration",
+          "__APOLLO_STATE__"
         ]
       }
     ]

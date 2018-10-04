@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -18,10 +19,20 @@ class GlobalDataProvider extends React.Component {
   componentWillMount() {
     // Refetch user data every time Meteor.loginTokens are set. This is required
     // when using FB loginStyle equals to 'redirect' at serviceConfiguration,
-    Accounts.onLogin(() => {
-      const { userData } = this.props;
-      userData.refetch();
-    });
+
+    const { userData } = this.props;
+    const { user } = userData;
+
+    if (Meteor.isClient) {
+      if (Meteor.user() && !user) {
+        userData.refetch();
+      }
+
+      Accounts.onLogin(() => {
+        const { userData } = this.props; // eslint-disable-line no-shadow
+        userData.refetch();
+      });
+    }
   }
 
   render() {

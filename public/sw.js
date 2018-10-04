@@ -2,7 +2,7 @@
 
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
 
-const APP_SHELL = '/';
+const APP_SHELL = '/app-shell';
 const HASHED_CACHE = 'hashedCache';
 
 // Precache all the files needed by the App Shell, as defined in workbox-config.js
@@ -42,8 +42,9 @@ workbox.precaching.precacheAndRoute([
   }
 ]);
 
-// Cache the App Shell route. We try to get from the network, fall back to cache for offline.
-workbox.precaching.precacheAndRoute([APP_SHELL], workbox.strategies.networkFirst());
+// Cache the App Shell route. We try to get latest from the network, fall back to cache for offline.
+workbox.precaching.precache([APP_SHELL]);
+workbox.routing.registerRoute(APP_SHELL, new workbox.strategies.StaleWhileRevalidate());
 
 // Our App Shell, used by all navigation routes.
 workbox.routing.registerNavigationRoute(APP_SHELL);

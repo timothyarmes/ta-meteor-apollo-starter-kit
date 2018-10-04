@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import getRouteLabel from './get-route-label';
+import { getRoute } from './get-route-label';
 
 //------------------------------------------------------------------------------
 // AUX FUNCTIONS:
 //------------------------------------------------------------------------------
-const getHeaderTitle = ({ curUser, routeLabel }) => {
-  if (!routeLabel) {
+const getHeaderTitle = ({ curUser, route }) => {
+  if (!route) {
     return 'Not Found';
   }
 
-  if (!curUser) {
+  if (route.auth && !curUser) {
     return 'Login';
   }
-  return routeLabel;
+
+  return route.label;
 };
 
 //------------------------------------------------------------------------------
@@ -25,9 +26,9 @@ const getHeaderTitle = ({ curUser, routeLabel }) => {
 
 const HeaderTitle = ({ curUser, location }) => {
   // Get label for current route ('/' --> 'Home', '/b$^$%^$' --> undefined)
-  const routeLabel = getRouteLabel(location.pathname);
+  const route = getRoute(location.pathname);
   // Display label based on route and user logged in state
-  return <span>{getHeaderTitle({ curUser, routeLabel })}</span>;
+  return <span>{getHeaderTitle({ curUser, route })}</span>;
 };
 
 HeaderTitle.propTypes = {

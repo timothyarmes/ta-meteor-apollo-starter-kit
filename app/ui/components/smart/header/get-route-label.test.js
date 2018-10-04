@@ -1,5 +1,5 @@
 import Constants from '/app/api/constants';
-import getRouteLabel from './get-route-label';
+import { getRouteLabel } from './get-route-label';
 
 describe('getRouteLabel', () => {
   it('should return the right label when existing route is provided', () => {

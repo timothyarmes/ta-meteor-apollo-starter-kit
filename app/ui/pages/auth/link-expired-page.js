@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
-import { userFragment } from '/app/ui/apollo-client/user';
+import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import SEO from '/app/ui/components/smart/seo';
 import withFormProps from '/app/ui/render-props/withFormProps';
 import AuthPageLayout from '/app/ui/layouts/auth-page';

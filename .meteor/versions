@@ -59,6 +59,7 @@ modules-runtime@0.10.2
 mongo@1.5.1
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
+nemms:meteor-react-loadable@0.1.0
 npm-bcrypt@0.9.3
 npm-mongo@3.0.11
 oauth@1.2.3
@@ -73,6 +74,7 @@ reactive-var@1.0.11
 reload@1.2.0
 retry@1.1.0
 routepolicy@1.0.13
+server-render@0.3.1
 service-configuration@1.0.11
 sha@1.0.9
 shell-server@0.3.1

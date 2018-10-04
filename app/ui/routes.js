@@ -9,7 +9,11 @@ import {
   RouteWithProps,
   AdminRoute,
 } from '/app/ui/components/smart/route-wrappers';
-import LoadableWrapper from '/app/ui/components/dumb/loadable-wrapper';
+
+import {
+  HomePage, WelcomePage, SigninPage, SignupPage, VerifyEmailPage, LinkExpiredPage,
+  ForgotPasswordPage, LoggedOutPage, DataTestPage, AdminPage, NotFoundPage,
+} from './loadables';
 
 const Routes = props => (
   <ScrollToTop>
@@ -18,9 +22,9 @@ const Routes = props => (
       <LoggedInRoute
         exact
         path="/"
-        component={LoadableWrapper({ loader: () => import('./pages/home-page') })}
+        component={HomePage}
         redirectTo="/login"
-        emailNotVerifiedOverlay={LoadableWrapper({ loader: () => import('./pages/auth/welcome-page') })}
+        emailNotVerifiedOverlay={WelcomePage}
         {...props}
       />
 
@@ -28,7 +32,7 @@ const Routes = props => (
       <LoggedOutRoute
         name="login"
         path="/login"
-        component={LoadableWrapper({ loader: () => import('./pages/auth/login-page') })}
+        component={SigninPage}
         redirectTo="/"
         {...props}
       />
@@ -36,7 +40,7 @@ const Routes = props => (
       <LoggedOutRoute
         name="signup"
         path="/signup"
-        component={LoadableWrapper({ loader: () => import('./pages/auth/signup-page') })}
+        component={SignupPage}
         redirectTo="/"
         {...props}
       />
@@ -44,21 +48,21 @@ const Routes = props => (
       <RouteWithProps
         name="verifyEmail"
         path="/verify-email/:token"
-        component={LoadableWrapper({ loader: () => import('./pages/auth/verify-email-page') })}
+        component={VerifyEmailPage}
         {...props}
       />
 
       <RouteWithProps
         name="linkExpired"
         path="/link-expired"
-        component={LoadableWrapper({ loader: () => import('./pages/auth/link-expired-page') })}
+        component={LinkExpiredPage}
         {...props}
       />
 
       <LoggedOutRoute
         name="forgotPassword"
         path="/forgot-password"
-        component={LoadableWrapper({ loader: () => import('./pages/auth/forgot-password-page') })}
+        component={ForgotPasswordPage}
         redirectTo="/"
         {...props}
       />
@@ -66,8 +70,15 @@ const Routes = props => (
       <LoggedOutRoute
         name="resetPassword"
         path="/reset-password/:token"
-        component={LoadableWrapper({ loader: () => import('./pages/auth/reset-password-page') })}
+        component={LoggedOutPage}
         redirectTo="/"
+        {...props}
+      />
+
+      <RouteWithProps
+        name="dataTest"
+        path="/data-test/"
+        component={DataTestPage}
         {...props}
       />
 
@@ -75,14 +86,14 @@ const Routes = props => (
       <AdminRoute
         exact
         path="/admin"
-        component={LoadableWrapper({ loader: () => import('./pages/admin/admin-page') })}
+        component={AdminPage}
         redirectTo="/login"
         {...props}
       />
 
       {/* NOT FOUND */}
       <Route
-        component={LoadableWrapper({ loader: () => import('./pages/not-found-page') })}
+        component={NotFoundPage}
       />
     </Switch>
   </ScrollToTop>

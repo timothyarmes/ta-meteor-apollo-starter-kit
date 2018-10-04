@@ -1,12 +1,15 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
 
 const showHideBurgerBtn = (curUser) => {
-  // Get the reference to the app's shell burger button
-  const menuIconElement = document.querySelector('.header__burger');
-  // Display burger button for logged in users only
-  menuIconElement.classList[curUser ? 'add' : 'remove']('header__burger--show');
+  if (Meteor.isClient) {
+    // Get the reference to the app's shell burger button
+    const menuIconElement = document.querySelector('.header__burger');
+    // Display burger button for logged in users only
+    menuIconElement.classList[curUser ? 'add' : 'remove']('header__burger--show');
+  }
 };
 
 class BurgerBtnController extends React.Component {

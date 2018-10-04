@@ -4,14 +4,12 @@ import { BrowserPolicy } from 'meteor/browser-policy';
 
 // Disallow all rules
 BrowserPolicy.framing.disallow();
-BrowserPolicy.content.disallowInlineScripts();
 BrowserPolicy.content.disallowEval();
 BrowserPolicy.content.disallowConnect();
 
 // Google fonts
 BrowserPolicy.content.allowEval('http://fonts.googleapis.com');
 BrowserPolicy.content.allowFontDataUrl('http://fonts.googleapis.com');
-BrowserPolicy.content.allowOriginForAll('https://at.alicdn.com');
 
 // Allow Meteor DDP Connections
 const rootUrl = __meteor_runtime_config__.ROOT_URL;

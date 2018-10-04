@@ -18,8 +18,9 @@ const Menu = ({ curUser }) => {
   // Get list of routes to be displayed on the side-menu. Include admin route
   // if and only if current user is admin
   const routes = Constants.ROUTES
-    .filter(({ admin }) => (
-      (admin && Roles.userIsInRole(curUser._id, ['admin'])) || !admin
+    .filter(({ admin, menu }) => (
+      menu
+      && (!admin || (admin && Roles.userIsInRole(curUser._id, ['admin'])))
     ));
 
   // Display menu routes plus logout button
