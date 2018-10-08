@@ -23,7 +23,7 @@ A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authen
   * push notifications;
   * app shell architecture;
 
-This starter kit is based on the [excellent work](https://github.com/fede-rodes/meteor-apollo-starter-kit) done by Federico Rodes, however it had been heavily modified[^modified].
+This starter kit is based on the [excellent work](https://github.com/fede-rodes/meteor-apollo-starter-kit) done by Federico Rodes, however it had been heavily modified <sup id="modified">[1](#modified)</sup>.
 
 ### Step by step guide to get started with this boilerplate
 
@@ -40,7 +40,7 @@ Create a new file called ```settings.json``` based on the provided ```settings.s
 #### 3. Register the app on Mailgun:
 Mailgun will allow you to use password authentication service and send emails from your app.
 
-In order to get started, first access your [Mailgun]() account. Then, grab your sandbox domain smtp username and password and copy said values into your settings.json file. Finally, add your email address to the list of [Auhtorized Recipients](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
+In order to get started, first access your [Mailgun][Mailgun] account. Then, grab your sandbox domain smtp username and password and copy said values into your settings.json file. Finally, add your email address to the list of [Authorized Recipients](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
 
 #### 4. Register the app on Facebook:
 Follow [this](https://medium.com/@jaaaco/add-facebook-login-to-meteor-app-in-2-minutes-3c744b46009e) tutorial to register the app on Facebook; this will allow you to use Facebook authentication service. Once you get your appId and secret key, copy said values back into your settings.json file.
@@ -71,8 +71,8 @@ meteor --settings settings.json
 This demo app provides an application-shell containing a header and a menu, along with the minimal styles necessary to display this shell. The initial client-side javascript downloaded to the client is also as small as possible, with the code for the routes to be displayed being brought in afterwards using dynamic imports (see /app/client/startup.js). This allows the application shell to be displayed
 very quickly for a great user experience.
 
-The app uses a services worker to provides its Progressive Web App features. The service worker uses Google's [Workbox]() to handle the caching of the application shell and its
-required files. The worker downloads and caches a special route called `/app-shell` which contains only the shell (without any other server-side rendered content). When the app is refreshed the service worker will always request this route from the server to retrieve (and quickly display) the app shell container, at which point the client will update the interface and data using dynamic imports and [react-loadable]().
+The app uses a services worker to provides its Progressive Web App features. The service worker uses Google's [Workbox][Workbox] to handle the caching of the application shell and its
+required files. The worker downloads and caches a special route called `/app-shell` which contains only the shell (without any other server-side rendered content). When the app is refreshed the service worker will always request this route from the server to retrieve (and quickly display) the app shell container, at which point the client will update the interface and data using dynamic imports and [react-loadable][react-loadable].
 
 The latest `/app-shell` is always fetched from the server and cached when the app is on-line.
 When off-line, the service work will use its cached local copy.
@@ -93,7 +93,7 @@ This will inject the dependencies from the `/public` folder into the `swSrc.js` 
 
 #### react-loadable and SSR
 
-`react-loadable` is used to provide for dynamic loading of react components. This works out-of-the-box for client side rendering, but it require special care when rendering on the server. The meteor package [nemms:meteor-react-loadable]() provides the necessary support for this purpose. Of particular importance is the fact that any dynamically loadable components need to be defined as constants in the build, so that they can be 'captured' and preloaded by the server. In this starter-kit the reloadable components are defined in `app/ui/loadables.js`.
+`react-loadable` is used to provide for dynamic loading of react components. This works out-of-the-box for client side rendering, but it require special care when rendering on the server. The meteor package [nemms:meteor-react-loadable][nemms:meteor-react-loadable] provides the necessary support for this purpose. Of particular importance is the fact that any dynamically loadable components need to be defined as constants in the build, so that they can be 'captured' and preloaded by the server. In this starter-kit the reloadable components are defined in `app/ui/loadables.js`.
 
 Note that `nemms:meteor-react-loadable` can't be used to handle nested loadable components.
 
@@ -224,9 +224,9 @@ In case you run lighthouse inside the /meteor-apollo-starter-kit app's folder, y
 #### styled components
 - https://youtu.be/qu4U7lwZTRI
 
-[^modified]: Updated include: Meteor 1.7, Apollo 2, SSR, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have apollo-link-state now), and many other little things.
-
-[Mailgun]: (https://www.mailgun.com/)
+[Mailgun]: https://www.mailgun.com/
 [react-loadable]: https://github.com/jamiebuilds/react-loadable
 [nemms:meteor-react-loadable]: https://github.com/nemms/meteor-react-loadable
-[Workbox]: (https://developers.google.com/web/tools/workbox/)
+[Workbox]: https://developers.google.com/web/tools/workbox/
+
+<b id="modified">1</b> Updates include: Meteor 1.7, Apollo 2, SSR, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), and many other little things. [↩](#modified)
