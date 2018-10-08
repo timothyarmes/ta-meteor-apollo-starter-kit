@@ -1,6 +1,7 @@
 import React from 'react';
 import MeteorLoadable from 'meteor/nemms:meteor-react-loadable';
 import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
 import { Meteor } from 'meteor/meteor';
 import { onPageLoad } from 'meteor/server-render';
 import { ApolloClient } from 'apollo-client';
@@ -15,7 +16,6 @@ import HeaderTitle from '/app/ui/components/smart/header/header-title';
 import Routes from '/app/ui/routes';
 
 const render = async (sink) => {
-
   const ssrClient = new ApolloClient({
     link: new HttpLink({
       uri: Meteor.absoluteUrl('/graphql'),
@@ -50,8 +50,13 @@ const render = async (sink) => {
   await getDataFromTree(<ServerApp component={Routes} />);
 
   // Elements that we want rendered on the server
-  sink.renderIntoElementById('header-title', renderToString(<ServerApp component={HeaderTitle} />));
-  sink.renderIntoElementById('main', renderToString(<ServerApp component={Routes} />));
+  const sheet = new ServerStyleSheet();
+  sink.renderIntoElementById('header-title', renderToString(sheet.collectStyles(<ServerApp component={HeaderTitle} />)));
+  sink.renderIntoElementById('main', renderToString(sheet.collectStyles(<ServerApp component={Routes} />)));
+
+  // Append styles
+  const styleTags = sheet.getStyleTags();
+  sink.appendToHead(styleTags);
 
   // Append Apollo data
   sink.appendToBody(`<script>window.__APOLLO_STATE__=${JSON.stringify(ssrClient.extract())};</script>`);
