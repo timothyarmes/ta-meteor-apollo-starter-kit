@@ -1,6 +1,7 @@
-/* eslint-disable */
+/* global importScripts, workbox, clients */
+/* eslint-disable no-restricted-globals */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js');
 
 const APP_SHELL = '/app-shell';
 const HASHED_CACHE = 'hashedCache';
@@ -51,13 +52,27 @@ workbox.routing.registerNavigationRoute(APP_SHELL);
 
 workbox.clientsClaim();
 
+
+function removeHash(element) {
+  if (typeof element === 'string') return element.split('?hash=')[0];
+  return element;
+}
+
+function hasSameHash(firstUrl, secondUrl) {
+  if (typeof firstUrl === 'string' && typeof secondUrl === 'string') {
+    return /\?hash=(.*)/.exec(firstUrl)[1] === /\?hash=(.*)/.exec(secondUrl)[1];
+  }
+
+  return false;
+}
+
+
 // Use our own cache for all hashed assets (Meteor generates the hashes for us)
-workbox.routing.registerRoute(/\?hash=.*/, ({url, event, params}) => {
+workbox.routing.registerRoute(/\?hash=.*/, ({ url, event }) => {
   caches.open(HASHED_CACHE).then((cache) => {
     const req = event.request.clone();
 
     return cache.match(req).then((cached) => {
-
       // Return the cached version if the hash is the same
       if (cached && hasSameHash(url.toString(), cached.url.toString())) {
         return cached;
@@ -66,45 +81,28 @@ workbox.routing.registerRoute(/\?hash=.*/, ({url, event, params}) => {
       // Try to fetch it....
       return fetch(req).then((response) => {
         const clonedResponse = response.clone();
-        const contentType = clonedResponse.headers.get('content-type');
-  
+
         if (!clonedResponse || clonedResponse.status !== 200 || clonedResponse.type !== 'basic') {
           return response;
         }
-  
+
         // Remove all other versions of this file frome the cache
         const re = new RegExp(removeHash(url.toString()));
-        caches.open(HASHED_CACHE).then(cache => cache.keys().then(keys => keys.forEach((asset) => {
+        caches.open(HASHED_CACHE).then(hashCache => hashCache.keys().then(keys => keys.forEach((asset) => {
           if (re.test(removeHash(asset.url.toString()))) {
-            cache.delete(asset);
+            hashCache.delete(asset);
           }
         })));
-  
+
         // Cache this version
-        caches.open(HASHED_CACHE).then(cache => cache.put(event.request, clonedResponse));
-        
+        caches.open(HASHED_CACHE).then(hashCache => hashCache.put(event.request, clonedResponse));
+
         // Return it
         return response;
-      }).catch(() => {
-        return null;
-      });
+      }).catch(() => null);
     });
   });
 });
-
-function removeHash(element) {
-  if (typeof element === 'string') return element.split('?hash=')[0];
-}
-
-function hasHash(element) {
-  if (typeof element === 'string') return /\?hash=.*/.test(element);
-}
-
-function hasSameHash(firstUrl, secondUrl) {
-  if (typeof firstUrl === 'string' && typeof secondUrl === 'string') {
-    return /\?hash=(.*)/.exec(firstUrl)[1] === /\?hash=(.*)/.exec(secondUrl)[1];
-  }
-}
 
 // Push event listener aux function:
 const showNotification = (evt) => {
