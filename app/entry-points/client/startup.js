@@ -40,7 +40,7 @@ async function renderAsync() {
   ] = await Promise.all([
     import('react'),
     import('react-dom'),
-    import('/app/ui/app'),
+    import('/app/ui/components/smart/app'),
     import('/app/ui/components/smart/header/burger-btn-controller'),
     import('/app/ui/components/smart/header/header-title'),
     import('/app/ui/routes'),

@@ -11,7 +11,7 @@ import { HttpLink } from 'apollo-link-http';
 import { StaticRouter } from 'react-router-dom';
 import fetch from 'node-fetch';
 
-import App from '/app/ui/app';
+import App from '/app/ui/components/smart/app';
 import HeaderTitle from '/app/ui/components/smart/header/header-title';
 import Routes from '/app/ui/routes';
 

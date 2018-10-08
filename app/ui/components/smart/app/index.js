@@ -1,8 +1,8 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { ThemeProvider } from 'styled-components';
-import theme from '../theme';
-import GlobalDataProvider from '../global-data-provider';
+import theme from '/app/ui/theme';
+import GlobalDataProvider from '/app/ui/components/smart/route-wrappers/global-data-provider';
 
 const App = ({ component, apolloClient }) => (
   <ThemeProvider theme={theme}>
