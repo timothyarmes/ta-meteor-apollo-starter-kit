@@ -1,28 +1,21 @@
-# Meteor, Apollo, React, PWA, Styled-Components boilerplate
+# Meteor 1.7, Apollo 2, React 16, PWA, SSR, Authentication & Styled-Components boilerplate
 
-A simple kit to start experimenting with Apollo, Meteor, React, PWA and Styled Components.
+A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authentication and Styled Components.
 
-Short video showing the app's capabilities:
-https://youtu.be/4eMNUycIbN8
-
-Code is deployed here: https://meteor-apollo-starter.herokuapp.com/
-
-Lighthouse audit:
-![lighthouse](https://user-images.githubusercontent.com/16927407/36643435-6dc17b1a-1a4b-11e8-80ff-eb395877b542.png)
-
-
-### This project includes the following libraries/functionality
-- GraphQL server running with Express bound to the Meteor (1.6.1) app
-- Apollo 2
+### This project includes the following libraries/functionality:
+- Apollo 2 GraphQL server running with Express bound to the Meteor (1.7) app
 - React 16
+- App-Shell based architecture with dynamic loading of required components
+- SSR with support for an app-shell specific route
 - Authentication: password & facebook (via meteor accounts)
-- ES6 syntax
-- styled components
+- Styled components
+- Recompose
+- Jest & Enzyme for testing
 - Storybook
 - sanitize.css
 - basscss
 - basic admin functionality via alanning:roles
-- code splitting on startup and router level
+- Code splitting on startup and router level
 - Progressive Web App features:
   * service-worker;
   * caching;
@@ -30,17 +23,14 @@ Lighthouse audit:
   * push notifications;
   * app shell architecture;
 
-### Other flavors
-Checkout 'material' branch for a material-ui version ([https://material-ui-next.com](https://material-ui-next.com)) of this boilerplate.
-
-Checkout 'auth-overlay' branch for a passwordless + facebook authentication options. It also uses   material-ui component's library and has jest-enzyme test libraries setup. (THIS BRANCH IS THE MOST UP TO DATE!) 
+This starter kit is based on the [excellent work](https://github.com/fede-rodes/meteor-apollo-starter-kit) done by Federico Rodes, however it had been heavily modified[^modified].
 
 ### Step by step guide to get started with this boilerplate
 
 #### 1. Clone the project and install NPM dependecies:
 ```
-git clone https://github.com/fede-rodes/meteor-apollo-starter-kit.git
-cd meteor-apollo-starter-kit/
+git clone https://github.com/timothyarmes/ta-meteor-apollo-starter-kit.git
+cd ta-meteor-apollo-starter-kit/
 meteor npm install
 ```
 
@@ -50,7 +40,7 @@ Create a new file called ```settings.json``` based on the provided ```settings.s
 #### 3. Register the app on Mailgun:
 Mailgun will allow you to use password authentication service and send emails from your app.
 
-In order to get started, first access your [Mailgun](https://www.mailgun.com/) account. Then, grab your sandbox domain smtp username and password and copy said values into your settings.json file. Finally, add your email address to the list of [Auhtorized Recipients](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
+In order to get started, first access your [Mailgun]() account. Then, grab your sandbox domain smtp username and password and copy said values into your settings.json file. Finally, add your email address to the list of [Auhtorized Recipients](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
 
 #### 4. Register the app on Facebook:
 Follow [this](https://medium.com/@jaaaco/add-facebook-login-to-meteor-app-in-2-minutes-3c744b46009e) tutorial to register the app on Facebook; this will allow you to use Facebook authentication service. Once you get your appId and secret key, copy said values back into your settings.json file.
@@ -69,13 +59,53 @@ Follow [this](https://medium.com/@jaaaco/add-facebook-login-to-meteor-app-in-2-m
 6. copy-paste your VAPID keys into your settings.json file;
 
 #### 6. Run the app
-That's enough config for today, you should now be able to run the app locally:
+You should now be able to run the app locally:
 ```
 meteor --settings settings.json
 ```
-GraphiQL should be available at [http://localhost:3000/graphiql](http://localhost:3000/graphiql).
 
-#### 7. Deploy to Heroku
+### Things you should know
+
+#### The App-Shell architecture
+
+This demo app provides an application-shell containing a header and a menu, along with the minimal styles necessary to display this shell. The initial client-side javascript downloaded to the client is also as small as possible, with the code for the routes to be displayed being brought in afterwards using dynamic imports (see /app/client/startup.js). This allows the application shell to be displayed
+very quickly for a great user experience.
+
+The app uses a services worker to provides its Progressive Web App features. The service worker uses Google's [Workbox]() to handle the caching of the application shell and its
+required files. The worker downloads and caches a special route called `/app-shell` which contains only the shell (without any other server-side rendered content). When the app is refreshed the service worker will always request this route from the server to retrieve (and quickly display) the app shell container, at which point the client will update the interface and data using dynamic imports and [react-loadable]().
+
+The latest `/app-shell` is always fetched from the server and cached when the app is on-line.
+When off-line, the service work will use its cached local copy.
+
+Finally, the service worker makes good use of the fact that Meteor supplies hashes for all the files that it injects into the HTML payload. Requests for hashed files are returned from the local storage
+if they're cached, and if not they're fetched and stored for future use. This can substantially improve
+the load time after the first visit.
+
+
+To modify the service worker's `sw.js` file you should first modify `swSrc.js`, and
+then run:
+
+```
+npm run update-sw
+```
+
+This will inject the dependencies from the `/public` folder into the `swSrc.js` and save the result into `sw.js`.
+
+#### react-loadable and SSR
+
+`react-loadable` is used to provide for dynamic loading of react components. This works out-of-the-box for client side rendering, but it require special care when rendering on the server. The meteor package [nemms:meteor-react-loadable]() provides the necessary support for this purpose. Of particular importance is the fact that any dynamically loadable components need to be defined as constants in the build, so that they can be 'captured' and preloaded by the server. In this starter-kit the reloadable components are defined in `app/ui/loadables.js`.
+
+Note that `nemms:meteor-react-loadable` can't be used to handle nested loadable components.
+
+#### Running storybook
+Open a new terminal (the meteor app doesn't need to be running) and type:
+```
+npm i -g @storybook/cli
+npm run storybook
+```
+Storybook will be available at [http://localhost:6006/](http://localhost:6006/).
+
+#### Deploy to Heroku
 In case you want to deploy the app to Heroku, follow these steps:
 ```
 1. open a new terminal
@@ -94,14 +124,6 @@ OR (if you are working on a different branch than master)
 ```
 
 ### More resources
-
-#### Running storybook
-Open a new terminal (the meteor app doesn't need to be running) and type:
-```
-npm i -g @storybook/cli
-npm run storybook
-```
-Storybook will be available at [http://localhost:6006/](http://localhost:6006/).
 
 #### Favicon / manifest generator
 In order to generate the favicons for your project, you can use the following generator:
@@ -202,25 +224,9 @@ In case you run lighthouse inside the /meteor-apollo-starter-kit app's folder, y
 #### styled components
 - https://youtu.be/qu4U7lwZTRI
 
-#### React
-- Render props: https://www.youtube.com/watch?v=BcVAq3YFiuc
+[^modified]: Updated include: Meteor 1.7, Apollo 2, SSR, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have apollo-link-state now), and many other little things.
 
-#### Testing on real devices
-- https://developers.google.com/web/tools/chrome-devtools/remote-debugging/?hl=en
-
-### TODO LIST
-- keep track of visited routes in order to send the user back to the last (not auth) visited page. Additionally, add last visited page to the account verification link in order to take the user
- back to the initial page after email account is verified.
-- setup apollo subscriptions
-- Preact branch
-
-- replace sw scripts with [sw-precache](https://github.com/GoogleChromeLabs/sw-precache) + [sw-toolbox](https://github.com/GoogleChromeLabs/sw-toolbox) or [workbox](https://github.com/GoogleChrome/workbox)
-
-- tests for sw
- https://github.com/meteor/meteor/blob/devel/packages/server-render/README.md#usage
-
-- tests
-- ssr to speed-up first load and SEO
-- https://reactjs.org/docs/optimizing-performance.html#profiling-components-with-the-chrome-performance-tab
-- https://www.webpagetest.org
-- https://stackify.com/what-is-real-user-monitoring/
+[Mailgun]: (https://www.mailgun.com/)
+[react-loadable]: https://github.com/jamiebuilds/react-loadable
+[nemms:meteor-react-loadable]: https://github.com/nemms/meteor-react-loadable
+[Workbox]: (https://developers.google.com/web/tools/workbox/)

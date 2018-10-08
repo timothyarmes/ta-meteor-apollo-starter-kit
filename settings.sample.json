@@ -25,6 +25,6 @@
     }
   },
   "admins": [
-    { "email": "admin@admin.com", "roles": ["admin"] }
+    { "email": "admin@admin.com", "password": "password", "roles": ["admin"] }
   ]
 }

@@ -4,7 +4,5 @@ settings.json
 settings-dev.json
 settings-prod.json
 storybook-static
-public/sw-nitro.js
-public/sw-dirty.js
-public/sw-playground.js
+public/manifest-pwa.json
 coverage/
