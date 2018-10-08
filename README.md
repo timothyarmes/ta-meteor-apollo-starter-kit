@@ -81,9 +81,15 @@ Finally, the service worker makes good use of the fact that Meteor supplies hash
 if they're cached, and if not they're fetched and stored for future use. This can substantially improve
 the load time after the first visit.
 
+#### Updating the service worker
 
-To modify the service worker's `sw.js` file you should first modify `swSrc.js`, and
-then run:
+To modify the service worker's `sw.js` file you'll first need to install `workbox-cli`:
+
+```
+npm install -g workbox-cli
+```
+
+Then, make your changes to `swSrc.js`, and then run:
 
 ```
 npm run update-sw
