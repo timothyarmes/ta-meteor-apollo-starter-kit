@@ -1,9 +1,9 @@
-# Meteor 1.7, Apollo 2, React 16, PWA, SSR, Authentication & Styled-Components boilerplate
+# Meteor 1.8, Apollo 2, React 16, PWA, SSR, Authentication & Styled-Components boilerplate
 
 A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authentication and Styled Components.
 
 ### This project includes the following libraries/functionality:
-- Apollo 2 GraphQL server running with Express bound to the Meteor (1.7) app
+- Apollo 2 GraphQL server running with Express bound to the Meteor (1.8) app
 - React 16
 - App-Shell based architecture with dynamic loading of required components
 - SSR with support for an app-shell specific route
@@ -235,4 +235,4 @@ In case you run lighthouse inside the /meteor-apollo-starter-kit app's folder, y
 [nemms:meteor-react-loadable]: https://github.com/nemms/meteor-react-loadable
 [Workbox]: https://developers.google.com/web/tools/workbox/
 
-<b id="modifiedf">1</b> Updates include: Meteor 1.7, Apollo 2, SSR, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), and many other little things. [↩](#modified)
+<b id="modifiedf">1</b> Updates include: Meteor 1.8, Apollo 2, SSR, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), and many other little things. [↩](#modified)
