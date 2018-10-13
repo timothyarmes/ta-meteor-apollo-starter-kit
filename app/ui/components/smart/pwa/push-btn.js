@@ -4,9 +4,6 @@ import { graphql } from 'react-apollo';
 import Button from '/app/ui/components/dumb/button';
 import sendPushNotificationMutation from '/app/ui/apollo-client/user/mutation/send-push-notification';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 class PushBtn extends React.PureComponent {
   handleClick = async () => {
     const {

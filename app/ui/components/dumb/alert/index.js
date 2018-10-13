@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-//------------------------------------------------------------------------------
-// STYLES:
-//------------------------------------------------------------------------------
+// STYLES
+
 const Div = styled.div`
   background-color: ${props => (props.type === 'error' && props.theme.color.dangerLight)
     || (props.type === 'success' && props.theme.color.successLight)
@@ -21,9 +20,9 @@ const Div = styled.div`
 Div.propTypes = {
   type: PropTypes.oneOf(['error', 'success']).isRequired,
 };
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
+
+// COMPONENT
+
 const Alert = ({ type, content, ...rest }) => (
   content && content.trim().length > 0
     ? <Div type={type} {...rest}>{content}</Div>
@@ -38,6 +37,5 @@ Alert.propTypes = {
 Alert.defaultProps = {
   content: '',
 };
-//------------------------------------------------------------------------------
 
 export default Alert;

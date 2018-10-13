@@ -1,7 +1,12 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { compose } from 'recompose';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { injectIntl, intlShape } from 'react-intl';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import withRouteProps from '/app/ui/hocs/with-route-props';
+
 import {
   ScrollToTop,
   LoggedInRoute,
@@ -15,80 +20,90 @@ import {
   ForgotPasswordPage, LoggedOutPage, DataTestPage, AdminPage, NotFoundPage,
 } from './loadables';
 
-const Routes = props => (
+const Routes = ({
+  homeUrl,
+  loginUrl,
+  signupUrl,
+  verifyEmailUrl,
+  verifyEmailExpiredUrl,
+  forgotPasswordUrl,
+  resetPasswordUrl,
+  dataTestUrl,
+  adminUrl,
+  ...otherProps
+}) => (
   <ScrollToTop>
     <Switch>
       {/* HOME */}
       <LoggedInRoute
         exact
-        path="/"
+        path={homeUrl()}
         component={HomePage}
-        redirectTo="/login"
+        redirectTo={loginUrl()}
         emailNotVerifiedOverlay={WelcomePage}
-        {...props}
+        {...otherProps}
       />
 
       {/* SIGN-IN/UP */}
       <LoggedOutRoute
         name="login"
-        path="/login"
+        path={loginUrl()}
         component={SigninPage}
-        redirectTo="/"
-        {...props}
+        redirectTo={homeUrl()}
+        {...otherProps}
       />
 
       <LoggedOutRoute
         name="signup"
-        path="/signup"
+        path={signupUrl()}
         component={SignupPage}
-        redirectTo="/"
-        {...props}
+        redirectTo={homeUrl()}
+        {...otherProps}
       />
 
       <RouteWithProps
         name="verifyEmail"
-        path="/verify-email/:token"
+        path={verifyEmailUrl()}
         component={VerifyEmailPage}
-        {...props}
+        {...otherProps}
       />
 
-      <RouteWithProps
-        name="linkExpired"
-        path="/link-expired"
-        component={LinkExpiredPage}
-        {...props}
+      <Route
+        path={verifyEmailExpiredUrl()}
+        render={LinkExpiredPage}
+        {...otherProps}
       />
 
       <LoggedOutRoute
         name="forgotPassword"
-        path="/forgot-password"
+        path={forgotPasswordUrl()}
         component={ForgotPasswordPage}
-        redirectTo="/"
-        {...props}
+        redirectTo={homeUrl()}
+        {...otherProps}
       />
 
       <LoggedOutRoute
         name="resetPassword"
-        path="/reset-password/:token"
+        path={resetPasswordUrl()}
         component={LoggedOutPage}
-        redirectTo="/"
-        {...props}
+        redirectTo={homeUrl()}
+        {...otherProps}
       />
 
       <RouteWithProps
         name="dataTest"
-        path="/data-test/"
+        path={dataTestUrl()}
         component={DataTestPage}
-        {...props}
+        {...otherProps}
       />
 
       {/* ADMIN */}
       <AdminRoute
         exact
-        path="/admin"
+        path={adminUrl()}
         component={AdminPage}
-        redirectTo="/login"
-        {...props}
+        redirectTo={homeUrl()}
+        {...otherProps}
       />
 
       {/* NOT FOUND */}
@@ -101,10 +116,22 @@ const Routes = props => (
 
 Routes.propTypes = {
   curUser: propType(userFragment), // eslint-disable-line
+  match: PropTypes.object, // eslint-disable-line
+  intl: intlShape.isRequired,
+
+  homeUrl: PropTypes.func.isRequired,
+  loginUrl: PropTypes.func.isRequired,
+  signupUrl: PropTypes.func.isRequired,
+  verifyEmailUrl: PropTypes.func.isRequired,
+  verifyEmailExpiredUrl: PropTypes.func.isRequired,
+  forgotPasswordUrl: PropTypes.func.isRequired,
+  resetPasswordUrl: PropTypes.func.isRequired,
+  dataTestUrl: PropTypes.func.isRequired,
+  adminUrl: PropTypes.func.isRequired,
 };
 
 Routes.defaultProps = {
   curUser: null,
 };
 
-export default Routes;
+export default compose(injectIntl, withRouter, withRouteProps)(Routes);

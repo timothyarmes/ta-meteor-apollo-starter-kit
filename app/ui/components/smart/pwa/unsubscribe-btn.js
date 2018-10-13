@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
+import { injectIntl } from 'react-intl';
+import { compose } from 'recompose';
 import userQuery from '/app/ui/apollo-client/user/query/user';
 import deleteSubscriptionMutation from '/app/ui/apollo-client/user/mutation/delete-subscription';
 import Button from '/app/ui/components/dumb/button';
@@ -9,6 +11,7 @@ import Button from '/app/ui/components/dumb/button';
 class UnsubscribeBtn extends React.PureComponent {
   handleClick = async () => {
     const {
+      intl: { formatMessage: t },
       deleteSubscription,
       onBeforeHook,
       onClientErrorHook,
@@ -46,7 +49,7 @@ class UnsubscribeBtn extends React.PureComponent {
       // We failed to unsubscribe, this can lead to an unusual state, so may be
       // best to remove the subscription from your data store and inform the
       // user that you disabled push
-      onClientErrorHook(`Error thrown while unsubscribing from push messaging: ${exc}`);
+      onClientErrorHook(`${t({ id: 'pushUnsubscribeError' })}${exc}`);
     }
 
     try {
@@ -70,21 +73,21 @@ class UnsubscribeBtn extends React.PureComponent {
   }
 
   render() {
-    const { btnLabel, disabled } = this.props;
+    const { intl: { formatMessage: t }, btnLabel, disabled } = this.props;
 
     return (
       <Button
         disabled={disabled}
         onClick={this.handleClick}
       >
-        {btnLabel}
+        {btnLabel || t({ id: 'pushDisableButton' })}
       </Button>
     );
   }
 }
 
 UnsubscribeBtn.propTypes = {
-  btnLabel: PropTypes.string,
+  btnLabel: PropTypes.string, // eslint-disable-line react/require-default-props
   disabled: PropTypes.bool,
   deleteSubscription: PropTypes.func.isRequired,
   onBeforeHook: PropTypes.func,
@@ -93,13 +96,13 @@ UnsubscribeBtn.propTypes = {
 };
 
 UnsubscribeBtn.defaultProps = {
-  btnLabel: 'Disable Push Messages',
   disabled: false,
   onBeforeHook: () => {},
   onServerErrorHook: () => {},
   onSuccessHook: () => {},
 };
 
-const withMutation = graphql(deleteSubscriptionMutation, { name: 'deleteSubscription' });
-
-export default withMutation(UnsubscribeBtn);
+export default compose(
+  injectIntl,
+  graphql(deleteSubscriptionMutation, { name: 'deleteSubscription' }),
+)(UnsubscribeBtn);

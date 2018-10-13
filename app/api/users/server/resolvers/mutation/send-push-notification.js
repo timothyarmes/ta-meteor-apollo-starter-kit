@@ -13,10 +13,10 @@ const { subject: vapidSubject, privateKey: vapidPrivateKey } = Meteor.settings.v
 // Wrap collection and utils around namespace for clarity
 const Users = { collection, utils };
 
-//------------------------------------------------------------------------------
 /**
 * @summary Send push notification to all subscribed users.
 */
+
 const sendPushNotification = (root, args, context) => {
   const { user } = context;
 
@@ -53,6 +53,5 @@ const sendPushNotification = (root, args, context) => {
       });
   });
 };
-//------------------------------------------------------------------------------
 
 export default sendPushNotification;

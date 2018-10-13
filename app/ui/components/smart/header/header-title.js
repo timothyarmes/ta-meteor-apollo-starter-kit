@@ -1,46 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { propType } from 'graphql-anywhere';
-import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import { getRoute } from './get-route-label';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { compose } from 'recompose';
+import { withRouteProps } from '/app/ui/hocs';
 
-//------------------------------------------------------------------------------
-// AUX FUNCTIONS:
-//------------------------------------------------------------------------------
-const getHeaderTitle = ({ curUser, route }) => {
-  if (!route) {
-    return 'Not Found';
-  }
-
-  if (route.auth && !curUser) {
-    return 'Login';
-  }
-
-  return route.label;
-};
-
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
-
-const HeaderTitle = ({ curUser, location }) => {
-  // Get label for current route ('/' --> 'Home', '/b$^$%^$' --> undefined)
-  const route = getRoute(location.pathname);
-  // Display label based on route and user logged in state
-  return <span>{getHeaderTitle({ curUser, route })}</span>;
-};
+const HeaderTitle = ({
+  homeUrl,
+  loginUrl,
+  signupUrl,
+  verifyEmailUrl,
+  verifyEmailExpiredUrl,
+  forgotPasswordUrl,
+  resetPasswordUrl,
+  dataTestUrl,
+  adminUrl,
+}) => (
+  <Switch>
+    <Route path={homeUrl()} exact render={() => <T id="homeHeaderTitle" />} />
+    <Route path={loginUrl()} render={() => <T id="loginTitle" />} />
+    <Route path={signupUrl()} render={() => <T id="signupTitle" />} />
+    <Route path={verifyEmailUrl()} render={() => <T id="verifyEmailTitle" />} />
+    <Route path={verifyEmailExpiredUrl()} render={() => <T id="verifyEmailTitle" />} />
+    <Route path={forgotPasswordUrl()} render={() => <T id="forgotPasswordTitle" />} />
+    <Route path={resetPasswordUrl()} render={() => <T id="resetPasswordTitle" />} />
+    <Route path={dataTestUrl()} render={() => <T id="dataTestTitle" />} />
+    <Route path={adminUrl()} render={() => <T id="adminHeaderTitle" />} />
+    <Route render={() => <T id="notFoundTitle" />} />
+  </Switch>
+);
 
 HeaderTitle.propTypes = {
-  curUser: propType(userFragment),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
 };
 
-HeaderTitle.defaultProps = {
-  curUser: null,
-};
-
 // withRouter provides access to location.pathname
-export default withRouter(HeaderTitle);
+export default compose(injectIntl, withRouteProps, withRouter)(HeaderTitle);

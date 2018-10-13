@@ -1,12 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage as T } from 'react-intl';
 import { withApollo } from 'react-apollo';
 import Button from '/app/ui/components/dumb/button';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const LogoutBtn = ({ client, btnType, disabled, onLogoutHook }) => (
   <Button
     type={btnType}
@@ -21,7 +19,7 @@ const LogoutBtn = ({ client, btnType, disabled, onLogoutHook }) => (
       });
     }}
   >
-    Log out
+    <T id="authLogoutButton" />
   </Button>
 );
 

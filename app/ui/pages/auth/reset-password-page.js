@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import AuxFunctions from '/app/api/aux-functions';
-import SEO from '/app/ui/components/smart/seo';
-import withFormProps from '/app/ui/render-props/withFormProps';
+import withSEO from '/app/ui/hocs/with-seo';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { withRouteProps, withFormProps } from '/app/ui/hocs/';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { PasswordAuthViews } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 // OBSERVATION: after withFormProps.handleSuccess is fired, the user
 // logged-in-state will change from 'logged out' to 'logged in'. This will
 // trigger the LoggedOutRoute component's logic (said component wraps the
 // LoginPage component) which will result in redirecting the user to home page
 // automatically.
+
 const ResetPasswordPage = ({
+  intl: { formatMessage: t },
   match,
   disabled,
   errorMsg,
@@ -26,14 +26,15 @@ const ResetPasswordPage = ({
   handleClientError,
   handleServerError,
   handleSuccess,
+  forgotPasswordUrl,
 }) => {
   const token = (match && match.params && match.params.token) || '';
 
   return (
-    <AuthPageLayout title="Reset your Password">
+    <AuthPageLayout title={t({ id: 'resetPasswordTitle' })}>
       <PasswordAuthViews
         view="resetPassword"
-        btnLabel="Reset Password"
+        btnLabel={t({ id: 'resetPasswordResetButton' })}
         token={token}
         disabled={disabled}
         onBeforeHook={handleBefore}
@@ -43,7 +44,7 @@ const ResetPasswordPage = ({
           // Extend withFormProps.handleSuccess' default functionality
           handleSuccess(() => {
             // Display alert message after action is completed
-            AuxFunctions.delayedAlert('Password reset successfully!', 700);
+            AuxFunctions.delayedAlert(t({ id: 'resetPasswordSuccessMessage ' }), 700);
           });
         }}
       />
@@ -53,7 +54,7 @@ const ResetPasswordPage = ({
         successMsg={successMsg}
       />
       <p className="center">
-        <Link to="/forgot-password">Resend reset password link</Link>
+        <Link to={forgotPasswordUrl}><T id="resetPasswordResendLinkText" /></Link>
       </p>
     </AuthPageLayout>
   );
@@ -67,16 +68,10 @@ ResetPasswordPage.propTypes = {
   }).isRequired,
 };
 
-const WrappedResetPasswordPage = compose(withFormProps, withRouter)(ResetPasswordPage);
-
-export default () => ([
-  <SEO
-    key="seo"
-    schema="AboutPage"
-    title="Reset Password Page"
-    description="A starting point for Meteor applications."
-    contentType="product"
-  />,
-
-  <WrappedResetPasswordPage key="resetPassword" />,
-]);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withFormProps,
+  withRouter,
+  withSEO({ title: 'resetPasswordHTMLTitle' }),
+)(ResetPasswordPage);

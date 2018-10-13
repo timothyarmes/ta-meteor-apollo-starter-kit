@@ -1,19 +1,20 @@
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
+import { IntlProvider } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
 import theme from '/app/ui/theme';
 import GlobalDataProvider from '/app/ui/components/smart/route-wrappers/global-data-provider';
+import withLocaleProps from '/app/ui/hocs/with-locale-props';
 
-const App = ({ component, apolloClient }) => (
+const App = ({ component, locale: { locale, messages } }) => (
   <ThemeProvider theme={theme}>
-    <ApolloProvider client={apolloClient}>
+    <IntlProvider locale={locale} messages={messages}>
       <GlobalDataProvider>
         {globalDataProps => (
           React.createElement(component, { ...globalDataProps })
         )}
       </GlobalDataProvider>
-    </ApolloProvider>
+    </IntlProvider>
   </ThemeProvider>
 );
 
-export default App;
+export default withLocaleProps(App);

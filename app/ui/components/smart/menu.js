@@ -2,35 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { propType } from 'graphql-anywhere';
+import { compose } from 'recompose';
+import { injectIntl } from 'react-intl';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import Constants from '/app/api/constants';
+import { withRouteProps } from '/app/ui/hocs';
 import { LogoutBtn } from './auth';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
-const Menu = ({ curUser }) => {
+
+const Menu = ({ curUser, homeUrl, dataTestUrl, adminUrl }) => {
   // Only display menu content for logged in users
   if (!curUser) {
     return null;
   }
 
-  // Get list of routes to be displayed on the side-menu. Include admin route
-  // if and only if current user is admin
-  const routes = Constants.ROUTES
-    .filter(({ admin, menu }) => (
-      menu
-      && (!admin || (admin && Roles.userIsInRole(curUser._id, ['admin'])))
-    ));
+  const menuRoutes = [
+    { path: homeUrl(), label: 'Home', menu: true, auth: true },
+    { path: dataTestUrl(), label: 'Data test', menu: true },
+  ];
+
+  if (Roles.userIsInRole(curUser._id, ['admin'])) {
+    menuRoutes.push({ path: adminUrl(), label: 'Admin', menu: true, admin: true });
+  }
 
   // Display menu routes plus logout button
   return [
-    routes.map(({ path, label }) => (
+    menuRoutes.map(({ path, label }) => (
       <li key={path}>
-        <Link
-          to={path}
-          onClick={window.hideMenu}
-        >
+        <Link to={path} onClick={window.hideMenu}>
           {label}
         </Link>
       </li>
@@ -52,4 +50,4 @@ Menu.defaultProps = {
   curUser: null,
 };
 
-export default Menu;
+export default compose(injectIntl, withRouteProps)(Menu);

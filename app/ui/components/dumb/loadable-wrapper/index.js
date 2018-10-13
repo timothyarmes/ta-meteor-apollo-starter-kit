@@ -2,9 +2,6 @@ import PropTypes from 'prop-types';
 import MeteorLoadable from 'meteor/nemms:meteor-react-loadable';
 import LoadableLoading from '/app/ui/components/dumb/loadable-loading';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const LoadableWrapper = ({ loader, moduleId, delay }) => (
   MeteorLoadable({
     loading: LoadableLoading,

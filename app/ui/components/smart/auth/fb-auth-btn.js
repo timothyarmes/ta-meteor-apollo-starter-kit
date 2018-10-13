@@ -3,9 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '/app/ui/components/dumb/button';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 class FBAuthBtn extends React.PureComponent {
   handleClick = () => {
     const {

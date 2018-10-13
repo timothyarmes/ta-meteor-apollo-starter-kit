@@ -1,25 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SEO from '/app/ui/components/smart/seo';
+import { compose } from 'recompose';
+import withSEO from '/app/ui/hocs/with-seo';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { withRouteProps } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
-const NotFoundPage = () => [
-  <SEO
-    key="seo"
-    schema="AboutPage"
-    title="Page Not Found"
-    description="A starting point for Meteor applications."
-    contentType="product"
-  />,
+const NotFoundPage = ({ intl: { formatMessage: t }, homeUrl }) => (
   <AuthPageLayout
     key="view"
-    title="404 - Page Not Found"
-    subtitle="Back to"
-    link={<Link to="/">Home</Link>}
-  />,
-];
+    title={t({ id: 'notFoundTitle' })}
+    subtitle={t({ id: 'notFoundSubTitle' })}
+    link={<Link to={homeUrl()}><T id="notFoundHomeLinkText" /></Link>}
+  />
+);
 
-export default NotFoundPage;
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withSEO({ title: 'notFoundHTMLTitle' }),
+)(NotFoundPage);

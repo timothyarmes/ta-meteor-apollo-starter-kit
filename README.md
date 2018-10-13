@@ -1,13 +1,14 @@
-# Meteor 1.8, Apollo 2, React 16, PWA, SSR, Authentication & Styled-Components boilerplate
+# Meteor 1.8, Apollo 2, React 16, Multi-lingual ready, PWA, SSR, Authentication & Styled-Components boilerplate
 
 A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authentication and Styled Components.
 
 ### This project includes the following libraries/functionality:
 - Apollo 2 GraphQL server running with Express bound to the Meteor (1.8) app
 - React 16
-- App-Shell based architecture with dynamic loading of required components
-- SSR with support for an app-shell specific route
+- Multilingual readt (using react-intl) with dynamic loading of required locale messages
 - Authentication: password & facebook (via meteor accounts)
+- SSR with support for an app-shell specific route
+- App-Shell based architecture with dynamic loading of required components
 - Styled components
 - Recompose
 - Jest & Enzyme for testing
@@ -102,6 +103,35 @@ This will inject the dependencies from the `/public` folder into the `swSrc.js` 
 `react-loadable` is used to provide for dynamic loading of react components. This works out-of-the-box for client side rendering, but it requires special care when rendering on the server. The meteor package [nemms:meteor-react-loadable][nemms:meteor-react-loadable] provides the necessary support for this purpose. Of particular importance is the fact that any dynamically loadable components need to be defined as constants in the build, so that they can be 'captured' and preloaded by the server. In this starter-kit the reloadable components are defined in `app/ui/loadables.js`.
 
 Note that `nemms:meteor-react-loadable` can't be used to handle nested loadable components.
+
+#### Multilingual support
+
+When creating a new project it's incredibly important to internationalise your application from the beginning. Adding multilingual support later on is a much more complicated task. 
+
+Even if you're not internationalising your app, using translation files makes it easier to handle things such as plural strings, and you'll be ready for that day when the client decides that they _do_ want a localised version after all.
+
+For these reasons the starter kit comes with out-of-the box support for multilingual support. The locale is specified on the URL using one of two schemes:
+
+1. Non-prefixed URLs (e.g. _/my-page_) are displayed in the site's primary language, all other locales have prefixed URLs (e.g. _/fr/my-page_).
+
+  This is the case when `primaryLocale` is defined. Using a primary locale means that the user __won't__ automatically see a localised version of the site when visiting the root. This is the best option if you don't initially intend on localising your site, since the URLs won't be prefixed.  
+
+2. There's no primary locale, and all URLs are prefixed.
+
+ This is the case if `primaryLocale` is `undefined`. In this case, if the user visits the root (or __any__ url that isn't prefixed with a known locale) then the user will be redirected to the best-matching locale based on the `accept-language` setting sent by their browser. This is the best choice for multilingual sites since the user will immediately see a localised version of the site.
+
+Once the locale is read from the URL, the locale's messages are fetched and cached via a GraphQL query.
+
+The translations string are all stored in one file in the starter kit, however they're in a simple JS object, so you can split them up if you prefer. The important thing to note is that you __do not__ need to send all your messages to the client in one go. The translation file is separated into sections, allowing you to only fetch the translations that you need for a specific area of your site. By way of example, the starter kit has an `app` section for the main app, and an `admin` section for the administration area. The handy `Localised` component allows you to easily fetch the translations for a given section:
+
+
+````
+const LocalisedAdminPage = props => (
+  <Localised section="admin"><WrappedInnerAdmin {...props} /></Localised>
+);
+```
+
+`Localised` components can be nested, and children have access to all the messages defined by all the ancestors.
 
 #### Running storybook
 Open a new terminal (the meteor app doesn't need to be running) and type:

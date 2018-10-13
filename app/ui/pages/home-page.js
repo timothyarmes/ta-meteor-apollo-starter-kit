@@ -1,9 +1,10 @@
 import React from 'react';
 import { propType } from 'graphql-anywhere';
+import { injectIntl } from 'react-intl';
 import { compose } from 'recompose';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import { withPWABtnProps, withFormProps } from '/app/ui/render-props';
-import SEO from '/app/ui/components/smart/seo';
+import { withPWABtnProps, withFormProps } from '/app/ui/hocs';
+import withSEO from '/app/ui/hocs/with-seo';
 import SubscribeBtn from '/app/ui/components/smart/pwa/subscribe-btn';
 import UnsubscribeBtn from '/app/ui/components/smart/pwa/unsubscribe-btn';
 import PushBtn from '/app/ui/components/smart/pwa/push-btn';
@@ -11,10 +12,8 @@ import Feedback from '/app/ui/components/dumb/feedback';
 import Alert from '/app/ui/components/dumb/alert';
 import Loading from '/app/ui/components/dumb/loading';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const HomePage = ({
+  intl: { formatMessage: t },
   curUser,
   supported,
   subscribed,
@@ -38,14 +37,13 @@ const HomePage = ({
     return (
       <Alert
         type="error"
-        content="Your browser doesn't support service workers"
+        content={t({ id: 'homeNoServiceWorkerError' })}
       />
     );
   }
 
   return (
     <div>
-      <h1>Home Page</h1>
       {subscribed ? (
         <UnsubscribeBtn
           disabled={disabled}
@@ -95,16 +93,9 @@ HomePage.propTypes = {
   curUser: propType(userFragment).isRequired,
 };
 
-const WrappedHomePage = compose(withFormProps, withPWABtnProps)(HomePage);
-
-export default ({ curUser }) => ([
-  <SEO
-    key="seo"
-    schema="AboutPage"
-    title="Home Page"
-    description="A starting point for Meteor applications."
-    contentType="product"
-  />,
-
-  <WrappedHomePage key="home" curUser={curUser} />,
-]);
+export default compose(
+  injectIntl,
+  withFormProps,
+  withPWABtnProps,
+  withSEO({ title: 'homeHTMLTitle' }),
+)(HomePage);

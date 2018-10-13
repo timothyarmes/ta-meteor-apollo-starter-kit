@@ -1,17 +1,23 @@
 import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import AuxFunctions from '/app/api/aux-functions';
-import SEO from '/app/ui/components/smart/seo';
+import withSEO from '/app/ui/hocs/with-seo';
+import { injectIntl } from 'react-intl';
+import { withRouteProps } from '/app/ui/hocs/';
 import Loading from '/app/ui/components/dumb/loading';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 class VerifyEmailPage extends React.Component {
   componentWillMount() {
-    const { match, history } = this.props;
+    const {
+      intl: { formatMessage: t },
+      match,
+      history,
+      verifyEmailExpiredUrl,
+      homeUrl,
+    } = this.props;
 
     // Get token from url params
     const token = (match && match.params && match.params.token) || '';
@@ -19,25 +25,16 @@ class VerifyEmailPage extends React.Component {
     Accounts.verifyEmail(token, (err) => {
       if (err) {
         console.log(`[router] ${err.reason}`);
-        history.push('/link-expired');
+        history.push(verifyEmailExpiredUrl());
       } else {
-        AuxFunctions.delayedAlert('Account verified successfully. Thanks!', 700);
-        history.push('/');
+        AuxFunctions.delayedAlert(t({ id: 'verifyEmailSuccessMessage' }), 700);
+        history.push(homeUrl);
       }
     });
   }
 
   render() {
-    return [
-      <SEO
-        key="seo"
-        schema="AboutPage"
-        title="Verify Email Page"
-        description="A starting point for Meteor applications."
-        contentType="product"
-      />,
-      <Loading key="view" />,
-    ];
+    return <Loading key="view" />;
   }
 }
 
@@ -52,5 +49,9 @@ VerifyEmailPage.propTypes = {
   }).isRequired,
 };
 
-// withRouter provides access to match.params and history.push()
-export default withRouter(VerifyEmailPage);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withRouter,
+  withSEO({ title: 'verifyEmailHTMLDescription' }),
+)(VerifyEmailPage);

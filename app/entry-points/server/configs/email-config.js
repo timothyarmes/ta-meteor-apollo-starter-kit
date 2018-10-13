@@ -3,15 +3,13 @@ import Constants from '/app/api/constants';
 
 const { SITE_BRAND, DOMAIN_NAME, SUPPORT_EMAIL } = Constants;
 
-//------------------------------------------------------------------------------
-// EMAIL TEMPLATES
-//------------------------------------------------------------------------------
 /**
  * @see {@link https://themeteorchef.com/snippets/sign-up-with-email-verification/}
  * @see {@link http://docs.meteor.com/#/full/accounts_emailtemplates}
  * @see {@link http://docs.meteor.com/#/full/accounts_sendverificationemail}
  * @see {@link https://meteorhacks.com/server-side-rendering}
  */
+
 Accounts.emailTemplates.siteName = SITE_BRAND;
 Accounts.emailTemplates.from = `${SITE_BRAND} <no-reply@${DOMAIN_NAME}>`;
 Accounts.emailTemplates.verifyEmail = {

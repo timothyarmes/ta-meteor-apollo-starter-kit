@@ -2,19 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
+import { injectIntl } from 'react-intl';
+import { compose } from 'recompose';
 import userQuery from '/app/ui/apollo-client/user/query/user';
 import saveSubscriptionMutation from '/app/ui/apollo-client/user/mutation/save-subscription';
 import Button from '/app/ui/components/dumb/button';
 
 const { publicKey: vapidPublicKey } = Meteor.settings.public.vapid;
 
-//------------------------------------------------------------------------------
-// AUX FUNCTIONS:
-//------------------------------------------------------------------------------
 // Source: https://www.npmjs.com/package/web-push
 // When using your VAPID key in your web app, you'll need to convert the URL
 // safe base64 string to a Uint8Array to pass into the subscribe call, which you
 // can do like so:
+
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/'); // eslint-disable-line
@@ -27,13 +27,12 @@ function urlBase64ToUint8Array(base64String) {
   }
   return outputArray;
 }
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
+
 // Source: https://github.com/GoogleChrome/samples/blob/gh-pages/push-messaging-and-notifications/main.js
 class SubscribeBtn extends React.PureComponent {
   handleClick = async () => {
     const {
+      intl: { formatMessage: t },
       saveSubscription,
       onBeforeHook,
       onClientErrorHook,
@@ -64,11 +63,11 @@ class SubscribeBtn extends React.PureComponent {
         // The user denied the notification permission which means we failed to
         // subscribe and the user will need to manually change the notification
         // permission to subscribe to push messages
-        onClientErrorHook('Permission for Notifications was denied');
+        onClientErrorHook(t({ id: 'pushPermissionDeniedError' }));
       } else {
         // A problem occurred with the subscription, this can often be down to
         // an issue or lack of the gcm_sender_id and / or gcm_user_visible_only
-        const err = { reason: `Unable to subscribe to push, ${exc}` };
+        const err = { reason: `${t({ id: 'pushSubscribtionFailedError' })} ${exc}` };
         onClientErrorHook(err);
         return;
       }
@@ -104,21 +103,21 @@ class SubscribeBtn extends React.PureComponent {
   }
 
   render() {
-    const { btnLabel, disabled } = this.props;
+    const { intl: { formatMessage: t }, btnLabel, disabled } = this.props;
 
     return (
       <Button
         disabled={disabled}
         onClick={this.handleClick}
       >
-        {btnLabel}
+        {btnLabel || t({ id: 'pushEnableButton' })}
       </Button>
     );
   }
 }
 
 SubscribeBtn.propTypes = {
-  btnLabel: PropTypes.string,
+  btnLabel: PropTypes.string, // eslint-disable-line react/require-default-props
   disabled: PropTypes.bool,
   saveSubscription: PropTypes.func.isRequired,
   onBeforeHook: PropTypes.func,
@@ -128,7 +127,6 @@ SubscribeBtn.propTypes = {
 };
 
 SubscribeBtn.defaultProps = {
-  btnLabel: 'Enable Pushed Messages',
   disabled: false,
   onBeforeHook: () => {},
   onClientErrorHook: () => {},
@@ -136,6 +134,7 @@ SubscribeBtn.defaultProps = {
   onSuccessHook: () => {},
 };
 
-const withMutation = graphql(saveSubscriptionMutation, { name: 'saveSubscription' });
-
-export default withMutation(SubscribeBtn);
+export default compose(
+  injectIntl,
+  graphql(saveSubscriptionMutation, { name: 'saveSubscription' }),
+)(SubscribeBtn);

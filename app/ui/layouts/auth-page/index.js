@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import Title from '/app/ui/components/dumb/title';
 import Subtitle from '/app/ui/components/dumb/subtitle';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const AuthPageLayout = ({ children, title, subtitle, link }) => (
   <div>
     {title && <Title>{title}</Title>}

@@ -2,16 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import SEO from '/app/ui/components/smart/seo';
-import withFormProps from '/app/ui/render-props/withFormProps';
+import withSEO from '/app/ui/hocs/with-seo';
+import { compose } from 'recompose';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { withRouteProps, withFormProps } from '/app/ui/hocs/';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { ResendVerificationLink } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const LinkExpiredPage = ({
+  intl: { formatMessage: t },
   curUser,
   disabled,
   errorMsg,
@@ -20,10 +20,11 @@ const LinkExpiredPage = ({
   handleBefore,
   handleServerError,
   handleSuccess,
+  loginUrl,
 }) => {
   const resendLink = (
     <ResendVerificationLink
-      label="here"
+      label={t({ id: 'linkExpiredResendLinkText' })}
       disabled={disabled}
       onBeforeHook={handleBefore}
       onServerErrorHook={handleServerError}
@@ -31,18 +32,18 @@ const LinkExpiredPage = ({
         // Extend withFormProps.handleSuccess' default functionality
         handleSuccess(() => {
           // Display success message after action is completed
-          setSuccessMessage('A new email has been sent to your inbox!');
+          setSuccessMessage(t({ id: 'linkExpiredLinkSent' }));
         });
       }}
     />
   );
 
   return (
-    <AuthPageLayout title="The link has expired!">
+    <AuthPageLayout title={t({ id: 'linkExpiredTitle' })}>
       <p className="center">
         {curUser
-          ? <span>Please, click {resendLink} to resend confirmation link.</span>
-          : <span>Please, <Link to="/login">login</Link> to be able to resend confirmation link.</span>
+          ? <T id="linkExpiredResendLinkMessage" values={{ resendLink }} />
+          : <T id="linkExpiredLoginLinkMessage" values={{ loginLink: <Link to={loginUrl()}><T id="linkExpiredLoginLinkText" /></Link> }} />
         }
       </p>
       <Feedback
@@ -62,16 +63,9 @@ LinkExpiredPage.defaultProps = {
   curUser: null,
 };
 
-const WrappedLinkExpiredPage = withFormProps(LinkExpiredPage);
-
-export default ({ curUser }) => ([
-  <SEO
-    key="seo"
-    schema="LinkExpired"
-    title="Link Expired Page"
-    description="A starting point for Meteor applications."
-    contentType="product"
-  />,
-
-  <WrappedLinkExpiredPage key="linkExired" curUser={curUser} />,
-]);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withFormProps,
+  withSEO({ title: 'linkExpiredHTMLTitle' }),
+)(LinkExpiredPage);

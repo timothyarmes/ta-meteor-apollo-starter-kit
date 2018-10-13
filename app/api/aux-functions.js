@@ -6,10 +6,10 @@ import { check } from 'meteor/check';
  */
 const AuxFunctions = {};
 
-//------------------------------------------------------------------------------
 /**
 * @summary Display alert message after ms milliseconds.
 */
+
 AuxFunctions.delayedAlert = (msg, ms) => {
   check(msg, String);
   check(ms, Number);
@@ -19,6 +19,5 @@ AuxFunctions.delayedAlert = (msg, ms) => {
     Meteor.clearTimeout(handler);
   }, ms);
 };
-//------------------------------------------------------------------------------
 
 export default AuxFunctions;

@@ -1,4 +1,3 @@
-// Source: https://themeteorchef.com/tutorials/reusable-seo-with-react-helmet
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -27,18 +26,17 @@ const getMetaTags = ({
     { name: 'twitter:description', content: description },
     { name: 'twitter:creator', content: twitter || Constants.SITE_TWITTER },
     { name: 'og:title', content: `${title} | ${Constants.SITE_BRAND}` },
-    { name: 'og:type', content: contentType },
     { name: 'og:url', content: url },
     { name: 'og:description', content: description },
     { name: 'og:site_name', content: Constants.SITE_BRAND },
     { name: 'fb:app_id', content: appId },
   ];
 
+  if (contentType) metaTags.push({ name: 'og:type', content: contentType });
+
   return metaTags;
 };
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
+
 const SEO = ({ location, schema, title, description, contentType, twitter }) => (
   <Helmet
     htmlAttributes={{
@@ -61,19 +59,18 @@ const SEO = ({ location, schema, title, description, contentType, twitter }) => 
 );
 
 SEO.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+  location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
   schema: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
-  contentType: PropTypes.string.isRequired, // see Object Types at https://developers.facebook.com/docs/reference/opengraph/
+  contentType: PropTypes.string, // see Object Types at https://developers.facebook.com/docs/reference/opengraph/
   twitter: PropTypes.string,
 };
 
 SEO.defaultProps = {
   description: '',
   twitter: '',
+  contentType: null,
 };
 
 export default withRouter(SEO);

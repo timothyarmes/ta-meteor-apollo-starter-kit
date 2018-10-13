@@ -3,7 +3,6 @@ import { ForbiddenError, AuthenticationError } from 'apollo-server-express';
 // Users utilities
 const utilities = {};
 
-//------------------------------------------------------------------------------
 utilities.checkLoggedInAndVerified = (user) => {
   // User should be logged in at this stage
   if (!user) {
@@ -19,7 +18,6 @@ utilities.checkLoggedInAndVerified = (user) => {
   }
 };
 
-//------------------------------------------------------------------------------
 // TODO: pass email to verify as an argument
 utilities.checkLoggedInAndNotVerified = (user) => {
   // User should be logged in at this stage
@@ -31,6 +29,5 @@ utilities.checkLoggedInAndNotVerified = (user) => {
     throw new ForbiddenError('Email already verified!');
   }
 };
-//------------------------------------------------------------------------------
 
 export default utilities;

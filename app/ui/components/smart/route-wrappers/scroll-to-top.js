@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 /**
  * @summary This component will scroll the window up on every navigation.
  */
+
+
 class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps) {
     const { location } = this.props;

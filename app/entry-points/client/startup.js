@@ -1,13 +1,18 @@
 import { onPageLoad } from 'meteor/server-render';
 import MeteorLoadable from 'meteor/nemms:meteor-react-loadable';
+import { Switch, Route, Router, Redirect } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
 import { MeteorAccountsLink } from 'meteor/apollo';
-import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import 'unfetch/polyfill';
+
+// Initialise react-intl
+import { primaryLocale, otherLocales } from '/app/intl';
 
 // Need to preload of list of loadable components for MeteorLoadable
 import '/app/ui/loadables';
@@ -16,8 +21,18 @@ import '/app/ui/loadables';
 // server (handled in our case by meteor-apollo). By default, this client will
 // send queries to the '/graphql' endpoint on the same host.
 
+const onErrorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) => console.log(
+      `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+    ));
+  }
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
 const client = new ApolloClient({
   link: ApolloLink.from([
+    onErrorLink,
     new MeteorAccountsLink(),
     new HttpLink({
       uri: '/graphql',
@@ -35,6 +50,7 @@ async function renderAsync() {
     { default: App },
     { default: BurgerBtnController },
     { default: HeaderTitle },
+    { default: LanguagePicker },
     { default: Routes },
     { default: Menu },
   ] = await Promise.all([
@@ -43,13 +59,14 @@ async function renderAsync() {
     import('/app/ui/components/smart/app'),
     import('/app/ui/components/smart/header/burger-btn-controller'),
     import('/app/ui/components/smart/header/header-title'),
+    import('/app/ui/components/dumb/language-picker'),
     import('/app/ui/routes'),
     import('/app/ui/components/smart/menu'),
     MeteorLoadable.preloadComponents(),
   ]);
 
   // Given that we are implementing App Shell Architecture and, therefore,
-  // injecting (via reactD,M.render) the Header, Menu and Main components into
+  // injecting (via reactDOM.render) the Header, Menu and Main components into
   // different HTML elements, we need a way to share the router 'history' among
   // all three mentioned components.
   // As a default, for every invocation of 'BrowserRouter', there will be new
@@ -65,7 +82,29 @@ async function renderAsync() {
   // Inject react app components into App's Shell
   const ClientApp = ({ component }) => (
     <Router history={history}>
-      <App component={component} apolloClient={client} />
+      <ApolloProvider client={client}>
+        <Switch>
+          {/* Map our locales to separate routes */}
+          { otherLocales.map(locale => (
+            <Route
+              key={locale}
+              path={`/${locale}/`}
+              render={props => <App component={component} {...props} locale={locale} section="app" />}
+            />
+          ))}
+
+          { primaryLocale && (
+            <Route
+              key={primaryLocale}
+              path="/"
+              render={props => <App component={component} {...props} locale={primaryLocale} section="app" />}
+            />
+          )}
+
+          {/* If no valid locale is given, we redirect to same route with the preferred locale prefixed */}
+          <Route render={({ location }) => <Redirect to={`${window.__PREFERRED_LOCALE__}${location.pathname}`} />} />
+        </Switch>
+      </ApolloProvider>
     </Router>
   );
 
@@ -73,6 +112,8 @@ async function renderAsync() {
   render(<ClientApp component={Menu} />, document.getElementById('menu'));
 
   hydrate(<ClientApp component={HeaderTitle} />, document.getElementById('header-title'));
+  hydrate(<ClientApp component={LanguagePicker} />, document.getElementById('header-lang-picker'));
+
   hydrate(<ClientApp component={Routes} />, document.getElementById('main'));
 }
 

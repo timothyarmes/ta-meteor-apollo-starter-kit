@@ -1,6 +1,8 @@
 import { compose, withHandlers } from 'recompose';
 import { withDisabledProps, withMessageProps } from '.';
 
+// Add properties and handlers used for form handing
+
 const withFormProps = withHandlers({
   handleBefore: props => (cb) => {
     const { disableBtn, clearMessages } = props;
@@ -13,7 +15,7 @@ const withFormProps = withHandlers({
 
   handleClientError: props => (err) => { // eslint-disable-line no-unused-vars
     const { setErrorMessage, enableBtn } = props;
-    setErrorMessage(err.reason || err.message || 'Unexpected error');
+    setErrorMessage(err.reason || err.message);
     enableBtn();
   },
 

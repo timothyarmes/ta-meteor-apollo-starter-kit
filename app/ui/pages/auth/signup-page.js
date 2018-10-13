@@ -1,15 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import SEO from '/app/ui/components/smart/seo';
-import { withFormProps, withServiceProps } from '/app/ui/render-props';
+import withSEO from '/app/ui/hocs/with-seo';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { withRouteProps, withFormProps, withServiceProps } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { PasswordAuthViews, FBAuthBtn } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 // OBSERVATION: in case of facebook authentication, withFormProps.handleSuccess
 // is only reachable when using 'popup' loginStyle at serviceConfiguration. On
 // the contrary, when loginStyle equals 'redirect', the page will be re-loaded
@@ -23,6 +21,7 @@ import Feedback from '/app/ui/components/dumb/feedback';
 // automatically.
 
 const SignupPage = ({
+  intl: { formatMessage: t },
   disabled,
   errorMsg,
   successMsg,
@@ -32,15 +31,16 @@ const SignupPage = ({
   handleSuccess,
   service,
   setService,
+  loginUrl,
 }) => (
   <AuthPageLayout
-    title="Sign Up"
-    subtitle="Already have an account?&nbsp;"
-    link={<Link to="/login">Log In</Link>}
+    title={t({ id: 'signupTitle' })}
+    subtitle={t({ id: 'signupSubTitle' })}
+    link={<Link to={loginUrl()}><T id="authLoginLinkText" /></Link>}
   >
     <PasswordAuthViews
       view="signup"
-      btnLabel="Sign Up"
+      btnLabel={t({ id: 'signupPWButton' })}
       disabled={disabled}
       onBeforeHook={() => {
         // Keep track of the auth service being used
@@ -59,10 +59,10 @@ const SignupPage = ({
       />
     )}
     <div className="center">
-      - OR -
+      <T id="signupOrText" />
     </div>
     <FBAuthBtn
-      btnLabel="Sign Up with Facebook"
+      btnLabel={t({ id: 'signupFBButton' })}
       disabled={disabled}
       onBeforeHook={() => {
         // Keep track of the auth service being used
@@ -82,16 +82,10 @@ const SignupPage = ({
   </AuthPageLayout>
 );
 
-const WrappedSignupPage = compose(withFormProps, withServiceProps)(SignupPage);
-
-export default () => ([
-  <SEO
-    key="seo"
-    schema="SignupPage"
-    title="Signup Page"
-    description="A starting point for Meteor applications."
-    contentType="product"
-  />,
-
-  <WrappedSignupPage key="forget" />,
-]);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withFormProps,
+  withServiceProps,
+  withSEO({ title: 'signupHTMLTitle' }),
+)(SignupPage);

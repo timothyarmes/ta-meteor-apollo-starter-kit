@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 import Form from '/app/ui/components/dumb/form';
 import Fieldset from '/app/ui/components/dumb/fieldset';
@@ -12,18 +14,13 @@ import Button from '/app/ui/components/dumb/button';
 import ErrorHandling from '/app/api/error-handling';
 import sendVerificationEmailMutation from '/app/ui/apollo-client/user/mutation/send-verification-email';
 
-//------------------------------------------------------------------------------
-// CONSTANTS:
-//------------------------------------------------------------------------------
 const VIEWS = {
   login: { fields: ['email', 'password'] },
   signup: { fields: ['email', 'password'] },
   forgotPassword: { fields: ['email'] },
   resetPassword: { fields: ['password'] },
 };
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
+
 class PasswordAuthViews extends React.Component {
   state = {
     email: '',
@@ -55,6 +52,8 @@ class PasswordAuthViews extends React.Component {
   }
 
   validateFields = ({ email, password }) => {
+    const { intl: { formatMessage: t } } = this.props;
+
     // Initialize errors
     const errors = {
       email: [],
@@ -69,22 +68,22 @@ class PasswordAuthViews extends React.Component {
       const _email = email && email.trim(); // eslint-disable-line no-underscore-dangle
 
       if (!_email) {
-        errors.email.push('Email is required!');
+        errors.email.push(t({ id: 'emailRequiredError' }));
       } else if (!ErrorHandling.isValidEmail(_email)) {
-        errors.email.push('Please, provide a valid email address!');
+        errors.email.push(t({ id: 'invalidEmailError' }));
       } else if (_email.length > MAX_CHARS) {
-        errors.email.push(`Must be no more than ${MAX_CHARS} characters!`);
+        errors.email.push(t({ id: 'maxEmailLengthError' }, { num: MAX_CHARS }));
       }
     }
 
     if (this.isActiveField('password')) {
       // Do not sanitize password, spaces are valid characters in this case
       if (!password) {
-        errors.password.push('Password is required!');
+        errors.password.push(t({ id: 'passwordRequireError' }));
       } else if (password.length < MIN_CHARS) {
-        errors.password.push(`Please, at least ${MIN_CHARS} characters long!`);
+        errors.password.push(t({ id: 'passwordTooShortError' }, { num: MIN_CHARS }));
       } else if (password.length > MAX_CHARS) {
-        errors.password.push(`Must be no more than ${MAX_CHARS} characters!`);
+        errors.password.push(t({ id: 'passwordTooLongError' }, { num: MAX_CHARS }));
       }
     }
 
@@ -178,7 +177,7 @@ class PasswordAuthViews extends React.Component {
         {this.isActiveField('email') && (
           <Fieldset className="mt2">
             <Label htmlFor="email">
-              Email
+              <T id="emailLabel" />
             </Label>
             <Input
               id="email"
@@ -196,7 +195,7 @@ class PasswordAuthViews extends React.Component {
         {this.isActiveField('password') && (
           <Fieldset className="mt2">
             <Label htmlFor="password">
-              Password
+              <T id="passwordLabel" />
             </Label>
             <Input
               id="password"
@@ -250,6 +249,8 @@ PasswordAuthViews.defaultProps = {
 };
 
 // Apollo integration
-const withMutation = graphql(sendVerificationEmailMutation, { name: 'sendVerificationEmail' });
 
-export default withMutation(PasswordAuthViews);
+export default compose(
+  injectIntl,
+  graphql(sendVerificationEmailMutation, { name: 'sendVerificationEmail' }),
+)(PasswordAuthViews);

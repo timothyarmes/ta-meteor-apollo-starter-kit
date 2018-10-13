@@ -12,13 +12,14 @@ import isArray from 'lodash/isArray';
  *   ...
  * }
  */
+
 const ErrorHandling = {};
 
-//------------------------------------------------------------------------------
 /**
 * @summary Traverses errors object keys and fires callback when condition is met
 * or when the end of the errors object is reached.
 */
+
 ErrorHandling.traverseErrors = (errors, cond) => {
   check(errors, Object);
   check(cond, Function);
@@ -35,10 +36,11 @@ ErrorHandling.traverseErrors = (errors, cond) => {
 
   return { index: -1, key: null };
 };
-//------------------------------------------------------------------------------
+
 /**
 * @summary Returns the first not empty error.
 */
+
 ErrorHandling.getFirstError = (errors) => {
   check(errors, Object);
 
@@ -57,20 +59,22 @@ ErrorHandling.getFirstError = (errors) => {
   // Return first error data
   return { index, key, value: errors[key][0] };
 };
-//------------------------------------------------------------------------------
+
 /**
 * @summary Returns 'true' if the errors object contains at least one non-empty
 * error field.
 */
+
 ErrorHandling.hasErrors = (errors) => {
   check(errors, Object);
 
   return ErrorHandling.getFirstError(errors).index !== -1;
 };
-//------------------------------------------------------------------------------
+
 /**
 * @summary Returns all errors for the given field.
 */
+
 ErrorHandling.getFieldErrors = (errors, field) => {
   check(errors, Object);
   check(field, String);
@@ -90,11 +94,12 @@ ErrorHandling.getFieldErrors = (errors, field) => {
 
   return array.toString();
 };
-//------------------------------------------------------------------------------
+
 /**
 * @summary Clear error messages for the given field -or array of fields-
 * leaving the remaining errors keys untouched.
 */
+
 ErrorHandling.clearErrors = (errors, fields) => {
   check(errors, Object);
   check(fields, Match.OneOf(String, [String]));
@@ -113,7 +118,7 @@ ErrorHandling.clearErrors = (errors, fields) => {
 
   return res;
 };
-//------------------------------------------------------------------------------
+
 ErrorHandling.isValidEmail = (email) => {
   check(email, String);
 
@@ -121,6 +126,5 @@ ErrorHandling.isValidEmail = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
   return re.test(email);
 };
-//------------------------------------------------------------------------------
 
 export default ErrorHandling;

@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const Button = (props) => {
   const { children, type, href, disabled, className, onClick } = props;
 
@@ -43,7 +40,7 @@ const Button = (props) => {
 };
 
 Button.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   type: PropTypes.oneOf(['button', 'link', 'submit']),
   href: PropTypes.string,
   disabled: PropTypes.bool,
@@ -59,9 +56,8 @@ Button.defaultProps = {
   onClick: () => {},
 };
 
-//------------------------------------------------------------------------------
-// STYLES:
-//------------------------------------------------------------------------------
+// STYLES
+//
 // Note that when you style a component, you need to make sure that your
 // component has this.props.className attached to its DOM. Because after
 // Style-Components generated a unique class name, it will pass the class name
@@ -115,6 +111,5 @@ StyledButton.defaultProps = {
   disabled: false,
   expanded: false,
 };
-//------------------------------------------------------------------------------
 
 export default StyledButton;

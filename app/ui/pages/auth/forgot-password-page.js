@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SEO from '/app/ui/components/smart/seo';
-import withFormProps from '/app/ui/render-props/withFormProps';
+import withSEO from '/app/ui/hocs/with-seo';
+import { compose } from 'recompose';
+import { FormattedMessage as T, injectIntl } from 'react-intl';
+import { withRouteProps, withFormProps } from '/app/ui/hocs/';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { PasswordAuthViews } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const ForgotPasswordPage = ({
+  intl: { formatMessage: t },
   disabled,
   errorMsg,
   successMsg,
@@ -18,18 +18,16 @@ const ForgotPasswordPage = ({
   handleClientError,
   handleServerError,
   handleSuccess,
+  loginUrl,
+  signupUrl,
 }) => (
   <AuthPageLayout
-    title="Forgot your Password?"
-    subtitle="
-      We&apos;ll send a link to your email to reset
-      <br />
-      your password and get you back on track.
-    "
+    title={t({ id: 'forgotPasswordTitle' })}
+    subtitle={t({ id: 'forgotPasswordSubTitle' })}
   >
     <PasswordAuthViews
       view="forgotPassword"
-      btnLabel="Send Link"
+      btnLabel={t({ id: 'forgotPasswordSendButton' })}
       disabled={disabled}
       onBeforeHook={handleBefore}
       onClientErrorHook={handleClientError}
@@ -38,7 +36,7 @@ const ForgotPasswordPage = ({
         // Extend withFormProps.handleSuccess' default functionality
         handleSuccess(() => {
           // Display success message after action is completed
-          setSuccessMessage('A new email has been sent to your inbox!');
+          setSuccessMessage(t({ id: 'forgotPasswordSuccessMessage' }));
         });
       }}
     />
@@ -48,21 +46,14 @@ const ForgotPasswordPage = ({
       successMsg={successMsg}
     />
     <p className="center">
-      <Link to="/login">Log in</Link> | <Link to="/signup">Sign up</Link>
+      <Link to={loginUrl()}><T id="authLoginLinkText" /></Link> | <Link to={signupUrl()}><T id="authSignupLinkText" /></Link>
     </p>
   </AuthPageLayout>
 );
 
-const WrappedForgotPasswordPage = withFormProps(ForgotPasswordPage);
-
-export default () => ([
-  <SEO
-    key="seo"
-    schema="ForgotPassword"
-    title="Forgot Password Page"
-    description="A starting point for Meteor applications."
-    contentType="product"
-  />,
-
-  <WrappedForgotPasswordPage key="forget" />,
-]);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withFormProps,
+  withSEO({ title: 'forgotPasswordHTMLTitle' }),
+)(ForgotPasswordPage);

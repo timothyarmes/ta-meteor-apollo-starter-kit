@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Provides handers for enabling/disabling push notifications
+
 const withPWABtnProps = WrappedComponent => (
   class extends React.PureComponent {
     state = {
@@ -105,9 +107,6 @@ const withPWABtnProps = WrappedComponent => (
 
 export default withPWABtnProps;
 
-//------------------------------------------------------------------------------
-// PROPS:
-//------------------------------------------------------------------------------
 export const pwaBtnPropTypes = {
   supported: PropTypes.oneOf([true, false, 'loading']).isRequired,
   subscribed: PropTypes.oneOf([true, false, 'loading']).isRequired,

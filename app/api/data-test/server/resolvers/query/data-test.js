@@ -4,7 +4,7 @@
 const dataTest = async () => {
   const delay = time => new Promise(res => setTimeout(() => res(), time));
   await delay(2000);
-  return { string: 'Data returned after 2 seconds' };
+  return { string: 'dataTestReturned' };
 };
 
 export default dataTest;

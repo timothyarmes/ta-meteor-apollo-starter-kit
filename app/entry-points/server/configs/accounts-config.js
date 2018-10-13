@@ -1,6 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
 
-//------------------------------------------------------------------------------
 Accounts.onCreateUser((options, user) => {
   console.log('\nsign up attempt:', new Date());
 

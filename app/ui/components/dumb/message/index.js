@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-//------------------------------------------------------------------------------
-// STYLES:
-//------------------------------------------------------------------------------
+// STYLES
+
 const Div = styled.div`
   color: ${props => (props.type === 'error' && props.theme.color.danger)
     || (props.type === 'success' && props.theme.color.sucess)
@@ -16,9 +15,9 @@ const Div = styled.div`
 Div.propTypes = {
   type: PropTypes.oneOf(['error', 'success']).isRequired,
 };
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
+
+// COMPONENT
+
 const Message = ({ type, content, ...rest }) => (
   content ? <Div type={type} {...rest}>{content}</Div> : null
 );
@@ -31,6 +30,5 @@ Message.propTypes = {
 Message.defaultProps = {
   content: '',
 };
-//------------------------------------------------------------------------------
 
 export default Message;

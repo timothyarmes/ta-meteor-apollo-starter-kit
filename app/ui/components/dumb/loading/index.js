@@ -1,13 +1,12 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-//------------------------------------------------------------------------------
-// STYLES:
-//------------------------------------------------------------------------------
+// STYLES
+
 const Outer = styled.div`
   height: 15px;
 `;
-//------------------------------------------------------------------------------
+
 const bouncedelay = keyframes`
   0%, 80%, 100% {
     transform: scale(0);
@@ -15,7 +14,7 @@ const bouncedelay = keyframes`
     transform: scale(1.0);
   }
 `;
-//------------------------------------------------------------------------------
+
 const Dot = styled.div`
   width: 15px;
   height: 15px;
@@ -25,9 +24,9 @@ const Dot = styled.div`
   margin-right: 5px;
   animation-delay: ${props => (props.delay && 0.16 * props.delay) || 0}s;
 `;
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
+
+// COMPONENT
+
 const Loading = props => (
   <Outer className="flex justify-center items-center" {...props}>
     <Dot className="inline-block" delay={0} />

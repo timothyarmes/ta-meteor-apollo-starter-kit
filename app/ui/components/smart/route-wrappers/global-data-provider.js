@@ -8,13 +8,11 @@ import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import userQuery from '/app/ui/apollo-client/user/query/user';
 import Loading from '/app/ui/components/dumb/loading';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 /**
  * @summary Injects global data (current user, global settings, whatever) into
  * child components.
  */
+
 class GlobalDataProvider extends React.Component {
   componentWillMount() {
     // Refetch user data every time Meteor.loginTokens are set. This is required

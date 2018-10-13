@@ -11,6 +11,7 @@ import userFragment from '/app/ui/apollo-client/user/fragment/user';
  * situation: redirect (redirectTo) the user to the given route; or render on
  * top of the current route the overlay component.
  */
+
 const AdminRoute = ({ curUser, component, redirectTo, overlay, ...rest }) => (
   <Route
     {...rest}

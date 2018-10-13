@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const Subtitle = ({ text, link }) => (
   <p className="center">
     <span dangerouslySetInnerHTML={{ __html: text }} /> {link || null}

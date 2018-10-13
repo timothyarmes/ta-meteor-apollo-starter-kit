@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from '/app/ui/components/dumb/loading';
 
-//------------------------------------------------------------------------------
-// COMPONENT:
-//------------------------------------------------------------------------------
 const LoadableLoading = ({ error, pastDelay }) => {
   if (error) {
     console.log(error);

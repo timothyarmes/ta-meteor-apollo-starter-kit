@@ -10,6 +10,7 @@ import userFragment from '/app/ui/apollo-client/user/fragment/user';
  * to handle this situation: redirect (redirectTo) the user to the given route;
  * or render on top of the current route the overlay component.
  */
+
 const LoggedOutRoute = ({ curUser, component, redirectTo, overlay, ...rest }) => (
   <Route
     {...rest}

@@ -1,19 +1,25 @@
 import React from 'react';
 import MeteorLoadable from 'meteor/nemms:meteor-react-loadable';
+import acceptLanguage from 'accept-language';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import { Meteor } from 'meteor/meteor';
 import { onPageLoad } from 'meteor/server-render';
 import { ApolloClient } from 'apollo-client';
-import { getDataFromTree } from 'react-apollo';
+import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter, Route } from 'react-router-dom';
 import fetch from 'node-fetch';
 
 import App from '/app/ui/components/smart/app';
 import HeaderTitle from '/app/ui/components/smart/header/header-title';
+import LanguagePicker from '/app/ui/components/dumb/language-picker';
 import Routes from '/app/ui/routes';
+import { primaryLocale, otherLocales } from '/app/intl';
+
+const locales = primaryLocale ? [primaryLocale, ...otherLocales] : otherLocales;
+acceptLanguage.languages(locales);
 
 const render = async (sink) => {
   const ssrClient = new ApolloClient({
@@ -31,32 +37,59 @@ const render = async (sink) => {
   // adds in the data.
 
   // In the case of a first visit or a robot, we render everything on the server.
-
   if (sink.request.url.path === '/app-shell') {
     sink.appendToBody(`<script>window.__APOLLO_STATE__=${JSON.stringify(ssrClient.extract())};</script>`);
     sink.appendToBody(MeteorLoadable.getLoadedModulesScriptTag());
     return;
   }
 
-  const ServerApp = ({ component }) => (
+  const preferredLocale = acceptLanguage.get(sink.request.headers['accept-language']);
+  let locale = otherLocales.find(l => sink.request.url.path.startsWith(`/${l}`));
+  let prefix = locale;
+
+  // We first check if we need to redirect to a locale
+  // We can only do this is there isn't a primary locale.
+  if (!primaryLocale) {
+    if (!locale) {
+      sink.setStatusCode(307);
+      sink.redirect(`/${preferredLocale}${sink.request.url.path}`);
+      return;
+    }
+  } else if (!locale) {
+    // If there's no locale prefix, we use the primaryLocale instead
+    locale = primaryLocale;
+    prefix = '';
+  }
+
+  const ServerApp = ({ component, context }) => (
     <MeteorLoadable.Capture>
-      <StaticRouter location={sink.request.url} context={{}}>
-        <App component={component} apolloClient={ssrClient} />
+      <StaticRouter location={sink.request.url} context={context}>
+        <ApolloProvider client={ssrClient}>
+          <Route
+            path={`/${prefix}`}
+            render={props => <App component={component} {...props} locale={locale} section="app" />}
+          />
+        </ApolloProvider>
       </StaticRouter>
     </MeteorLoadable.Capture>
   );
 
   // Load all data from local server
-  await getDataFromTree(<ServerApp component={Routes} />);
+  const context = {};
+  await getDataFromTree(<ServerApp component={Routes} context={context} />);
 
   // Elements that we want rendered on the server
   const sheet = new ServerStyleSheet();
-  sink.renderIntoElementById('header-title', renderToString(sheet.collectStyles(<ServerApp component={HeaderTitle} />)));
-  sink.renderIntoElementById('main', renderToString(sheet.collectStyles(<ServerApp component={Routes} />)));
+  sink.renderIntoElementById('header-title', renderToString(sheet.collectStyles(<ServerApp component={HeaderTitle} context={context} />)));
+  sink.renderIntoElementById('header-lang-picker', renderToString(sheet.collectStyles(<ServerApp component={LanguagePicker} context={context} />)));
+  sink.renderIntoElementById('main', renderToString(sheet.collectStyles(<ServerApp component={Routes} context={context} />)));
 
   // Append styles
   const styleTags = sheet.getStyleTags();
   sink.appendToHead(styleTags);
+
+  // Append user's preferred locale
+  sink.appendToBody(`<script>window.__PREFERRED_LOCALE__='${preferredLocale}';</script>`);
 
   // Append Apollo data
   sink.appendToBody(`<script>window.__APOLLO_STATE__=${JSON.stringify(ssrClient.extract())};</script>`);
