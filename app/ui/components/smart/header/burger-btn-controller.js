@@ -2,6 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import { withGlobalContextProps } from '/app/ui/hocs';
 
 const showHideBurgerBtn = (curUser) => {
   if (Meteor.isClient) {
@@ -41,4 +42,4 @@ BurgerBtnController.defaultProps = {
   curUser: null,
 };
 
-export default BurgerBtnController;
+export default withGlobalContextProps(BurgerBtnController);

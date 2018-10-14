@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import { withGlobalContextProps } from '/app/ui/hocs';
 
 /**
  * @summary Makes sure that the user that is trying to access the wrapped route
@@ -18,7 +19,7 @@ const LoggedOutRoute = ({ curUser, component, redirectTo, overlay, ...rest }) =>
       // User logged in resolver
       const resolver = redirectTo.trim().length > 0
         ? <Redirect to={redirectTo.trim()} />
-        : React.createElement(overlay, { curUser, ...rest, ...props });
+        : React.createElement(overlay, { ...rest, ...props });
 
       // If user is NOT logged in, render requested component. Otherwise, resolve
       return !curUser
@@ -41,4 +42,4 @@ LoggedOutRoute.defaultProps = {
   overlay: () => {},
 };
 
-export default LoggedOutRoute;
+export default withGlobalContextProps(LoggedOutRoute);

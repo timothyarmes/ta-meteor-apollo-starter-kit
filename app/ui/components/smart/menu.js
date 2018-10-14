@@ -5,9 +5,9 @@ import { propType } from 'graphql-anywhere';
 import { compose } from 'recompose';
 import { injectIntl } from 'react-intl';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import { withGlobalContextProps } from '/app/ui/hocs';
 import { withRouteProps } from '/app/ui/hocs';
 import { LogoutBtn } from './auth';
-
 
 const Menu = ({ curUser, homeUrl, dataTestUrl, adminUrl }) => {
   // Only display menu content for logged in users
@@ -50,4 +50,4 @@ Menu.defaultProps = {
   curUser: null,
 };
 
-export default compose(injectIntl, withRouteProps)(Menu);
+export default compose(injectIntl, withRouteProps, withGlobalContextProps)(Menu);

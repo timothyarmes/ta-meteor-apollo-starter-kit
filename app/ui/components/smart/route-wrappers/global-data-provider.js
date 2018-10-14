@@ -13,6 +13,8 @@ import Loading from '/app/ui/components/dumb/loading';
  * child components.
  */
 
+export const GlobalDataContext = React.createContext({ user: null });
+
 class GlobalDataProvider extends React.Component {
   componentWillMount() {
     // Refetch user data every time Meteor.loginTokens are set. This is required
@@ -46,11 +48,11 @@ class GlobalDataProvider extends React.Component {
       return <Loading />;
     }
 
-    const api = {
-      curUser: user,
-    };
-
-    return children(api);
+    return (
+      <GlobalDataContext.Provider value={{ curUser: user }}>
+        {children}
+      </GlobalDataContext.Provider>
+    );
   }
 }
 

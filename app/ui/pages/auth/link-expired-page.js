@@ -9,6 +9,7 @@ import { withRouteProps, withFormProps } from '/app/ui/hocs/';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { ResendVerificationLink } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
+import { withGlobalContextProps } from '/app/ui/hocs';
 
 const LinkExpiredPage = ({
   intl: { formatMessage: t },
@@ -67,5 +68,6 @@ export default compose(
   injectIntl,
   withRouteProps,
   withFormProps,
+  withGlobalContextProps,
   withSEO({ title: 'linkExpiredHTMLTitle' }),
 )(LinkExpiredPage);

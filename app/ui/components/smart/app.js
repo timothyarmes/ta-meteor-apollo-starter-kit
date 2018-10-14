@@ -9,9 +9,7 @@ const App = ({ component, locale: { locale, messages } }) => (
   <ThemeProvider theme={theme}>
     <IntlProvider locale={locale} messages={messages}>
       <GlobalDataProvider>
-        {globalDataProps => (
-          React.createElement(component, { ...globalDataProps })
-        )}
+        { React.createElement(component) }
       </GlobalDataProvider>
     </IntlProvider>
   </ThemeProvider>

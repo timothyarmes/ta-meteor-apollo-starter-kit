@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
-import { propType } from 'graphql-anywhere';
-import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import withRouteProps from '/app/ui/hocs/with-route-props';
 
 import {
@@ -115,7 +113,6 @@ const Routes = ({
 );
 
 Routes.propTypes = {
-  curUser: propType(userFragment), // eslint-disable-line
   match: PropTypes.object, // eslint-disable-line
   intl: intlShape.isRequired,
 
@@ -128,10 +125,6 @@ Routes.propTypes = {
   resetPasswordUrl: PropTypes.func.isRequired,
   dataTestUrl: PropTypes.func.isRequired,
   adminUrl: PropTypes.func.isRequired,
-};
-
-Routes.defaultProps = {
-  curUser: null,
 };
 
 export default compose(injectIntl, withRouter, withRouteProps)(Routes);

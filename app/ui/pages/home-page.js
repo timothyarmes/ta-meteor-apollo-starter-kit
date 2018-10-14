@@ -11,6 +11,7 @@ import PushBtn from '/app/ui/components/smart/pwa/push-btn';
 import Feedback from '/app/ui/components/dumb/feedback';
 import Alert from '/app/ui/components/dumb/alert';
 import Loading from '/app/ui/components/dumb/loading';
+import { withGlobalContextProps } from '/app/ui/hocs';
 
 const HomePage = ({
   intl: { formatMessage: t },
@@ -97,5 +98,6 @@ export default compose(
   injectIntl,
   withFormProps,
   withPWABtnProps,
+  withGlobalContextProps,
   withSEO({ title: 'homeHTMLTitle' }),
 )(HomePage);
