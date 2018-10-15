@@ -3,15 +3,13 @@ import { propType } from 'graphql-anywhere';
 import { injectIntl } from 'react-intl';
 import { compose } from 'recompose';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import { withPWABtnProps, withFormProps } from '/app/ui/hocs';
-import withSEO from '/app/ui/hocs/with-seo';
+import { withPWABtnProps, withFormProps, withGlobalContextProps, withSEO } from '/app/ui/hocs';
 import SubscribeBtn from '/app/ui/components/smart/pwa/subscribe-btn';
 import UnsubscribeBtn from '/app/ui/components/smart/pwa/unsubscribe-btn';
 import PushBtn from '/app/ui/components/smart/pwa/push-btn';
 import Feedback from '/app/ui/components/dumb/feedback';
 import Alert from '/app/ui/components/dumb/alert';
 import Loading from '/app/ui/components/dumb/loading';
-import { withGlobalContextProps } from '/app/ui/hocs';
 
 const HomePage = ({
   intl: { formatMessage: t },

@@ -1,5 +1,7 @@
 /* global importScripts, workbox, clients */
 /* eslint-disable no-restricted-globals */
+/* eslint-disable quotes */
+/* eslint-disable quote-props */
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js');
 

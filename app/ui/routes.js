@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
-import withRouteProps from '/app/ui/hocs/with-route-props';
+import { withRouteProps } from '/app/ui/hocs';
 
 import {
   ScrollToTop,

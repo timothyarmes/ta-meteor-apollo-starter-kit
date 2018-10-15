@@ -5,7 +5,7 @@ A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authen
 ### This project includes the following libraries/functionality:
 - Apollo 2 GraphQL server running with Express bound to the Meteor (1.8) app
 - React 16
-- Multilingual readt (using react-intl) with dynamic loading of required locale messages
+- Multilingual support (using react-intl) with dynamic loading of required locale messages
 - Authentication: password & facebook (via meteor accounts)
 - SSR with support for an app-shell specific route
 - App-Shell based architecture with dynamic loading of required components
@@ -265,4 +265,4 @@ In case you run lighthouse inside the /meteor-apollo-starter-kit app's folder, y
 [nemms:meteor-react-loadable]: https://github.com/nemms/meteor-react-loadable
 [Workbox]: https://developers.google.com/web/tools/workbox/
 
-<b id="modifiedf">1</b> Updates include: Meteor 1.8, Apollo 2, SSR, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), and many other little things. [↩](#modified)
+<b id="modifiedf">1</b> Updates include: Meteor 1.8, Apollo 2, SSR, Multilingual support, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), and many other little things. [↩](#modified)

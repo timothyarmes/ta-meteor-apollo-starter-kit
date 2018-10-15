@@ -2,14 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import withSEO from '/app/ui/hocs/with-seo';
 import { compose } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
-import { withRouteProps, withFormProps } from '/app/ui/hocs/';
+import { withRouteProps, withFormProps, withGlobalContextProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { ResendVerificationLink } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
-import { withGlobalContextProps } from '/app/ui/hocs';
 
 const LinkExpiredPage = ({
   intl: { formatMessage: t },

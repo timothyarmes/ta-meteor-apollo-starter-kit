@@ -1,8 +1,7 @@
 import React from 'react';
 import { compose } from 'recompose';
-import withFormProps from '/app/ui/hocs/with-form-props';
+import { withFormProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
-import withSEO from '/app/ui/hocs/with-seo';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { ResendVerificationLink } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';

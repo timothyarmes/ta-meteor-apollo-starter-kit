@@ -1,10 +1,9 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
 import { compose } from 'recompose';
-import withSEO from '/app/ui/hocs/with-seo';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import Localised from '/app/ui/components/smart/localised';
-import { withGlobalContextProps } from '/app/ui/hocs';
+import { withSEO, withGlobalContextProps } from '/app/ui/hocs';
 
 const InnerAdmin = ({ intl: { formatMessage: t }, curUser }) => (
   <AuthPageLayout

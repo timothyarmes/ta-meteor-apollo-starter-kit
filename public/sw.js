@@ -1,5 +1,7 @@
 /* global importScripts, workbox, clients */
 /* eslint-disable no-restricted-globals */
+/* eslint-disable quotes */
+/* eslint-disable quote-props */
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js');
 
@@ -11,36 +13,36 @@ const HASHED_CACHE = 'hashedCache';
 workbox.precaching.precacheAndRoute([
   {
     "url": "css/basscss.min.css",
-    "revision": "cc1614fb7c8dc4be202aac2a18aba498"
+    "revision": "cc1614fb7c8dc4be202aac2a18aba498",
   },
   {
     "url": "css/sanitize.css",
-    "revision": "26b8dd15226b04f7bf36b7ca50544a65"
+    "revision": "26b8dd15226b04f7bf36b7ca50544a65",
   },
   {
     "url": "css/style.css",
-    "revision": "2de85e98244b583b7e5914807b098bea"
+    "revision": "2de85e98244b583b7e5914807b098bea",
   },
   {
     "url": "js/menu.js",
-    "revision": "1ed98a762f8fbeade035334535d26eb6"
+    "revision": "1ed98a762f8fbeade035334535d26eb6",
   },
   {
     "url": "js/offline.js",
-    "revision": "535055375e5b52ee981c676551f8cbed"
+    "revision": "535055375e5b52ee981c676551f8cbed",
   },
   {
     "url": "js/toast.js",
-    "revision": "94469b5b7308a99c96c3d3d1c2b03790"
+    "revision": "94469b5b7308a99c96c3d3d1c2b03790",
   },
   {
     "url": "manifest-pwa.json",
-    "revision": "e8572ecaf2fbeb809883837ac60842da"
+    "revision": "e8572ecaf2fbeb809883837ac60842da",
   },
   {
     "url": "manifest-pwa.sample.json",
-    "revision": "b52ea6c7cf3b75679941f30f97f44519"
-  }
+    "revision": "b52ea6c7cf3b75679941f30f97f44519",
+  },
 ]);
 
 // Cache the App Shell route. We try to get latest from the network, fall back to cache for offline.

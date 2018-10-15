@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import AuxFunctions from '/app/api/aux-functions';
-import withSEO from '/app/ui/hocs/with-seo';
 import { injectIntl } from 'react-intl';
-import { withRouteProps } from '/app/ui/hocs/';
+import { withRouteProps, withSEO } from '/app/ui/hocs';
 import Loading from '/app/ui/components/dumb/loading';
 
 class VerifyEmailPage extends React.Component {

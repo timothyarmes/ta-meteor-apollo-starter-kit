@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { withRouter, Link } from 'react-router-dom';
 import { FormattedMessage as T } from 'react-intl';
 import styled from 'styled-components';
-import withRouteProps from '/app/ui/hocs/with-route-props';
+import { withRouteProps } from '/app/ui/hocs';
 
 const StyledLink = styled(Link)`
   color: white;

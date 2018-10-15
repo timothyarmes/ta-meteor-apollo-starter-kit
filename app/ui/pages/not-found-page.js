@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import withSEO from '/app/ui/hocs/with-seo';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
-import { withRouteProps } from '/app/ui/hocs';
+import { withRouteProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 
 const NotFoundPage = ({ intl: { formatMessage: t }, homeUrl }) => (

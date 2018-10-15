@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import withSEO from '/app/ui/hocs/with-seo';
 import { compose } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
-import { withRouteProps, withFormProps, withServiceProps } from '/app/ui/hocs/';
+import { withRouteProps, withFormProps, withServiceProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { PasswordAuthViews, FBAuthBtn } from '/app/ui/components/smart/auth';
 import Feedback from '/app/ui/components/dumb/feedback';
