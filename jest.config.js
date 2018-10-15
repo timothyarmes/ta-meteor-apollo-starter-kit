@@ -20,13 +20,6 @@ module.exports = {
     '<rootDir>/tests/',
   ],
   moduleNameMapper: {
-    '^imports/(.*)': '<rootDir>/app/',
     '^(.*):(.*)$': '$1_$2',
   },
-  unmockedModulePathPatterns: [
-    '/^imports\\/.*\\.jsx?$/',
-    '/^client\\/.*\\.jsx?$/',
-    '/^server\\/.*\\.jsx?$/',
-    '/^node_modules/',
-  ],
 };

@@ -10,6 +10,7 @@ import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { StaticRouter, Route } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import fetch from 'node-fetch';
 
 import App from '/app/ui/components/smart/app';
@@ -84,9 +85,10 @@ const render = async (sink) => {
   sink.renderIntoElementById('header-lang-picker', renderToString(sheet.collectStyles(<ServerApp component={LanguagePicker} context={context} />)));
   sink.renderIntoElementById('main', renderToString(sheet.collectStyles(<ServerApp component={Routes} context={context} />)));
 
-  // Append styles
-  const styleTags = sheet.getStyleTags();
-  sink.appendToHead(styleTags);
+  // Append helmet and styles
+  const helmetResult = Helmet.renderStatic();
+  ['title', 'meta', 'link', 'script'].forEach(k => sink.appendToHead(helmetResult[k].toString()));
+  sink.appendToHead(sheet.getStyleTags());
 
   // Append user's preferred locale
   sink.appendToBody(`<script>window.__PREFERRED_LOCALE__='${preferredLocale}';</script>`);
