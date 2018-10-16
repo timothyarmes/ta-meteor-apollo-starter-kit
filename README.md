@@ -129,7 +129,7 @@ The translations string are all stored in one file in the starter kit, however t
 const LocalisedAdminPage = props => (
   <Localised section="admin"><WrappedInnerAdmin {...props} /></Localised>
 );
-```
+````
 
 `Localised` components can be nested, and children have access to all the messages defined by all the ancestors.
 
