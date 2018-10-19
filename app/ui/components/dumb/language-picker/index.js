@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { withRouter, Link } from 'react-router-dom';
 import { FormattedMessage as T } from 'react-intl';
 import styled from 'styled-components';
@@ -22,4 +22,8 @@ const StyledLanguagePicker = styled(LanguagePicker)`
   padding: 0 20px;
 `;
 
-export default compose(withRouter, withRouteProps)(StyledLanguagePicker);
+export default compose(
+  withRouter,
+  withRouteProps,
+  setDisplayName('LanguagePicker'),
+)(StyledLanguagePicker);

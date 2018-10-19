@@ -41,6 +41,7 @@ const app = {
   loginLoginFBButton: 'Log In with Facebook',
 
   verifyEmailHTMLDescription: 'Verify Email',
+  verifyEmailTitle: 'Verify Email',
   verifyEmailSuccessMessage: 'Account verified successfully. Thanks!',
 
   forgotPasswordHTMLTitle: 'Forgot Password',

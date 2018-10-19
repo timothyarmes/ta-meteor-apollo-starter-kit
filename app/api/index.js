@@ -3,6 +3,7 @@
 
 export { default as Base } from './base';
 export { default as Users } from './users';
+export { default as Auth } from './auth';
 export { default as Locale } from './locale';
 
 export { default as DataTest } from './data-test';

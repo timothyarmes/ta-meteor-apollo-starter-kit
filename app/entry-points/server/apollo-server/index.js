@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import { WebApp } from 'meteor/webapp';
-import { getUser } from 'meteor/apollo';
+import { getUser } from './get-user';
 
 import { typeDefs, resolvers, mocks } from './exec-schema';
 

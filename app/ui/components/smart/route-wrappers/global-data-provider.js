@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 import { propType } from 'graphql-anywhere';
+import { onTokenChange } from '/app/ui/apollo-client/auth';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import userQuery from '/app/ui/apollo-client/user/query/user';
 import Loading from '/app/ui/components/dumb/loading';
@@ -16,22 +17,15 @@ import Loading from '/app/ui/components/dumb/loading';
 export const GlobalDataContext = React.createContext({ user: null });
 
 class GlobalDataProvider extends React.Component {
-  componentWillMount() {
-    // Refetch user data every time Meteor.loginTokens are set. This is required
-    // when using FB loginStyle equals to 'redirect' at serviceConfiguration,
-
-    const { userData } = this.props;
-    const { user } = userData;
-
+  componentDidMount() {
     if (Meteor.isClient) {
-      if (Meteor.user() && !user) {
-        userData.refetch();
-      }
+      const { userData } = this.props;
 
-      Accounts.onLogin(() => {
-        const { userData } = this.props; // eslint-disable-line no-shadow
-        userData.refetch();
-      });
+      // Not sure why we have to force a refresh the first time round. It appears to be a bug in
+      // ApolloLink, which isn't executing the setContext on the first query.
+      userData.refetch();
+
+      onTokenChange(() => setTimeout(() => userData.refetch(), 0));
     }
   }
 
@@ -65,7 +59,6 @@ GlobalDataProvider.propTypes = {
   }).isRequired,
 };
 
-// Apollo integration
-const withData = graphql(userQuery, { name: 'userData' });
-
-export default withData(GlobalDataProvider);
+export default compose(
+  graphql(userQuery, { name: 'userData' }),
+)(GlobalDataProvider);

@@ -14,6 +14,7 @@ const userFragment = gql`
       gender
       avatar
     }
+    roles
     subscriptions {
       endpoint
       keys {

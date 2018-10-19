@@ -4,7 +4,7 @@ import LoadableWrapper from '/app/ui/components/dumb/loadable-wrapper';
 // Trying to define them inline inside the route wrappers below will fail on the server.
 export const HomePage = LoadableWrapper({ loader: () => import('./pages/home-page'), moduleId: require.resolve('./pages/home-page') });
 export const WelcomePage = LoadableWrapper({ loader: () => import('./pages/auth/welcome-page'), moduleId: require.resolve('./pages/auth/welcome-page') });
-export const SigninPage = LoadableWrapper({ loader: () => import('./pages/auth/login-page'), moduleId: require.resolve('./pages/auth/login-page') });
+export const LoginPage = LoadableWrapper({ loader: () => import('./pages/auth/login-page'), moduleId: require.resolve('./pages/auth/login-page') });
 export const SignupPage = LoadableWrapper({ loader: () => import('./pages/auth/signup-page'), moduleId: require.resolve('./pages/auth/signup-page') });
 export const VerifyEmailPage = LoadableWrapper({ loader: () => import('./pages/auth/verify-email-page'), moduleId: require.resolve('./pages/auth/verify-email-page') });
 export const LinkExpiredPage = LoadableWrapper({ loader: () => import('./pages/auth/link-expired-page'), moduleId: require.resolve('./pages/auth/link-expired-page') });

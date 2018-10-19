@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { withRouteProps, withFormProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
@@ -55,4 +55,5 @@ export default compose(
   withRouteProps,
   withFormProps,
   withSEO({ title: 'forgotPasswordHTMLTitle' }),
+  setDisplayName('ForgotPasswordPage'),
 )(ForgotPasswordPage);

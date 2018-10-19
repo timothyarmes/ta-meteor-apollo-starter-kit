@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const dataTestQuery = gql`
-  query {
+  query dataTest {
     dataTest {
       string
     }

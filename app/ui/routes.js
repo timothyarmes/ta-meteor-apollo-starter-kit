@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { withRouteProps } from '/app/ui/hocs';
@@ -14,7 +14,7 @@ import {
 } from '/app/ui/components/smart/route-wrappers';
 
 import {
-  HomePage, WelcomePage, SigninPage, SignupPage, VerifyEmailPage, LinkExpiredPage,
+  HomePage, WelcomePage, LoginPage, SignupPage, VerifyEmailPage, LinkExpiredPage,
   ForgotPasswordPage, LoggedOutPage, DataTestPage, AdminPage, NotFoundPage,
 } from './loadables';
 
@@ -44,15 +44,13 @@ const Routes = ({
 
       {/* SIGN-IN/UP */}
       <LoggedOutRoute
-        name="login"
         path={loginUrl()}
-        component={SigninPage}
+        component={LoginPage}
         redirectTo={homeUrl()}
         {...otherProps}
       />
 
       <LoggedOutRoute
-        name="signup"
         path={signupUrl()}
         component={SignupPage}
         redirectTo={homeUrl()}
@@ -60,20 +58,18 @@ const Routes = ({
       />
 
       <RouteWithProps
-        name="verifyEmail"
         path={verifyEmailUrl()}
         component={VerifyEmailPage}
         {...otherProps}
       />
 
-      <Route
+      <RouteWithProps
         path={verifyEmailExpiredUrl()}
-        render={LinkExpiredPage}
+        component={LinkExpiredPage}
         {...otherProps}
       />
 
       <LoggedOutRoute
-        name="forgotPassword"
         path={forgotPasswordUrl()}
         component={ForgotPasswordPage}
         redirectTo={homeUrl()}
@@ -81,7 +77,6 @@ const Routes = ({
       />
 
       <LoggedOutRoute
-        name="resetPassword"
         path={resetPasswordUrl()}
         component={LoggedOutPage}
         redirectTo={homeUrl()}
@@ -89,7 +84,6 @@ const Routes = ({
       />
 
       <RouteWithProps
-        name="dataTest"
         path={dataTestUrl()}
         component={DataTestPage}
         {...otherProps}
@@ -127,4 +121,9 @@ Routes.propTypes = {
   adminUrl: PropTypes.func.isRequired,
 };
 
-export default compose(injectIntl, withRouter, withRouteProps)(Routes);
+export default compose(
+  injectIntl,
+  withRouter,
+  withRouteProps,
+  setDisplayName('Route'),
+)(Routes);

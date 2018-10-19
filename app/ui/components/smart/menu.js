@@ -1,25 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Roles } from 'meteor/alanning:roles';
 import { propType } from 'graphql-anywhere';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { injectIntl } from 'react-intl';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import { withRouteProps, withGlobalContextProps } from '/app/ui/hocs';
 import { LogoutBtn } from './auth';
 
 const Menu = ({ curUser, homeUrl, dataTestUrl, adminUrl }) => {
-  // Only display menu content for logged in users
-  if (!curUser) {
-    return null;
-  }
-
   const menuRoutes = [
     { path: homeUrl(), label: 'Home', menu: true, auth: true },
     { path: dataTestUrl(), label: 'Data test', menu: true },
   ];
 
-  if (Roles.userIsInRole(curUser._id, ['admin'])) {
+  if (curUser && curUser.roles.includes('admin')) {
     menuRoutes.push({ path: adminUrl(), label: 'Admin', menu: true, admin: true });
   }
 
@@ -32,12 +26,16 @@ const Menu = ({ curUser, homeUrl, dataTestUrl, adminUrl }) => {
         </Link>
       </li>
     )),
-    <li key="logout">
-      <LogoutBtn
-        btnType="link"
-        onLogoutHook={window.hideMenu}
-      />
-    </li>,
+    curUser
+      ? (
+        <li key="logout">
+          <LogoutBtn
+            btnType="link"
+            onLogoutHook={window.hideMenu}
+          />
+        </li>
+      )
+      : null,
   ];
 };
 
@@ -49,4 +47,9 @@ Menu.defaultProps = {
   curUser: null,
 };
 
-export default compose(injectIntl, withRouteProps, withGlobalContextProps)(Menu);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withGlobalContextProps,
+  setDisplayName('Menu'),
+)(Menu);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { withRouteProps, withFormProps, withServiceProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
@@ -48,7 +48,6 @@ const SignupPage = ({
       }}
       onClientErrorHook={handleClientError}
       onServerErrorHook={handleServerError}
-      onSuccessHook={handleSuccess}
     />
     {service === 'password' && (
       <Feedback
@@ -69,7 +68,6 @@ const SignupPage = ({
         handleBefore();
       }}
       onServerErrorHook={handleServerError}
-      onSuccessHook={handleSuccess}
     />
     {service === 'facebook' && (
       <Feedback
@@ -87,4 +85,5 @@ export default compose(
   withFormProps,
   withServiceProps,
   withSEO({ title: 'signupHTMLTitle' }),
+  setDisplayName('SignupPage'),
 )(SignupPage);

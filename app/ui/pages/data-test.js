@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { Query } from 'react-apollo';
 import dataTest from '/app/ui/apollo-client/data-test/query/data-test';
@@ -19,4 +19,5 @@ const DataTest = () => (
 export default compose(
   injectIntl,
   withSEO({ title: 'dataTestHTMLTitle' }),
+  setDisplayName('DataTest'),
 )(DataTest);

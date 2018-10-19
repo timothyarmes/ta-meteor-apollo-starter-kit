@@ -1,7 +1,7 @@
 import React from 'react';
 import { propType } from 'graphql-anywhere';
 import { injectIntl } from 'react-intl';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import { withPWABtnProps, withFormProps, withGlobalContextProps, withSEO } from '/app/ui/hocs';
 import SubscribeBtn from '/app/ui/components/smart/pwa/subscribe-btn';
@@ -98,4 +98,5 @@ export default compose(
   withPWABtnProps,
   withGlobalContextProps,
   withSEO({ title: 'homeHTMLTitle' }),
+  setDisplayName('HomePage'),
 )(HomePage);

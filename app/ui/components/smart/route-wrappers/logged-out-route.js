@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
+import { compose, setDisplayName } from 'recompose';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import { withGlobalContextProps } from '/app/ui/hocs';
@@ -42,4 +43,7 @@ LoggedOutRoute.defaultProps = {
   overlay: () => {},
 };
 
-export default withGlobalContextProps(LoggedOutRoute);
+export default compose(
+  withGlobalContextProps,
+  setDisplayName('LoggedOutRoute'),
+)(LoggedOutRoute);

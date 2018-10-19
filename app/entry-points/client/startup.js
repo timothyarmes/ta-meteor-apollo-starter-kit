@@ -6,8 +6,10 @@ import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
-import { MeteorAccountsLink } from 'meteor/apollo';
+import apolloLogger from 'apollo-link-logger';
+import { onTokenChange, getLoginToken } from '/app/ui/apollo-client/auth';
 import createBrowserHistory from 'history/createBrowserHistory';
 import 'unfetch/polyfill';
 
@@ -18,8 +20,35 @@ import { primaryLocale, otherLocales } from '/app/intl';
 import '/app/ui/loadables';
 
 // To get started, create an ApolloClient instance and point it at your GraphQL
-// server (handled in our case by meteor-apollo). By default, this client will
-// send queries to the '/graphql' endpoint on the same host.
+// server. By default, this client will send queries to the '/graphql' endpoint
+// on the same host.
+
+// To avoid asynchronously accessing local storage for every GraphQL request,
+// we cache the authorisation token, and update it using an onTokenChange callback
+let authToken;
+let authTokenInitialised = false;
+onTokenChange(({ token }) => { authToken = token; authTokenInitialised = true; });
+
+const withAuthToken = setContext(() => {
+  if (authTokenInitialised) {
+    return authToken ? { headers: { authorization: authToken } } : undefined;
+  }
+
+  return getLoginToken()
+    .then((token) => {
+      authToken = token;
+      authTokenInitialised = true;
+      return authToken ? { headers: { authorization: authToken } } : undefined;
+    });
+});
+
+const resetAuthToken = onError(({ networkError }) => {
+  if (networkError && networkError.statusCode === 401) {
+    // Remove cached token on 401 from the server
+    authToken = null;
+    authTokenInitialised = false;
+  }
+});
 
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -32,8 +61,10 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
 
 const client = new ApolloClient({
   link: ApolloLink.from([
+    apolloLogger,
+    withAuthToken,
+    resetAuthToken,
     onErrorLink,
-    new MeteorAccountsLink(),
     new HttpLink({
       uri: '/graphql',
     }),
@@ -48,7 +79,6 @@ async function renderAsync() {
     React,
     { hydrate, render },
     { default: App },
-    { default: BurgerBtnController },
     { default: HeaderTitle },
     { default: LanguagePicker },
     { default: Routes },
@@ -57,7 +87,6 @@ async function renderAsync() {
     import('react'),
     import('react-dom'),
     import('/app/ui/components/smart/app'),
-    import('/app/ui/components/smart/header/burger-btn-controller'),
     import('/app/ui/components/smart/header/header-title'),
     import('/app/ui/components/dumb/language-picker'),
     import('/app/ui/routes'),
@@ -108,7 +137,6 @@ async function renderAsync() {
     </Router>
   );
 
-  render(<ClientApp component={BurgerBtnController} />, document.getElementById('burger-btn-controller'));
   render(<ClientApp component={Menu} />, document.getElementById('menu'));
 
   hydrate(<ClientApp component={HeaderTitle} />, document.getElementById('header-title'));

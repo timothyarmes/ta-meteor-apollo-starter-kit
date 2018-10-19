@@ -1,22 +1,18 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, setDisplayName } from 'recompose';
 import { FormattedMessage as T } from 'react-intl';
 import { withApollo } from 'react-apollo';
+import { logout } from '/app/ui/apollo-client/auth';
 import Button from '/app/ui/components/dumb/button';
 
-const LogoutBtn = ({ client, btnType, disabled, onLogoutHook }) => (
+const LogoutBtn = ({ client: apolloClient, btnType, disabled, onLogoutHook }) => (
   <Button
     type={btnType}
     disabled={disabled}
     onClick={(evt) => {
       if (evt) { evt.preventDefault(); }
-      Meteor.logout(() => {
-        // Clear apollo store.
-        client.resetStore();
-        // Pass event up to parent component.
-        onLogoutHook();
-      });
+      logout(apolloClient).then(onLogoutHook);
     }}
   >
     <T id="authLogoutButton" />
@@ -38,4 +34,7 @@ LogoutBtn.defaultProps = {
   onLogoutHook: () => {},
 };
 
-export default withApollo(LogoutBtn);
+export default compose(
+  withApollo,
+  setDisplayName('LogoutBtn'),
+)(LogoutBtn);

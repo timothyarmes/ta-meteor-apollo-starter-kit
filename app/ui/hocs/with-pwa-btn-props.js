@@ -10,11 +10,17 @@ const withPWABtnProps = WrappedComponent => (
       subscribed: 'loading', // whether or not the user is subscribe to push notifications
     }
 
+    constructor(props) {
+      super(props);
+      this.cancellable = { setState: this.setState.bind(this) };
+    }
+
     async componentDidMount() {
       // Check that service workers are supported, if so, progressively enhance
       // and add push messaging support, otherwise continue without it
       if ('serviceWorker' in navigator) {
         try {
+          navigator.serviceWorker.onerror;
           await navigator.serviceWorker.ready;
           // Once the service worker is registered set the initial button state
           this.initialiseState();
@@ -28,12 +34,18 @@ const withPWABtnProps = WrappedComponent => (
       }
     }
 
+    componentWillUnmount = () => {
+      this.cancellable.setState = undefined;
+    }
+
     setSupported = (supported) => {
-      this.setState(() => ({ supported }));
+      const { setState } = this.cancellable;
+      if (setState) setState(() => ({ supported }));
     }
 
     setSubscribed = (subscribed) => {
-      this.setState(() => ({ subscribed }));
+      const { setState } = this.cancellable;
+      if (setState) setState(() => ({ subscribed }));
     }
 
     initialiseState = async () => {

@@ -1,57 +1,59 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withApollo } from 'react-apollo';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { loginWithFacebook } from '/app/ui/apollo-client/auth';
 import Button from '/app/ui/components/dumb/button';
 
 class FBAuthBtn extends React.PureComponent {
-  handleClick = () => {
+  callbackFacebook = async ({ accessToken }) => {
     const {
-      requestPermissions,
-      onBeforeHook,
       onServerErrorHook,
       onSuccessHook,
     } = this.props;
 
-    // Run before logic if provided and return on error
-    try {
-      onBeforeHook();
-    } catch (exc) {
-      return; // return silently
-    }
-
-    Meteor.loginWithFacebook({ requestPermissions }, (err) => {
-      if (err) {
-        onServerErrorHook(err);
-      } else {
-        // OBSERVATION: this code is only reachable when using FB loginStyle
-        // equals 'popup' at serviceConfiguration. In case loginStyle equals
-        // 'redirect' you'll need to use Accounts.onLogin() to listen to state
-        // changes. See GlobalDataProvider.componentWillMount().
+    if (accessToken) {
+      try {
+        const { client: apolloClient } = this.props;
+        await loginWithFacebook({ accessToken }, apolloClient);
         onSuccessHook();
+      } catch (err) {
+        onServerErrorHook(err);
       }
-    });
+    }
   }
 
   render() {
-    const { btnLabel, disabled } = this.props;
+    const { appId } = Meteor.settings.public.facebook;
+    const { btnLabel, disabled, onBeforeHook } = this.props;
 
     return (
-      <Button
-        variant="primary"
+      <FacebookLogin
+        version="3.1"
+        appId={appId}
+        fields="name,email,picture"
         disabled={disabled}
-        size="large"
-        expanded
-        className="my2"
-        onClick={this.handleClick}
-      >
-        {btnLabel}
-      </Button>
+        onClick={onBeforeHook}
+        callback={this.callbackFacebook}
+        render={({ onClick, isDisabled, isProcessing, isSdkLoaded }) => (
+          <Button
+            variant="primary"
+            disabled={isDisabled || isProcessing || !isSdkLoaded}
+            size="large"
+            expanded
+            className="my2"
+            onClick={onClick}
+          >
+            {btnLabel}
+          </Button>
+        )}
+      />
     );
   }
 }
 
 FBAuthBtn.propTypes = {
-  requestPermissions: PropTypes.arrayOf(PropTypes.string),
   btnLabel: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   onBeforeHook: PropTypes.func,
@@ -60,14 +62,10 @@ FBAuthBtn.propTypes = {
 };
 
 FBAuthBtn.defaultProps = {
-  requestPermissions: [
-    'public_profile',
-    'email',
-  ],
   disabled: false,
   onBeforeHook: () => {},
   onServerErrorHook: () => {},
   onSuccessHook: () => {},
 };
 
-export default FBAuthBtn;
+export default withApollo(FBAuthBtn);

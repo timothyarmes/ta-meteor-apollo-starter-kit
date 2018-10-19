@@ -19,7 +19,7 @@ Accounts.onCreateUser((options, user) => {
       avatar: 'http://pixeljoint.com/files/icons/magic_johnson.gif',
     };
 
-    return { ...user, profile };
+    return { roles: [], ...user, profile };
   }
 
   // Handle facebook signup
@@ -40,7 +40,7 @@ Accounts.onCreateUser((options, user) => {
       avatar: `http://graph.facebook.com/${id}/picture/`,
     };
 
-    return { ...user, profile };
+    return { roles: [], ...user, profile };
   }
 
   // Throw in case of a different service

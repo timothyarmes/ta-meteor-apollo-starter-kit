@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { withRouteProps, withFormProps, withGlobalContextProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
@@ -68,4 +68,5 @@ export default compose(
   withFormProps,
   withGlobalContextProps,
   withSEO({ title: 'linkExpiredHTMLTitle' }),
+  setDisplayName('LinkExpiredPage'),
 )(LinkExpiredPage);

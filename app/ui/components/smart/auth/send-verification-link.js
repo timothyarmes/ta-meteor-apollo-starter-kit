@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { graphql } from 'react-apollo';
-import sendVerificationEmailMutation from '/app/ui/apollo-client/user/mutation/send-verification-email';
+import { withApollo } from 'react-apollo';
+import sendVerificationEmail from '/app/ui/apollo-client/auth/send-verification-email';
 import Button from '/app/ui/components/dumb/button';
 
 class ResendVerificationLink extends React.PureComponent {
@@ -9,10 +9,10 @@ class ResendVerificationLink extends React.PureComponent {
     evt.preventDefault();
 
     const {
-      sendVerificationEmail,
       onBeforeHook,
       onServerErrorHook,
       onSuccessHook,
+      client: apolloClient,
     } = this.props;
 
     // Run before logic if provided and return on error
@@ -23,7 +23,7 @@ class ResendVerificationLink extends React.PureComponent {
     }
 
     try {
-      await sendVerificationEmail();
+      await sendVerificationEmail({}, apolloClient);
       onSuccessHook();
     } catch (exc) {
       onServerErrorHook(exc);
@@ -49,7 +49,6 @@ class ResendVerificationLink extends React.PureComponent {
 ResendVerificationLink.propTypes = {
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  sendVerificationEmail: PropTypes.func.isRequired,
   onBeforeHook: PropTypes.func,
   onServerErrorHook: PropTypes.func,
   onSuccessHook: PropTypes.func,
@@ -62,7 +61,4 @@ ResendVerificationLink.defaultProps = {
   onSuccessHook: () => {},
 };
 
-// Apollo integration
-const withMutation = graphql(sendVerificationEmailMutation, { name: 'sendVerificationEmail' });
-
-export default withMutation(ResendVerificationLink);
+export default withApollo(ResendVerificationLink);

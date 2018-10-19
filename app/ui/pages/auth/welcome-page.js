@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { withFormProps, withSEO } from '/app/ui/hocs';
 import AuthPageLayout from '/app/ui/layouts/auth-page';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
@@ -49,4 +49,5 @@ export default compose(
   injectIntl,
   withFormProps,
   withSEO({ title: 'welcomeHTMLTitle' }),
+  setDisplayName('WelcomePage'),
 )(WelcomePage);

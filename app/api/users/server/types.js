@@ -28,6 +28,7 @@ const types = gql`
     services: [String]!
     emails: [Email]
     profile: Profile!
+    roles: [String]!
     subscriptions: [Subscription]
   }
 
@@ -46,7 +47,6 @@ const types = gql`
   }
 
   type Mutation {
-    sendVerificationEmail: User
     saveSubscription(subscription: SubscriptionInput!): User
     deleteSubscription(endpoint: String!): User
     sendPushNotification: User

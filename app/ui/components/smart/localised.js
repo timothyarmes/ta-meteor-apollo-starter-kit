@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IntlProvider, injectIntl } from 'react-intl';
-import { compose, withProps } from 'recompose';
+import { compose, withProps, setDisplayName } from 'recompose';
 import { withLocaleProps } from '/app/ui/hocs';
 
 // Use Localised to wrap a part of your app that uses a specific section of the translation file
@@ -22,4 +22,5 @@ export default compose(
   injectIntl,
   withProps(({ intl: { locale } }) => ({ locale, section: 'admin' })),
   withLocaleProps,
+  setDisplayName('Localised'),
 )(Localised);

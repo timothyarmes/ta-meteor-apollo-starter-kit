@@ -1,10 +1,9 @@
-import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { compose } from 'recompose';
-import { graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
+import { loginWithPassword, createUser, forgotPassword, resetPassword } from '/app/ui/apollo-client/auth';
 import Form from '/app/ui/components/dumb/form';
 import Fieldset from '/app/ui/components/dumb/fieldset';
 import Label from '/app/ui/components/dumb/label';
@@ -12,7 +11,7 @@ import Input from '/app/ui/components/dumb/input';
 import Message from '/app/ui/components/dumb/message';
 import Button from '/app/ui/components/dumb/button';
 import ErrorHandling from '/app/api/error-handling';
-import sendVerificationEmailMutation from '/app/ui/apollo-client/user/mutation/send-verification-email';
+import sendVerificationEmail from '/app/ui/apollo-client/auth/send-verification-email';
 
 const VIEWS = {
   login: { fields: ['email', 'password'] },
@@ -26,6 +25,15 @@ class PasswordAuthViews extends React.Component {
     email: '',
     password: '',
     errors: { email: [], password: [] },
+  }
+
+  constructor(props) {
+    super(props);
+    this.cancellable = { setState: this.setState.bind(this) };
+  }
+
+  componentWillUnmount = () => {
+    this.cancellable.setState = undefined;
   }
 
   // Whether or not the given field is present in the current view.
@@ -90,13 +98,12 @@ class PasswordAuthViews extends React.Component {
     return errors;
   }
 
-  handleSubmit = (evt) => {
+  handleSubmit = async (evt) => {
     evt.preventDefault();
 
     const {
       view,
       token,
-      sendVerificationEmail,
       onBeforeHook,
       onClientErrorHook,
       onServerErrorHook,
@@ -126,45 +133,38 @@ class PasswordAuthViews extends React.Component {
       return;
     }
 
-    // Define a callback function for handling login, signup and forgot/reset
-    // password operation's response
-    const handleResponse = promise => (
-      (err2) => {
-        if (err2) {
-          onServerErrorHook(err2);
-        } else {
-          // Clear fields
-          this.setState({ email: '', password: '' });
-          // Give handleResponse some flexibility: allow a promise to be fired
-          // on success response; swallow any errors that may occur
-          if (promise) { promise().then(() => {}).catch(() => {}); }
-          // Pass event up to parent component
-          onSuccessHook();
+    const { client: apolloClient } = this.props;
+    try {
+      switch (view) {
+        case 'login': {
+          await loginWithPassword({ email, password }, apolloClient);
+          break;
         }
+        case 'signup': {
+          // In case of signup, send verification email on success response
+          await createUser({ email, password }, apolloClient);
+          sendVerificationEmail({}, apolloClient).then(() => {}).catch(() => {});
+          break;
+        }
+        case 'forgotPassword': {
+          await forgotPassword({ email }, apolloClient);
+          break;
+        }
+        case 'resetPassword': {
+          await resetPassword({ token, newPassword: password }, apolloClient);
+          break;
+        }
+        default:
+          onClientErrorHook('Unknown view option!', view);
+          break;
       }
-    );
 
-    switch (view) {
-      case 'login': {
-        Meteor.loginWithPassword(email, password, handleResponse());
-        break;
-      }
-      case 'signup': {
-        // In case of signup, send verification email on success response
-        Accounts.createUser({ email, password }, handleResponse(sendVerificationEmail));
-        break;
-      }
-      case 'forgotPassword': {
-        Accounts.forgotPassword({ email }, handleResponse());
-        break;
-      }
-      case 'resetPassword': {
-        Accounts.resetPassword(token, password, handleResponse());
-        break;
-      }
-      default:
-        onClientErrorHook('Unknown view option!', view);
-        break;
+      const { setState } = this.cancellable;
+      if (setState) setState({ email: '', password: '' });
+
+      onSuccessHook();
+    } catch (err) {
+      onServerErrorHook(err);
     }
   }
 
@@ -231,11 +231,11 @@ PasswordAuthViews.propTypes = {
   token: PropTypes.string,
   btnLabel: PropTypes.string,
   disabled: PropTypes.bool,
-  sendVerificationEmail: PropTypes.func.isRequired,
   onBeforeHook: PropTypes.func,
   onClientErrorHook: PropTypes.func,
   onServerErrorHook: PropTypes.func,
   onSuccessHook: PropTypes.func,
+  client: PropTypes.object, // from withApollo
 };
 
 PasswordAuthViews.defaultProps = {
@@ -251,6 +251,6 @@ PasswordAuthViews.defaultProps = {
 // Apollo integration
 
 export default compose(
+  withApollo,
   injectIntl,
-  graphql(sendVerificationEmailMutation, { name: 'sendVerificationEmail' }),
 )(PasswordAuthViews);

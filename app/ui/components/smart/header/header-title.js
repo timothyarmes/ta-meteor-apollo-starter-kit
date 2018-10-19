@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import { withRouteProps } from '/app/ui/hocs';
 
 const HeaderTitle = ({
@@ -37,4 +37,9 @@ HeaderTitle.propTypes = {
 };
 
 // withRouter provides access to location.pathname
-export default compose(injectIntl, withRouteProps, withRouter)(HeaderTitle);
+export default compose(
+  injectIntl,
+  withRouteProps,
+  withRouter,
+  setDisplayName('HeaderTitle'),
+)(HeaderTitle);

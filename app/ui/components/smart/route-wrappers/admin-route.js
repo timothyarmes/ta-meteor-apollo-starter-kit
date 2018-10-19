@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, setDisplayName } from 'recompose';
 import { Route, Redirect } from 'react-router-dom';
-import { Roles } from 'meteor/alanning:roles';
 import { propType } from 'graphql-anywhere';
 import userFragment from '/app/ui/apollo-client/user/fragment/user';
 import { withGlobalContextProps } from '/app/ui/hocs';
@@ -23,7 +23,7 @@ const AdminRoute = ({ curUser, component, redirectTo, overlay, ...rest }) => (
         : React.createElement(overlay, { ...rest, ...ownProps });
 
       // In case user is NOT logged in or is not admin, redirect
-      if (!curUser || !Roles.userIsInRole(curUser._id, ['admin'])) {
+      if (!curUser || !curUser.roles.includes('admin')) {
         return resolver;
       }
 
@@ -46,4 +46,7 @@ AdminRoute.defaultProps = {
   overlay: () => {},
 };
 
-export default withGlobalContextProps(AdminRoute);
+export default compose(
+  withGlobalContextProps,
+  setDisplayName('AdminRoute'),
+)(AdminRoute);
