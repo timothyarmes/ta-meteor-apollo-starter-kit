@@ -1,6 +1,7 @@
 /* global importScripts, workbox, clients */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable quotes */
+/* eslint-disable comma-dangle */
 /* eslint-disable quote-props */
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js');
@@ -13,14 +14,34 @@ const HASHED_CACHE = 'hashedCache';
 workbox.precaching.precacheAndRoute([]);
 
 // Cache the App Shell route. We try to get latest from the network, fall back to cache for offline.
-workbox.precaching.precache([APP_SHELL]);
-workbox.routing.registerRoute(APP_SHELL, new workbox.strategies.StaleWhileRevalidate());
+//
+// Workbox's `registerNavigationRoute` helper will always try the cache first, and this causes Meteor's
+// hot code pushing to enter an infinite loop (Meteor requests a reload, the service worker returns the old
+// cached version, so Meteor requests a reload, and so on). So, rather than using the helper, we'll register
+// a new `NavigationRoute` ourselves, so that we can supply a handler.
+//
+// We'd like to use the `NetworkFirst` strategy, but the normal version will always try to fetch and cache
+// the route that's being accessed. We override the class to force the request to be our app-shell url.
 
-// Our App Shell, used by all navigation routes.
-workbox.routing.registerNavigationRoute(APP_SHELL);
+class NetworkFirstToFixedRoute extends workbox.strategies.NetworkFirst {
+  constructor(url, options = {}) {
+    super(options);
+    this.url = url;
+  }
+
+  async handle({ event }) {
+    console.log(event);
+    return this.makeRequest({
+      event,
+      request: this.url,
+    });
+  }
+}
+
+// Finally, we can register a navigation route with a the custom handler that always fetches from `APP_SHELL`;
+workbox.routing.registerRoute(new workbox.routing.NavigationRoute(new NetworkFirstToFixedRoute(APP_SHELL)));
 
 workbox.clientsClaim();
-
 
 function removeHash(element) {
   if (typeof element === 'string') return element.split('?hash=')[0];
