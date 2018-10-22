@@ -131,7 +131,7 @@ async function renderAsync() {
           )}
 
           {/* If no valid locale is given, we redirect to same route with the preferred locale prefixed */}
-          <Route render={({ location }) => <Redirect to={`${window.__PREFERRED_LOCALE__}${location.pathname}`} />} />
+          <Route render={({ location }) => <Redirect to={`${window.__PREFERRED_LOCALE__ || otherLocales[0]}${location.pathname}`} />} />
         </Switch>
       </ApolloProvider>
     </Router>

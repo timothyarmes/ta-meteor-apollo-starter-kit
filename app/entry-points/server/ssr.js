@@ -32,6 +32,10 @@ const render = async (sink) => {
     ssrMode: true,
   });
 
+  const preferredLocale = acceptLanguage.get(sink.request.headers['accept-language']);
+  let locale = otherLocales.find(l => sink.request.url.path.startsWith(`/${l}`));
+  let prefix = locale;
+
   // /app-shell is a special route that does no server-side rendering
   // It's used by the service worker for all navigation routes, so after the first visit
   // the initial server response is very quick to display the app shell, and the client
@@ -40,20 +44,17 @@ const render = async (sink) => {
   // In the case of a first visit or a robot, we render everything on the server.
   if (sink.request.url.path === '/app-shell') {
     sink.appendToBody(`<script>window.__APOLLO_STATE__=${JSON.stringify(ssrClient.extract())};</script>`);
+    sink.appendToBody(`<script>window.__PREFERRED_LOCALE__='${preferredLocale}';</script>`);
     sink.appendToBody(MeteorLoadable.getLoadedModulesScriptTag());
     return;
   }
-
-  const preferredLocale = acceptLanguage.get(sink.request.headers['accept-language']);
-  let locale = otherLocales.find(l => sink.request.url.path.startsWith(`/${l}`));
-  let prefix = locale;
 
   // We first check if we need to redirect to a locale
   // We can only do this is there isn't a primary locale.
   if (!primaryLocale) {
     if (!locale) {
       sink.setStatusCode(307);
-      sink.redirect(`/${preferredLocale}${sink.request.url.path}`);
+      sink.redirect(`/${preferredLocale || otherLocales[0]}${sink.request.url.path}`);
       return;
     }
   } else if (!locale) {
