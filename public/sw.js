@@ -90,14 +90,28 @@ function hasSameHash(firstUrl, secondUrl) {
 }
 
 // Use our own cache for all hashed assets (Meteor generates the hashes for us)
+// Old versions of a given URL are replaced when a version with a different hash is
+// requested, otherwise we always return the cached version.
+//
+// We also need to make sure that we eventually delete files that are no longer used
+// at all. We assume that once a file hasn't been used for a few weeks it's no longer
+// useful. We use Workbox's CacheExpiration module to expire all the old files.
+
+const expirationManager = new workbox.expiration.CacheExpiration(
+  HASHED_CACHE,
+  {
+    maxAgeSeconds: 4 * 7 * 24 * 60 * 60
+  }
+);
+
 workbox.routing.registerRoute(/\?hash=.*/, ({ url, event }) => {
   caches.open(HASHED_CACHE).then((cache) => {
     const req = event.request.clone();
 
     return cache.match(req).then((cached) => {
-      // Return the cached version if the hash is the same
+      // Return the cached version if the hash is the same (updating the timestamp in the expiration manager)
       if (cached && hasSameHash(url.toString(), cached.url.toString())) {
-        return cached;
+        return expirationManager.updateTimestamp(url.toString()).then(() => cached);
       }
 
       // Try to fetch it....
@@ -117,13 +131,17 @@ workbox.routing.registerRoute(/\?hash=.*/, ({ url, event }) => {
         })));
 
         // Cache this version
-        caches.open(HASHED_CACHE).then(hashCache => hashCache.put(event.request, clonedResponse));
+        caches.open(HASHED_CACHE)
+          .then(hashCache => hashCache.put(event.request, clonedResponse))
+          .then(() => expirationManager.updateTimestamp(url.toString()));
 
         // Return it
         return response;
-      }).catch(() => null);
+      });
     });
-  });
+  })
+    .then(() => { expirationManager.expireEntries(); })
+    .catch(e => console.log(`Service worker threw ${e}`));
 });
 
 // Push event listener aux function:
