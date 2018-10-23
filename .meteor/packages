@@ -24,5 +24,4 @@ dynamic-import@0.5.0
 accounts-facebook@1.3.2
 accounts-password@1.5.1
 orcprogramming:collection2-core-server   # Server side only wrapper for aldeed:collection2-core
-alanning:roles
 nemms:meteor-react-loadable
