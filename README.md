@@ -1,6 +1,4 @@
-# Meteor 1.8, Apollo 2, React 16, Multi-lingual ready, PWA, SSR, Authentication & Styled-Components boilerplate
-
-A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authentication and Styled Components.
+# A starting point for creating a new Progressive Web Application based on Apollo 2, Meteor 1.8 and React 16, with support for server-side rendering, authentication and Styled Components.
 
 ### This project includes the following libraries/functionality:
 - Apollo 2 GraphQL server running with Express bound to the Meteor (1.8) app
@@ -24,7 +22,7 @@ A simple kit to start experimenting with Apollo, Meteor, React, PWA, SSR, Authen
   * push notifications;
   * app shell architecture;
 
-This starter kit is based on the [excellent work](https://github.com/fede-rodes/meteor-apollo-starter-kit) done by Federico Rodes, however it had been heavily modified <sup id="modified">[1](#modifiedf)</sup>.
+This starter kit is based on the [excellent work](https://github.com/fede-rodes/meteor-apollo-starter-kit) done by Federico Rodes, however it had been very heavily modified <sup id="modified">[1](#modifiedf)</sup>.
 
 ### Step by step guide to get started with this boilerplate
 
@@ -76,9 +74,9 @@ The root of project contains two important directories: _app_ contains the appli
 The _app_ directory is cleanly separated into:
 
 * _api_ - Contains the GraphQL types and resolvers as well as other related utilities
-* _entry-points_ - Contains the client an server entry points
+* _entry-points_ - Contains the client and server entry points
 * _intl_ - Contains the message strings for the supported locales
-* _ui_ - Contains all the react components for the user interface
+* _ui_ - Contains all the React components for the user interface
 
 #### The PWA architecture
 
@@ -302,4 +300,4 @@ In case you run lighthouse inside the /meteor-apollo-starter-kit app's folder, y
 [Jest]: https://jestjs.io
 [Storybook]: https://storybook.js.org
 
-<b id="modifiedf">1</b> Updates include: Meteor 1.8, Apollo 2, SSR, Multilingual support, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), and many other little things. [↩](#modified)
+<b id="modifiedf">1</b> Updates include: Meteor 1.8, Apollo 2, SSR, Multilingual support, complete overhaul of the service worker for better caching, restructuring components to use `recompose`, removal of `redux` (since we have `apollo-link-state` now), GraphQL endpoints for authentication, and many other little things. [↩](#modified)
