@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import Button from '/app/ui/components/dumb/button';
-import sendPushNotificationMutation from '/app/ui/apollo-client/user/mutation/send-push-notification';
+import gql from 'graphql-tag';
+
+const SEND_PUSH_NOTIFCATION = gql`
+  mutation {
+    sendPushNotification {
+      _id
+    }
+  }
+`;
 
 class PushBtn extends React.PureComponent {
   handleClick = async () => {
@@ -61,6 +69,6 @@ PushBtn.defaultProps = {
 };
 
 // Apollo integration
-const withMutation = graphql(sendPushNotificationMutation, { name: 'sendPushNotification' });
+const withMutation = graphql(SEND_PUSH_NOTIFCATION, { name: 'sendPushNotification' });
 
 export default withMutation(PushBtn);

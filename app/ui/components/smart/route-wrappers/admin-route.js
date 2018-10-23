@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose, setDisplayName } from 'recompose';
 import { Route, Redirect } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
-import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import userFragment from '/app/ui/apollo-client/user/userFragment';
 import { withGlobalContextProps } from '/app/ui/hocs';
 
 /**

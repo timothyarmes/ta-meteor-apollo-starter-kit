@@ -2,11 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { injectIntl } from 'react-intl';
 import { compose } from 'recompose';
-import userQuery from '/app/ui/apollo-client/user/query/user';
-import saveSubscriptionMutation from '/app/ui/apollo-client/user/mutation/save-subscription';
+import { GET_USER } from '/app/ui/components/smart/route-wrappers/global-data-provider';
 import Button from '/app/ui/components/dumb/button';
+
+const SAVE_SUBSCRIPTION = gql`
+  mutation saveSubscription($subscription: SubscriptionInput!) {
+    saveSubscription(subscription: $subscription) {
+      _id
+    }
+  }
+`;
 
 const { publicKey: vapidPublicKey } = Meteor.settings.public.vapid;
 
@@ -93,7 +101,7 @@ class SubscribeBtn extends React.PureComponent {
       // at a later date.
       await saveSubscription({
         variables: { subscription: encSubscription },
-        refetchQueries: [{ query: userQuery }],
+        refetchQueries: [{ query: GET_USER }],
       });
 
       onSuccessHook();
@@ -136,5 +144,5 @@ SubscribeBtn.defaultProps = {
 
 export default compose(
   injectIntl,
-  graphql(saveSubscriptionMutation, { name: 'saveSubscription' }),
+  graphql(SAVE_SUBSCRIPTION, { name: 'saveSubscription' }),
 )(SubscribeBtn);

@@ -2,12 +2,20 @@ import React from 'react';
 import { compose, setDisplayName } from 'recompose';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { Query } from 'react-apollo';
-import dataTest from '/app/ui/apollo-client/data-test/query/data-test';
+import gql from 'graphql-tag';
 import { withSEO } from '/app/ui/hocs';
 import Loading from '/app/ui/components/dumb/loading';
 
+const GET_DATA = gql`
+  query dataTest {
+    dataTest {
+      string
+    }
+  }
+`;
+
 const DataTest = () => (
-  <Query query={dataTest}>
+  <Query query={GET_DATA}>
     {({ data, loading }) => (
       loading
         ? <Loading />

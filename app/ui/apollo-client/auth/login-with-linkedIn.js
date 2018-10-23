@@ -9,13 +9,13 @@ import { storeLoginToken } from './store';
 async function loginWithLinkedIn({ code, redirectUri }, apollo) {
   const result = await apollo.mutate({
     mutation: gql`
-    mutation loginWithLinkedIn($code: String! $redirectUri: String!) {
-      loginWithLinkedIn(code: $code redirectUri: $redirectUri) {
-        id
-        token
-        tokenExpires
+      mutation loginWithLinkedIn($code: String! $redirectUri: String!) {
+        loginWithLinkedIn(code: $code redirectUri: $redirectUri) {
+          id
+          token
+          tokenExpires
+        }
       }
-    }
     `,
     variables: { code, redirectUri },
   });

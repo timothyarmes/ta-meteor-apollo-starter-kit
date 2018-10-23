@@ -3,11 +3,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
 import { onTokenChange } from '/app/ui/apollo-client/auth';
-import userFragment from '/app/ui/apollo-client/user/fragment/user';
-import userQuery from '/app/ui/apollo-client/user/query/user';
+import userFragment from '/app/ui/apollo-client/user/userFragment';
 import Loading from '/app/ui/components/dumb/loading';
+
+export const GET_USER = gql`
+  query user {
+    user {
+      ...userFragment
+    }
+  }
+  
+  ${userFragment}
+`;
 
 /**
  * @summary Injects global data (current user, global settings, whatever) into
@@ -60,5 +70,5 @@ GlobalDataProvider.propTypes = {
 };
 
 export default compose(
-  graphql(userQuery, { name: 'userData' }),
+  graphql(GET_USER, { name: 'userData' }),
 )(GlobalDataProvider);

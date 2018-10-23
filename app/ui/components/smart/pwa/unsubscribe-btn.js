@@ -1,11 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { injectIntl } from 'react-intl';
 import { compose } from 'recompose';
-import userQuery from '/app/ui/apollo-client/user/query/user';
-import deleteSubscriptionMutation from '/app/ui/apollo-client/user/mutation/delete-subscription';
+import { GET_USER } from '/app/ui/components/smart/route-wrappers/global-data-provider';
 import Button from '/app/ui/components/dumb/button';
+
+const DELETE_SUBSCRIPTION = gql`
+  mutation deleteSubscription($endpoint: String!) {
+    deleteSubscription(endpoint: $endpoint) {
+      _id
+    }
+  }
+`;
 
 // Source: https://github.com/GoogleChrome/samples/blob/gh-pages/push-messaging-and-notifications/main.js
 class UnsubscribeBtn extends React.PureComponent {
@@ -59,7 +67,7 @@ class UnsubscribeBtn extends React.PureComponent {
       // Delete subscription from user's record
       await deleteSubscription({
         variables: { endpoint },
-        refetchQueries: [{ query: userQuery }],
+        refetchQueries: [{ query: GET_USER }],
       });
 
       // QUESTION: shouldn't we make a request to your server to remove all user
@@ -104,5 +112,5 @@ UnsubscribeBtn.defaultProps = {
 
 export default compose(
   injectIntl,
-  graphql(deleteSubscriptionMutation, { name: 'deleteSubscription' }),
+  graphql(DELETE_SUBSCRIPTION, { name: 'deleteSubscription' }),
 )(UnsubscribeBtn);

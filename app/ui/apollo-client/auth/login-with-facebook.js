@@ -9,13 +9,13 @@ import { storeLoginToken } from './store';
 async function loginWithFacebook({ accessToken }, apollo) {
   const result = await apollo.mutate({
     mutation: gql`
-    mutation loginWithFacebook ($accessToken: String!) {
-      loginWithFacebook (accessToken: $accessToken) {
-        id
-        token
-        tokenExpires
+      mutation loginWithFacebook ($accessToken: String!) {
+        loginWithFacebook (accessToken: $accessToken) {
+          id
+          token
+          tokenExpires
+        }
       }
-    }
     `,
     variables: {
       accessToken,

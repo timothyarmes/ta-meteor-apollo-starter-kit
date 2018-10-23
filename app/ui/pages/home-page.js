@@ -2,7 +2,7 @@ import React from 'react';
 import { propType } from 'graphql-anywhere';
 import { injectIntl } from 'react-intl';
 import { compose, setDisplayName } from 'recompose';
-import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import userFragment from '/app/ui/apollo-client/user/userFragment';
 import { withPWABtnProps, withFormProps, withGlobalContextProps, withSEO } from '/app/ui/hocs';
 import SubscribeBtn from '/app/ui/components/smart/pwa/subscribe-btn';
 import UnsubscribeBtn from '/app/ui/components/smart/pwa/unsubscribe-btn';

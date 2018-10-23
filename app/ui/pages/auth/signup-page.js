@@ -27,7 +27,6 @@ const SignupPage = ({
   handleBefore,
   handleClientError,
   handleServerError,
-  handleSuccess,
   service,
   setService,
   loginUrl,

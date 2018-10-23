@@ -3,13 +3,15 @@ import { storeLoginToken } from './store';
 
 async function verifyEmail(token, apollo) {
   const result = await apollo.mutate({
-    mutation: gql`mutation verifyEmail($token: String!) {
-      verifyEmail(token: $token) {
-        id
-        token
-        tokenExpires
+    mutation: gql`
+      mutation verifyEmail($token: String!) {
+        verifyEmail(token: $token) {
+          id
+          token
+          tokenExpires
+        }
       }
-    }`,
+    `,
     variables: {
       token,
     },

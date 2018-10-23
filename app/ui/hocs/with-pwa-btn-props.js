@@ -20,7 +20,6 @@ const withPWABtnProps = WrappedComponent => (
       // and add push messaging support, otherwise continue without it
       if ('serviceWorker' in navigator) {
         try {
-          navigator.serviceWorker.onerror;
           await navigator.serviceWorker.ready;
           // Once the service worker is registered set the initial button state
           this.initialiseState();

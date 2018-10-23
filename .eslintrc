@@ -56,7 +56,10 @@
           "_hashLoginToken",
           "_tokenExpiration",
           "__APOLLO_STATE__",
-          "__PREFERRED_LOCALE__"
+          "__PREFERRED_LOCALE__",
+          "_nodeCodeMustBeInFiber",
+          "_successfulLogout",
+          "_storePendingCredential"
         ]
       }
     ]

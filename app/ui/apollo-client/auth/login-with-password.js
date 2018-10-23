@@ -5,13 +5,13 @@ import { storeLoginToken } from './store';
 async function loginWithPassword({ username, email, password }, apollo) {
   const result = await apollo.mutate({
     mutation: gql`
-    mutation login ($username: String, $email: String, $password: HashedPassword!) {
-      loginWithPassword (username: $username, email: $email, password: $password) {
-        id
-        token
-        tokenExpires
+      mutation login ($username: String, $email: String, $password: HashedPassword!) {
+        loginWithPassword (username: $username, email: $email, password: $password) {
+          id
+          token
+          tokenExpires
+        }
       }
-    }
     `,
     variables: {
       username,

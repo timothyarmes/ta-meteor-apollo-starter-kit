@@ -9,13 +9,13 @@ import { storeLoginToken } from './store';
 async function loginWithGoogle({ accessToken }, apollo) {
   const result = await apollo.mutate({
     mutation: gql`
-    mutation loginWithGoogle ($accessToken: String!) {
-      loginWithGoogle (accessToken: $accessToken) {
-        id
-        token
-        tokenExpires
+      mutation loginWithGoogle ($accessToken: String!) {
+        loginWithGoogle (accessToken: $accessToken) {
+          id
+          token
+          tokenExpires
+        }
       }
-    }
     `,
     variables: {
       accessToken,

@@ -235,7 +235,7 @@ PasswordAuthViews.propTypes = {
   onClientErrorHook: PropTypes.func,
   onServerErrorHook: PropTypes.func,
   onSuccessHook: PropTypes.func,
-  client: PropTypes.object, // from withApollo
+  client: PropTypes.object, // eslint-disable-line
 };
 
 PasswordAuthViews.defaultProps = {

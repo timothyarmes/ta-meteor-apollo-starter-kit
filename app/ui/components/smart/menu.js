@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { propType } from 'graphql-anywhere';
 import { compose, setDisplayName } from 'recompose';
 import { injectIntl } from 'react-intl';
-import userFragment from '/app/ui/apollo-client/user/fragment/user';
+import userFragment from '/app/ui/apollo-client/user/userFragment';
 import { withRouteProps, withGlobalContextProps } from '/app/ui/hocs';
 import { LogoutBtn } from './auth';
 
