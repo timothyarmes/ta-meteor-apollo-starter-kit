@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
 import { compose } from 'recompose';
 import { withApollo } from 'react-apollo';
+import makeComponentTrashable from 'trashable-react';
 import { loginWithPassword, createUser, forgotPassword, resetPassword } from '/app/ui/apollo-client/auth';
 import Form from '/app/ui/components/dumb/form';
 import Fieldset from '/app/ui/components/dumb/fieldset';
@@ -25,15 +26,6 @@ class PasswordAuthViews extends React.Component {
     email: '',
     password: '',
     errors: { email: [], password: [] },
-  }
-
-  constructor(props) {
-    super(props);
-    this.cancellable = { setState: this.setState.bind(this) };
-  }
-
-  componentWillUnmount = () => {
-    this.cancellable.setState = undefined;
   }
 
   // Whether or not the given field is present in the current view.
@@ -98,7 +90,7 @@ class PasswordAuthViews extends React.Component {
     return errors;
   }
 
-  handleSubmit = async (evt) => {
+  handleSubmit = (evt) => {
     evt.preventDefault();
 
     const {
@@ -108,7 +100,10 @@ class PasswordAuthViews extends React.Component {
       onClientErrorHook,
       onServerErrorHook,
       onSuccessHook,
+      client: apolloClient,
+      registerPromise,
     } = this.props;
+
 
     // Run before logic if provided and return on error
     try {
@@ -133,39 +128,26 @@ class PasswordAuthViews extends React.Component {
       return;
     }
 
-    const { client: apolloClient } = this.props;
-    try {
+    const promise = (() => {
       switch (view) {
-        case 'login': {
-          await loginWithPassword({ email, password }, apolloClient);
-          break;
-        }
-        case 'signup': {
-          // In case of signup, send verification email on success response
-          await createUser({ email, password }, apolloClient);
-          sendVerificationEmail({}, apolloClient).then(() => {}).catch(() => {});
-          break;
-        }
-        case 'forgotPassword': {
-          await forgotPassword({ email }, apolloClient);
-          break;
-        }
-        case 'resetPassword': {
-          await resetPassword({ token, newPassword: password }, apolloClient);
-          break;
-        }
-        default:
-          onClientErrorHook('Unknown view option!', view);
-          break;
+        case 'login': return loginWithPassword({ email, password }, apolloClient);
+        case 'forgotPassword': return forgotPassword({ email }, apolloClient);
+        case 'resetPassword': return resetPassword({ token, newPassword: password }, apolloClient);
+        case 'signup': return createUser({ email, password }, apolloClient)
+          .then(() => sendVerificationEmail({}, apolloClient).then(() => Promise.resolve()).catch(() => Promise.resolve()));
+        default: return Promise.reject(new Error(`PasswordAuthViews - unknown view: ${view}`));
       }
+    })();
 
-      const { setState } = this.cancellable;
-      if (setState) setState({ email: '', password: '' });
-
-      onSuccessHook();
-    } catch (err) {
-      onServerErrorHook(err);
-    }
+    registerPromise(promise)
+      .then(() => {
+        this.setState({ email: '', password: '' });
+        onSuccessHook();
+      })
+      .catch((err) => {
+        console.log(err);
+        onServerErrorHook(err);
+      });
   }
 
   render() {
@@ -253,4 +235,5 @@ PasswordAuthViews.defaultProps = {
 export default compose(
   withApollo,
   injectIntl,
+  makeComponentTrashable,
 )(PasswordAuthViews);

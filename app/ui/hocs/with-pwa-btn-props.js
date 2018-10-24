@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'recompose';
+import makeComponentTrashable from 'trashable-react';
 
 // Provides handers for enabling/disabling push notifications
 
@@ -10,22 +12,14 @@ const withPWABtnProps = WrappedComponent => (
       subscribed: 'loading', // whether or not the user is subscribe to push notifications
     }
 
-    constructor(props) {
-      super(props);
-      this.cancellable = { setState: this.setState.bind(this) };
-    }
-
-    async componentDidMount() {
+    componentDidMount() {
       // Check that service workers are supported, if so, progressively enhance
       // and add push messaging support, otherwise continue without it
       if ('serviceWorker' in navigator) {
-        try {
-          await navigator.serviceWorker.ready;
-          // Once the service worker is registered set the initial button state
-          this.initialiseState();
-        } catch (exc) {
-          console.log(exc);
-        }
+        const { registerPromise } = this.props;
+        registerPromise(navigator.serviceWorker.ready)
+          .then(() => this.initialiseState())
+          .catch(exc => console.log(exc));
       } else {
         this.setSupported(false);
         this.setSubscribed(false);
@@ -33,21 +27,15 @@ const withPWABtnProps = WrappedComponent => (
       }
     }
 
-    componentWillUnmount = () => {
-      this.cancellable.setState = undefined;
-    }
-
     setSupported = (supported) => {
-      const { setState } = this.cancellable;
-      if (setState) setState(() => ({ supported }));
+      this.setState(() => ({ supported }));
     }
 
     setSubscribed = (subscribed) => {
-      const { setState } = this.cancellable;
-      if (setState) setState(() => ({ subscribed }));
+      this.setState(() => ({ subscribed }));
     }
 
-    initialiseState = async () => {
+    initialiseState = () => {
       // Are notifications supported in the service worker?
       if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
         console.log('Notifications aren\'t supported.');
@@ -73,28 +61,15 @@ const withPWABtnProps = WrappedComponent => (
         return;
       }
 
-      try {
-        // We need the service worker registration to check for a subscription
-        const registration = await navigator.serviceWorker.ready;
+      const { registerPromise } = this.props;
 
-        // Do we already have a push message subscription?
-        const subscription = await registration.pushManager.getSubscription();
-
-        // Enable any UI which subscribes / unsubscribes from push messages
-        this.setSupported(true);
-
-        if (!subscription) {
-          // We aren’t subscribed to push, so set UI to allow the user to enable
-          // push
-          this.setSubscribed(false);
-          return;
-        }
-
-        // Set your UI to show they have subscribed for push messages
-        this.setSubscribed(true);
-      } catch (exc) {
-        console.log('Error during getSubscription()', exc);
-      }
+      registerPromise(navigator.serviceWorker.ready)
+        .then(registration => registerPromise(registration.pushManager.getSubscription()))
+        .then((subscription) => {
+          this.setSupported(true);
+          this.setSubscribed(!!subscription);
+        })
+        .catch(exc => console.log('Error during getSubscription()', exc));
     }
 
     handleSubscriptionChange = ({ subscribed }) => {
@@ -116,7 +91,7 @@ const withPWABtnProps = WrappedComponent => (
   }
 );
 
-export default withPWABtnProps;
+export default compose(makeComponentTrashable, withPWABtnProps);
 
 export const pwaBtnPropTypes = {
   supported: PropTypes.oneOf([true, false, 'loading']).isRequired,
