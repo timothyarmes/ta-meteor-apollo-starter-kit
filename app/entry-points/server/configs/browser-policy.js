@@ -16,6 +16,7 @@ BrowserPolicy.content.allowScriptOrigin('https://connect.facebook.net');
 BrowserPolicy.content.allowFrameOrigin('https://staticxx.facebook.com');
 BrowserPolicy.content.allowFrameOrigin('https://www.facebook.com');
 BrowserPolicy.content.allowConnectOrigin('https://graph.facebook.com');
+BrowserPolicy.content.allowImageOrigin('https://www.facebook.com');
 
 // Allow Meteor DDP Connections
 const rootUrl = __meteor_runtime_config__.ROOT_URL;

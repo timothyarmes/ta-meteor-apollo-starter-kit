@@ -4,12 +4,14 @@
   "scripts": {
     "start": "meteor run",
     "local": "meteor run --settings settings.json",
+    "localHttps": "export ROOT_URL=https://localhost:3100; export NODE_TLS_REJECT_UNAUTHORIZED=0; export WITH_HTTPS=1; meteor run --settings settings.json",
     "update-sw": "workbox injectManifest workbox-config.js",
     "lint": "eslint --quiet --ext .js,.jsx .",
     "prettier": "prettier --write \"client/**/*.js\" \"imports/**/*.js\" \"server/**/*.js\" --single-quote=true --trailing-comma=es5 --print-width=100",
     "test": "NODE_ENV=test jest --watchAll",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "devChromeMac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --user-data-dir=/tmp/foo --ignore-certificate-errors --unsafely-treat-insecure-origin-as-secure=https://localhost:3100"
   },
   "meteor": {
     "mainModule": {

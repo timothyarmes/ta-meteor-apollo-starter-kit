@@ -6,3 +6,4 @@ settings-prod.json
 storybook-static
 public/manifest-pwa.json
 coverage/
+private/ssl

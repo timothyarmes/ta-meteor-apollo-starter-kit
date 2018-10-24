@@ -41,7 +41,9 @@ Mailgun will allow you to use password authentication service and send emails fr
 
 In order to get started, first access your [Mailgun][Mailgun] account. Then, grab your sandbox domain smtp username and password and copy said values into your settings.json file. Finally, add your email address to the list of [Authorized Recipients](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
 
-#### 4. Register the app on Facebook. You only need to do this if you wish to have Facebook logon support. 
+#### 4. Register the app on Facebook.
+
+You only need to do this if you wish to have Facebook logon support. You may also need to run the starter kit's https proxy (see below for more details): 
 
 1. Visit https://developers.facebook.com
 2. Add a new app from the `My Apps` menu
@@ -162,6 +164,44 @@ Also worthy of note is that the kit doesn't rely on Meteor's OAuth support for t
 4. The update to the user account is sent back to the client via ddp, and the User collection is updated on the client (via MiniMongo). The client then has the access token.
 
 Since we don't wish to rely on Meteor collections this mechanism doesn't work for us. We need the access token to be returned directly from Facebook. `react-facebook-login` does exactly this.
+
+#### Local https support
+
+The starter kit can, if desired, use an HTTP proxy to provide a secure local connection so that your site will be served on _https_. This isn't generally required, however if you try the Facebook login you'll see this error pop up in the console:
+
+> The method FB.login will soon stop working when called from http pages. Please update your site to use https for Facebook Login. https://developers.facebook.com/blog/post/2018/06/08/enforce-https-facebook-login/
+
+So if it hasn't already stopped working by the time you're reading this, it will soon. To run the server under https, you'll first need to install openssl:
+````
+$ apt-get install openssl
+$ brew install openssl
+````
+
+Then you should create your private keys. Create a private/ssl folder at the root of your project then, from that folder:
+
+````
+$ openssl genrsa -des3 -passout pass:x -out server.pass.key 2048
+$ openssl rsa -passin pass:x -in server.pass.key -out server.key
+$ rm server.pass.key
+$ openssl req -new -key server.key -out server.csr
+$ openssl x509 -req -sha256 -days 365 -in server.csr -signkey server.key -out server.crt
+````
+
+Now you can run the server via the proxy:
+
+````
+$ npm run localHttps
+````
+
+If you try to visit your site using Chrome, it will fail due to the fact that your certificate is self-signed. You need to open an instance of Chrome without this security check. The project includes a handy _npm_ command for Mac users:
+
+
+````
+$ npm run devChromeMac
+````
+
+Finally, you'll be able to access your site and log into Facebook with no warnings! It's a palava. Hopefully Facebook will hold off on this requirement for a while yet.
+
 
 ### More resources
 
