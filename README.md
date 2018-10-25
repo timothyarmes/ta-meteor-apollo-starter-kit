@@ -1,8 +1,8 @@
-# A starting point for creating a new Progressive Web Application based on Apollo 2, Meteor 1.8 and React 16, with support for server-side rendering, authentication and Styled Components.
+# A starting point for creating a new multilingual Progressive Web Application based on Apollo 2, Meteor 1.8 and React 16.6, with support for server-side rendering, authentication and Styled Components.
 
 ### This project includes the following libraries/functionality:
 - Apollo 2 GraphQL server running with Express bound to the Meteor (1.8) app
-- React 16
+- React 16.6
 - Multilingual support (using react-intl) with dynamic loading of required locale messages
 - Authentication: password & facebook (server-side Meteor accounts, GraphQL client-side)
 - SSR with support for an app-shell specific route
