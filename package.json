@@ -15,8 +15,8 @@
   },
   "meteor": {
     "mainModule": {
-      "client": "/app/entry-points/client/startup.js",
-      "server": "/app/entry-points/server/index.js"
+      "client": "app/entry-points/client/startup.js",
+      "server": "app/entry-points/server/index.js"
     }
   },
   "dependencies": {
